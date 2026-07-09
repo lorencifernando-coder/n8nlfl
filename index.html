@@ -19,6 +19,23 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="__ZAPIA_SITE_ORIGIN__/_z/og.png">
 
+  <!-- Google Analytics GA4 — carregado dinamicamente pelo admin -->
+  <script>
+  (function(){
+    var cfg = JSON.parse(localStorage.getItem('lp_admin_config') || '{}');
+    var gid = cfg.ga4_id || '';
+    if (!gid) return;
+    var s1 = document.createElement('script');
+    s1.async = true;
+    s1.src = 'https://www.googletagmanager.com/gtag/js?id=' + gid;
+    document.head.appendChild(s1);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', gid, { send_page_view: true });
+  })();
+  </script>
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -50,16 +67,13 @@
       --bg:          #F4F0EA;
       --bg-alt:      #F9F8F6;
       --bg-card:     #FFFFFF;
-
       --ink:         #1E2B38;
       --ink-mid:     #2D3E35;
       --ink-soft:    #4A5D52;
       --muted:       #7A8C82;
-
       --cta:         #C67A5C;
       --cta-hover:   #B5684C;
       --cta-pale:    #F5E8E2;
-
       --border:      #E2DDD6;
       --shadow:      rgba(30,43,56,0.07);
       --gold:        #C8A882;
@@ -105,7 +119,6 @@
       margin-bottom: 14px;
     }
 
-    /* ── CTA BUTTON ── */
     .btn {
       display: inline-block;
       background: var(--cta);
@@ -132,7 +145,6 @@
       color: #fff;
     }
 
-    /* ── STICKY CTA (MOBILE) ── */
     .sticky-cta {
       display: none;
       position: fixed;
@@ -153,6 +165,352 @@
     }
     .sticky-cta .btn small { margin-top: 2px; font-size: 11px; }
 
+    /* ── ADMIN KEY ICON ── */
+    .admin-key {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 9999;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(30,43,56,0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.15);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+      opacity: 0.5;
+    }
+    .admin-key:hover { opacity: 1; background: rgba(30,43,56,0.85); transform: scale(1.1); }
+    .admin-key svg { width: 18px; height: 18px; fill: #C8A882; }
+
+    /* ── ADMIN PANEL ── */
+    .admin-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+    }
+    .admin-overlay.open { display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; }
+
+    .admin-panel {
+      background: #fff;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 680px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+
+    .admin-header {
+      background: var(--ink);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .admin-header h2 { color: #fff; font-size: 18px; margin: 0; }
+    .admin-close {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px 8px;
+      line-height: 1;
+    }
+    .admin-close:hover { color: #fff; }
+
+    .admin-body { padding: 28px; }
+
+    .admin-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .admin-tab {
+      padding: 10px 20px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .admin-tab.active { color: var(--cta); border-bottom-color: var(--cta); }
+    .admin-tab:hover { color: var(--ink); }
+
+    .admin-tab-content { display: none; }
+    .admin-tab-content.active { display: block; }
+
+    .admin-section {
+      margin-bottom: 28px;
+    }
+    .admin-section h3 {
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--cta);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .admin-field {
+      margin-bottom: 16px;
+    }
+    .admin-field label {
+      display: block;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .admin-field input,
+    .admin-field textarea,
+    .admin-field select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--bg);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .admin-field input:focus,
+    .admin-field textarea:focus {
+      border-color: var(--cta);
+    }
+    .admin-field textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
+    .admin-field .hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+      font-family: Arial, sans-serif;
+    }
+
+    .admin-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .admin-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .admin-btn:active { transform: scale(0.98); }
+    .admin-btn-primary { background: var(--cta); color: #fff; }
+    .admin-btn-primary:hover { background: var(--cta-hover); }
+    .admin-btn-secondary { background: var(--bg); color: var(--ink); border: 1px solid var(--border); }
+    .admin-btn-secondary:hover { background: var(--border); }
+    .admin-btn-danger { background: #FBE8E3; color: #C44; }
+    .admin-btn-danger:hover { background: #F5D0C8; }
+
+    .admin-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .admin-toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--ink);
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 12px;
+      z-index: 10001;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .admin-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── ADMIN PASSWORD GATE ── */
+    .admin-login {
+      padding: 40px 28px;
+      text-align: center;
+    }
+    .admin-login h3 {
+      font-size: 18px;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .admin-login p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .admin-login input {
+      width: 100%;
+      max-width: 280px;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      text-align: center;
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+      outline: none;
+    }
+    .admin-login input:focus { border-color: var(--cta); }
+    .admin-login .login-error {
+      color: #C44;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      margin-top: 8px;
+      min-height: 20px;
+    }
+
+    /* ── METRICS DASHBOARD ── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .metric-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+    .metric-value {
+      font-family: Georgia, serif;
+      font-size: 32px;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .metric-label {
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+    .metric-card.highlight { border-color: var(--cta); background: var(--cta-pale); }
+    .metric-card.highlight .metric-value { color: var(--cta); }
+
+    .events-log {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .events-log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .events-log-header span {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .events-log-clear {
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      color: var(--cta);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-weight: 700;
+    }
+    .event-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(226,221,214,0.5);
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+    .event-row:last-child { border-bottom: none; }
+    .event-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .event-dot.click { background: #4A90D9; }
+    .event-dot.lead { background: #C67A5C; }
+    .event-dot.conversion { background: #4A7C59; }
+    .event-dot.scroll { background: #C8A882; }
+    .event-dot.checklist { background: #9B59B6; }
+    .event-time { color: var(--muted); font-size: 11px; min-width: 50px; }
+    .event-name { color: var(--ink); font-weight: 600; flex: 1; }
+    .event-detail { color: var(--muted); font-size: 12px; }
+    .events-empty {
+      padding: 32px 16px;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .ga4-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .ga4-status.active { background: #E8F5E9; color: #2E7D32; }
+    .ga4-status.inactive { background: #FBE8E3; color: #C44; }
+    .ga4-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .ga4-status.active .ga4-dot { background: #4CAF50; }
+    .ga4-status.inactive .ga4-dot { background: #C44; }
+
     /* ════════════════════════════════
        HERO
     ════════════════════════════════ */
@@ -162,9 +520,7 @@
       padding: 80px 0 72px;
       text-align: center;
     }
-
     .hero .pre-label { color: var(--gold); }
-
     .hero h1 {
       font-size: clamp(28px, 5.5vw, 44px);
       color: #fff;
@@ -173,12 +529,7 @@
       font-weight: normal;
       line-height: 1.2;
     }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--gold);
-    }
-
+    .hero h1 em { font-style: italic; color: var(--gold); }
     .hero-sub {
       font-size: 16px;
       color: rgba(255,255,255,0.72);
@@ -186,27 +537,22 @@
       margin: 0 auto 40px;
       line-height: 1.8;
     }
-
-    /* Doctor photo in hero */
     .hero-doctor {
       max-width: 400px;
       margin: 0 auto 40px;
       position: relative;
     }
-
     .hero-doctor img {
       width: 100%;
       border-radius: 20px;
       border: 2px solid rgba(255,255,255,0.1);
     }
-
     .hero-doctor-caption {
       margin-top: 14px;
       font-family: Arial, sans-serif;
       font-size: 14px;
       color: rgba(255,255,255,0.5);
     }
-
     .hero-doctor-caption strong {
       color: rgba(255,255,255,0.8);
       font-weight: normal;
@@ -215,7 +561,6 @@
       display: block;
       margin-bottom: 2px;
     }
-
     .hero-trust {
       margin-top: 16px;
       font-size: 12px;
@@ -223,13 +568,12 @@
     }
 
     /* ════════════════════════════════
-       PREÇO / INVESTIMENTO
+       INVESTIMENTO
     ════════════════════════════════ */
     .investimento {
       background: var(--bg-alt);
       border-bottom: 1px solid var(--border);
     }
-
     .investimento-card {
       background: var(--bg-card);
       border: 1.5px solid var(--border);
@@ -239,14 +583,8 @@
       max-width: 520px;
       margin: 0 auto;
     }
-
     .investimento-card .pre-label { color: var(--cta); }
-
-    .investimento-card h2 {
-      font-size: 22px;
-      margin-bottom: 8px;
-    }
-
+    .investimento-card h2 { font-size: 22px; margin-bottom: 8px; }
     .investimento-card .preco {
       font-family: Georgia, serif;
       font-size: 42px;
@@ -254,21 +592,18 @@
       margin: 18px 0 6px;
       line-height: 1;
     }
-
     .investimento-card .preco-sub {
       font-family: Arial, sans-serif;
       font-size: 13px;
       color: var(--muted);
       margin-bottom: 24px;
     }
-
     .investimento-card .includes {
       list-style: none;
       text-align: left;
       margin: 0 auto 28px;
       max-width: 380px;
     }
-
     .investimento-card .includes li {
       display: flex;
       align-items: center;
@@ -278,9 +613,7 @@
       color: var(--ink-soft);
       border-bottom: 1px solid var(--border);
     }
-
     .investimento-card .includes li:last-child { border-bottom: none; }
-
     .check-icon {
       flex-shrink: 0;
       width: 20px;
@@ -298,18 +631,9 @@
        JORNADA
     ════════════════════════════════ */
     .jornada { background: var(--bg); }
-
-    .jornada h2 {
-      font-size: clamp(22px, 4vw, 32px);
-      margin-bottom: 40px;
-    }
-
-    .story-item {
-      padding: 28px 0;
-      border-bottom: 1px solid var(--border);
-    }
+    .jornada h2 { font-size: clamp(22px, 4vw, 32px); margin-bottom: 40px; }
+    .story-item { padding: 28px 0; border-bottom: 1px solid var(--border); }
     .story-item:last-of-type { border-bottom: none; }
-
     .story-item .moment {
       font-family: Arial, sans-serif;
       font-size: 11px;
@@ -318,18 +642,8 @@
       color: var(--cta);
       margin-bottom: 10px;
     }
-
-    .story-item p {
-      font-size: 16px;
-      line-height: 1.8;
-      color: var(--ink-soft);
-    }
-
-    .story-item p em {
-      font-style: italic;
-      color: var(--ink-mid);
-    }
-
+    .story-item p { font-size: 16px; line-height: 1.8; color: var(--ink-soft); }
+    .story-item p em { font-style: italic; color: var(--ink-mid); }
     .check-title {
       font-family: Arial, sans-serif;
       font-size: 13px;
@@ -339,36 +653,23 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-
-    .checks {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
+    .checks { list-style: none; display: flex; flex-direction: column; gap: 0; }
     .checks li {
       display: flex;
       align-items: flex-start;
       gap: 14px;
-      padding: 14px 0;
+      padding: 14px 4px;
       border-bottom: 1px solid var(--border);
       font-size: 15px;
       color: var(--ink-soft);
       line-height: 1.65;
       cursor: pointer;
       transition: background 0.15s;
-      padding-left: 4px;
-      padding-right: 4px;
       border-radius: 8px;
     }
     .checks li:last-child { border-bottom: none; }
     .checks li:hover { background: rgba(198,122,92,0.04); }
-
-    .checks li.checked {
-      background: rgba(198,122,92,0.06);
-    }
-
+    .checks li.checked { background: rgba(198,122,92,0.06); }
     .x-icon {
       flex-shrink: 0;
       width: 22px;
@@ -385,12 +686,7 @@
       margin-top: 2px;
       transition: background 0.2s, color 0.2s;
     }
-
-    .checks li.checked .x-icon {
-      background: var(--cta);
-      color: #fff;
-    }
-
+    .checks li.checked .x-icon { background: var(--cta); color: #fff; }
     .check-counter {
       text-align: center;
       margin-top: 20px;
@@ -400,12 +696,7 @@
       min-height: 22px;
       transition: opacity 0.3s;
     }
-
-    .check-counter.active {
-      color: var(--cta);
-      font-weight: 700;
-    }
-
+    .check-counter.active { color: var(--cta); font-weight: 700; }
     .jornada-fechamento {
       margin-top: 44px;
       background: var(--ink);
@@ -413,34 +704,15 @@
       padding: 32px 28px;
       text-align: center;
     }
-
-    .jornada-fechamento p {
-      font-size: 16px;
-      color: rgba(255,255,255,0.78);
-      line-height: 1.8;
-    }
-
-    .jornada-fechamento em {
-      color: var(--gold);
-      font-style: italic;
-    }
+    .jornada-fechamento p { font-size: 16px; color: rgba(255,255,255,0.78); line-height: 1.8; }
+    .jornada-fechamento em { color: var(--gold); font-style: italic; }
 
     /* ════════════════════════════════
        BENEFÍCIOS
     ════════════════════════════════ */
     .beneficios { background: var(--bg-alt); }
-
-    .beneficios h2 {
-      font-size: clamp(22px, 4vw, 30px);
-      margin-bottom: 40px;
-    }
-
-    .ben-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
+    .beneficios h2 { font-size: clamp(22px, 4vw, 30px); margin-bottom: 40px; }
+    .ben-grid { display: flex; flex-direction: column; gap: 16px; }
     .ben-card {
       background: var(--bg-card);
       border-radius: 18px;
@@ -450,7 +722,6 @@
       align-items: flex-start;
       border: 1px solid var(--border);
     }
-
     .ben-num {
       flex-shrink: 0;
       width: 36px;
@@ -465,38 +736,21 @@
       justify-content: center;
       margin-top: 2px;
     }
-
-    .ben-card h3 {
-      font-size: 17px;
-      color: var(--ink);
-      margin-bottom: 8px;
-    }
-
-    .ben-card p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
+    .ben-card h3 { font-size: 17px; color: var(--ink); margin-bottom: 8px; }
+    .ben-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
     .beneficios-cta { text-align: center; margin-top: 40px; }
 
     /* ════════════════════════════════
        AUTORIDADE
     ════════════════════════════════ */
     .autoridade { background: var(--bg); }
-
-    .autoridade h2 {
-      font-size: clamp(22px, 4vw, 30px);
-      margin-bottom: 36px;
-    }
-
+    .autoridade h2 { font-size: clamp(22px, 4vw, 30px); margin-bottom: 36px; }
     .medico-wrap {
       background: var(--bg-card);
       border-radius: 20px;
       border: 1px solid var(--border);
       padding: 36px 28px;
     }
-
     .medico-foto {
       width: 110px;
       height: 110px;
@@ -507,73 +761,21 @@
       display: block;
       margin: 0 auto 18px;
     }
-
-    .medico-nome {
-      font-family: Georgia, serif;
-      font-size: 20px;
-      text-align: center;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-
-    .medico-crm {
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      color: var(--muted);
-      text-align: center;
-      margin-bottom: 28px;
-      letter-spacing: 0.5px;
-    }
-
-    .medico-wrap p {
-      font-size: 15px;
-      line-height: 1.8;
-      color: var(--ink-soft);
-      margin-bottom: 14px;
-    }
-
+    .medico-nome { font-family: Georgia, serif; font-size: 20px; text-align: center; color: var(--ink); margin-bottom: 4px; }
+    .medico-crm { font-family: Arial, sans-serif; font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 28px; letter-spacing: 0.5px; }
+    .medico-wrap p { font-size: 15px; line-height: 1.8; color: var(--ink-soft); margin-bottom: 14px; }
     .medico-wrap p:last-child { margin-bottom: 0; }
-
-    .medico-wrap em {
-      font-style: italic;
-      color: var(--ink-mid);
-    }
+    .medico-wrap em { font-style: italic; color: var(--ink-mid); }
 
     /* ════════════════════════════════
        DEPOIMENTOS
     ════════════════════════════════ */
     .depoimentos { background: var(--bg-alt); }
-
-    .depoimentos h2 {
-      font-size: clamp(22px, 4vw, 30px);
-      margin-bottom: 8px;
-    }
-
-    .dep-sub {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 36px;
-    }
-
-    .dep-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .dep-card {
-      background: var(--bg-card);
-      border-radius: 18px;
-      padding: 26px 24px;
-      border: 1px solid var(--border);
-    }
-
-    .dep-card.featured {
-      border-color: var(--cta);
-      border-width: 2px;
-      position: relative;
-    }
-
+    .depoimentos h2 { font-size: clamp(22px, 4vw, 30px); margin-bottom: 8px; }
+    .dep-sub { font-size: 14px; color: var(--muted); margin-bottom: 36px; }
+    .dep-list { display: flex; flex-direction: column; gap: 16px; }
+    .dep-card { background: var(--bg-card); border-radius: 18px; padding: 26px 24px; border: 1px solid var(--border); }
+    .dep-card.featured { border-color: var(--cta); border-width: 2px; position: relative; }
     .dep-card.featured::before {
       content: 'Mais lido';
       position: absolute;
@@ -589,56 +791,16 @@
       padding: 3px 12px;
       border-radius: 20px;
     }
-
-    .dep-stars {
-      color: #C67A5C;
-      font-size: 14px;
-      letter-spacing: 2px;
-      margin-bottom: 12px;
-    }
-
-    .dep-card blockquote {
-      font-family: Georgia, serif;
-      font-size: 15px;
-      line-height: 1.8;
-      color: var(--ink-soft);
-      font-style: italic;
-      margin-bottom: 16px;
-    }
-
-    .dep-author {
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .dep-tag {
-      display: inline-block;
-      background: #EAF1EC;
-      color: var(--ink-mid);
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      margin-left: 8px;
-      font-weight: normal;
-    }
-
-    .dep-nota {
-      margin-top: 20px;
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      color: var(--muted);
-      text-align: center;
-      font-style: italic;
-    }
+    .dep-stars { color: #C67A5C; font-size: 14px; letter-spacing: 2px; margin-bottom: 12px; }
+    .dep-card blockquote { font-family: Georgia, serif; font-size: 15px; line-height: 1.8; color: var(--ink-soft); font-style: italic; margin-bottom: 16px; }
+    .dep-author { font-family: Arial, sans-serif; font-size: 13px; color: var(--muted); font-weight: 700; }
+    .dep-tag { display: inline-block; background: #EAF1EC; color: var(--ink-mid); font-family: Arial, sans-serif; font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-left: 8px; font-weight: normal; }
+    .dep-nota { margin-top: 20px; font-family: Arial, sans-serif; font-size: 12px; color: var(--muted); text-align: center; font-style: italic; }
 
     /* ════════════════════════════════
        GARANTIA
     ════════════════════════════════ */
     .garantia { background: var(--bg); }
-
     .garantia-card {
       background: var(--bg-card);
       border: 1.5px solid var(--border);
@@ -648,51 +810,19 @@
       max-width: 560px;
       margin: 0 auto;
     }
-
-    .garantia-icon {
-      font-size: 40px;
-      margin-bottom: 18px;
-    }
-
-    .garantia-card h2 {
-      font-size: 22px;
-      margin-bottom: 18px;
-    }
-
-    .garantia-card p {
-      font-size: 15px;
-      line-height: 1.8;
-      color: var(--ink-soft);
-      margin-bottom: 12px;
-    }
-
+    .garantia-icon { font-size: 40px; margin-bottom: 18px; }
+    .garantia-card h2 { font-size: 22px; margin-bottom: 18px; }
+    .garantia-card p { font-size: 15px; line-height: 1.8; color: var(--ink-soft); margin-bottom: 12px; }
     .garantia-card p:last-child { margin-bottom: 0; }
-
     .garantia-card strong { color: var(--ink); }
 
     /* ════════════════════════════════
-       FAQ (Accordion)
+       FAQ
     ════════════════════════════════ */
     .faq { background: var(--bg-alt); }
-
-    .faq h2 {
-      font-size: clamp(22px, 4vw, 30px);
-      margin-bottom: 36px;
-    }
-
-    .faq-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .faq-item {
-      background: var(--bg-card);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-
+    .faq h2 { font-size: clamp(22px, 4vw, 30px); margin-bottom: 36px; }
+    .faq-list { display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
     .faq-question {
       display: flex;
       align-items: center;
@@ -702,16 +832,8 @@
       gap: 16px;
       transition: background 0.15s;
     }
-
     .faq-question:hover { background: rgba(0,0,0,0.01); }
-
-    .faq-question h3 {
-      font-size: 16px;
-      color: var(--ink);
-      line-height: 1.4;
-      flex: 1;
-    }
-
+    .faq-question h3 { font-size: 16px; color: var(--ink); line-height: 1.4; flex: 1; }
     .faq-arrow {
       flex-shrink: 0;
       width: 24px;
@@ -723,64 +845,20 @@
       color: var(--muted);
       font-size: 14px;
     }
-
     .faq-item.open .faq-arrow { transform: rotate(180deg); }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease;
-    }
-
-    .faq-answer-inner {
-      padding: 0 24px 22px;
-    }
-
-    .faq-answer-inner p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    .faq-item.open .faq-answer {
-      max-height: 300px;
-    }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-answer-inner { padding: 0 24px 22px; }
+    .faq-answer-inner p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+    .faq-item.open .faq-answer { max-height: 300px; }
 
     /* ════════════════════════════════
        CTA FINAL
     ════════════════════════════════ */
-    .cta-final {
-      background: var(--ink-mid);
-      padding: 88px 0;
-      text-align: center;
-    }
-
-    .cta-final h2 {
-      font-size: clamp(26px, 5vw, 40px);
-      color: #fff;
-      max-width: 480px;
-      margin: 0 auto 16px;
-      line-height: 1.25;
-    }
-
-    .cta-final h2 em {
-      font-style: italic;
-      color: var(--gold);
-    }
-
-    .cta-final p {
-      font-size: 16px;
-      color: rgba(255,255,255,0.65);
-      max-width: 400px;
-      margin: 0 auto 40px;
-      line-height: 1.8;
-    }
-
-    .cta-final .trust {
-      margin-top: 18px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.3);
-    }
+    .cta-final { background: var(--ink-mid); padding: 88px 0; text-align: center; }
+    .cta-final h2 { font-size: clamp(26px, 5vw, 40px); color: #fff; max-width: 480px; margin: 0 auto 16px; line-height: 1.25; }
+    .cta-final h2 em { font-style: italic; color: var(--gold); }
+    .cta-final p { font-size: 16px; color: rgba(255,255,255,0.65); max-width: 400px; margin: 0 auto 40px; line-height: 1.8; }
+    .cta-final .trust { margin-top: 18px; font-size: 12px; color: rgba(255,255,255,0.3); }
 
     /* ════════════════════════════════
        FOOTER
@@ -794,7 +872,6 @@
       font-size: 13px;
       line-height: 1.9;
     }
-
     .footer a { color: var(--gold); text-decoration: none; }
     .footer strong { color: rgba(255,255,255,0.65); }
 
@@ -802,11 +879,8 @@
     @media (max-width: 640px) {
       section { padding: 56px 0; }
       .wrap { padding: 0 20px; }
-
       .sticky-cta { display: block; }
-
       .footer { padding-bottom: 100px; }
-
       .btn.inline-cta { width: 100%; padding: 18px 24px; border-radius: 14px; }
       .ben-card { padding: 22px 18px; }
       .dep-card { padding: 22px 18px; }
@@ -814,10 +888,245 @@
       .medico-wrap { padding: 28px 20px; }
       .investimento-card { padding: 28px 20px; }
       .cta-final { padding: 60px 0 88px; }
+      .admin-panel { border-radius: 16px; }
+      .admin-row { grid-template-columns: 1fr; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .admin-key { top: 10px; right: 10px; width: 36px; height: 36px; }
+      .admin-key svg { width: 15px; height: 15px; }
     }
   </style>
 </head>
 <body>
+
+<!-- ══════════════════════════════════
+     ADMIN KEY ICON
+══════════════════════════════════ -->
+<div class="admin-key" onclick="openAdmin()" title="Painel Admin">
+  <svg viewBox="0 0 24 24"><path d="M12.65 10a6 6 0 1 0-1.3 0H1v2h2v4h2v-4h6.35a6 6 0 0 0 .65.35V16h2v-3.65c.22-.1.44-.22.65-.35H22v-2H12.65zM9 10a4 4 0 1 1 0-4 4 4 0 0 1 0 4z" fill-rule="evenodd"/></svg>
+</div>
+
+<!-- ══════════════════════════════════
+     ADMIN PANEL OVERLAY
+══════════════════════════════════ -->
+<div class="admin-overlay" id="adminOverlay" onclick="if(event.target===this)closeAdmin()">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <h2>Painel Administrativo</h2>
+      <button class="admin-close" onclick="closeAdmin()">&times;</button>
+    </div>
+
+    <!-- Login Gate -->
+    <div id="adminLogin" class="admin-login">
+      <h3>Acesso restrito</h3>
+      <p>Digite a senha de administrador</p>
+      <input type="password" id="adminPassword" placeholder="••••••" onkeydown="if(event.key==='Enter')tryLogin()">
+      <br>
+      <button class="admin-btn admin-btn-primary" onclick="tryLogin()">Entrar</button>
+      <div class="login-error" id="loginError"></div>
+    </div>
+
+    <!-- Admin Content (hidden until login) -->
+    <div id="adminContent" style="display:none">
+      <div class="admin-body">
+
+        <!-- Tabs -->
+        <div class="admin-tabs">
+          <button class="admin-tab active" onclick="switchTab('config',this)">Configuracoes</button>
+          <button class="admin-tab" onclick="switchTab('textos',this)">Textos</button>
+          <button class="admin-tab" onclick="switchTab('metricas',this)">Metricas</button>
+        </div>
+
+        <!-- ═══ TAB: CONFIGURACOES ═══ -->
+        <div class="admin-tab-content active" id="tab-config">
+
+          <div class="admin-section">
+            <h3>Link de Agendamento</h3>
+            <div class="admin-field">
+              <label>URL do Botao "Agendar"</label>
+              <input type="url" id="cfg_booking_url" placeholder="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci">
+              <div class="hint">Todos os botoes de CTA serao atualizados com este link</div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <h3>Valores</h3>
+            <div class="admin-row">
+              <div class="admin-field">
+                <label>Preco da Consulta</label>
+                <input type="text" id="cfg_price" placeholder="R$ 350">
+              </div>
+              <div class="admin-field">
+                <label>Parcelas</label>
+                <input type="text" id="cfg_installments" placeholder="12x">
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <h3>Contato</h3>
+            <div class="admin-row">
+              <div class="admin-field">
+                <label>WhatsApp (com DDI)</label>
+                <input type="text" id="cfg_whatsapp" placeholder="5549999318583">
+              </div>
+              <div class="admin-field">
+                <label>Site Oficial</label>
+                <input type="url" id="cfg_website" placeholder="https://www.clinicalorenci.com.br">
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <h3>Google Analytics (GA4)</h3>
+            <div class="admin-field">
+              <label>Measurement ID</label>
+              <input type="text" id="cfg_ga4_id" placeholder="G-XXXXXXXXXX">
+              <div class="hint">Encontre em Google Analytics > Admin > Data Streams. Deixe vazio para desativar.</div>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <h3>Seguranca</h3>
+            <div class="admin-field">
+              <label>Alterar Senha do Admin</label>
+              <input type="password" id="cfg_new_password" placeholder="Nova senha (min. 4 caracteres)">
+              <div class="hint">Senha padrao: admin123. Altere na primeira configuracao.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ═══ TAB: TEXTOS ═══ -->
+        <div class="admin-tab-content" id="tab-textos">
+
+          <div class="admin-section">
+            <h3>Hero (Topo)</h3>
+            <div class="admin-field">
+              <label>Titulo Principal (linha 1)</label>
+              <input type="text" id="cfg_hero_title1" placeholder="Pare de viver exausto.">
+            </div>
+            <div class="admin-field">
+              <label>Titulo Principal (linha 2 — em destaque)</label>
+              <input type="text" id="cfg_hero_title2" placeholder="Voce merece se recuperar.">
+            </div>
+            <div class="admin-field">
+              <label>Subtitulo</label>
+              <textarea id="cfg_hero_sub" placeholder="O cansaco que nao passa com sono..."></textarea>
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <h3>Botoes CTA</h3>
+            <div class="admin-field">
+              <label>Texto do Botao Principal</label>
+              <input type="text" id="cfg_cta_text" placeholder="Quero Agendar Minha Consulta de Acolhimento">
+            </div>
+            <div class="admin-field">
+              <label>Subtexto do Botao</label>
+              <input type="text" id="cfg_cta_sub" placeholder="R$ 350 · Online para todo o Brasil">
+            </div>
+          </div>
+
+          <div class="admin-section">
+            <h3>Medico</h3>
+            <div class="admin-row">
+              <div class="admin-field">
+                <label>Nome</label>
+                <input type="text" id="cfg_doctor_name" placeholder="Dr. Luiz Fernando Lorenci">
+              </div>
+              <div class="admin-field">
+                <label>CRM</label>
+                <input type="text" id="cfg_doctor_crm" placeholder="CRMSC 41906">
+              </div>
+            </div>
+            <div class="admin-field">
+              <label>Especialidades</label>
+              <input type="text" id="cfg_doctor_specs" placeholder="Psiquiatria · Urologia · Medicina Integrativa">
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ═══ TAB: METRICAS ═══ -->
+        <div class="admin-tab-content" id="tab-metricas">
+
+          <div id="ga4StatusBar"></div>
+
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-value" id="metricClicks">0</div>
+              <div class="metric-label">Cliques CTA</div>
+            </div>
+            <div class="metric-card highlight">
+              <div class="metric-value" id="metricLeads">0</div>
+              <div class="metric-label">Leads</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value" id="metricConversions">0</div>
+              <div class="metric-label">Conversoes</div>
+            </div>
+          </div>
+
+          <div class="metrics-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="metric-card">
+              <div class="metric-value" id="metricScrollDepth">0%</div>
+              <div class="metric-label">Scroll Medio</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value" id="metricChecklist">0</div>
+              <div class="metric-label">Checklist Preenchida</div>
+            </div>
+          </div>
+
+          <div class="events-log" id="eventsLog">
+            <div class="events-log-header">
+              <span>Eventos Recentes</span>
+              <button class="events-log-clear" onclick="clearEvents()">Limpar</button>
+            </div>
+            <div id="eventsList">
+              <div class="events-empty">Nenhum evento registrado nesta sessao</div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px">
+            <div class="admin-field">
+              <label>Codigo GA4 para eventos personalizados</label>
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-family:monospace;font-size:12px;color:var(--ink-soft);line-height:1.8;overflow-x:auto;white-space:pre">Eventos enviados automaticamente ao GA4:
+
+• <strong>cta_click</strong> — Clique em qualquer botao "Agendar"
+  Params: button_location, button_text
+
+• <strong>generate_lead</strong> — Chegou ate a secao de preco
+  Params: currency, value
+
+• <strong>begin_checkout</strong> — Clicou no CTA final
+  Params: currency, value
+
+• <strong>checklist_engaged</strong> — Marcou 2+ sinais
+  Params: items_checked
+
+• <strong>scroll_depth</strong> — 25%, 50%, 75%, 100%
+  Params: percent_scrolled</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="admin-actions">
+          <button class="admin-btn admin-btn-danger" onclick="resetConfig()">Resetar Tudo</button>
+          <button class="admin-btn admin-btn-secondary" onclick="closeAdmin()">Cancelar</button>
+          <button class="admin-btn admin-btn-primary" onclick="saveConfig()">Salvar Alteracoes</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="admin-toast" id="adminToast"></div>
+
 
 <!-- ══════════════════════════════════
      HERO
@@ -826,26 +1135,25 @@
   <div class="wrap" style="text-align:center">
     <span class="pre-label">Saude Mental · Burnout · Medicina Integrativa</span>
 
-    <h1>Pare de viver exausto.<br><em>Voce merece se recuperar.</em></h1>
+    <h1 id="heroTitle">Pare de viver exausto.<br><em>Voce merece se recuperar.</em></h1>
 
-    <p class="hero-sub">
+    <p class="hero-sub" id="heroSub">
       O cansaco que nao passa com sono, a irritacao que invade o lar
       e o vazio no trabalho tem nome — e tem tratamento.
       Estou aqui para te ouvir de verdade.
     </p>
 
-    <!-- Foto do médico -->
     <div class="hero-doctor">
       <img src="img/dr-lorenci-consulta.jpg" alt="Dr. Luiz Fernando Lorenci em consulta, ouvindo paciente com atenção" width="400" height="260">
       <div class="hero-doctor-caption">
-        <strong>Dr. Luiz Fernando Lorenci</strong>
-        CRMSC 41906 · Quando foi a ultima vez que um medico realmente te ouviu?
+        <strong id="heroDoctorName">Dr. Luiz Fernando Lorenci</strong>
+        <span id="heroDoctorCrm">CRMSC 41906</span> · Quando foi a ultima vez que um medico realmente te ouviu?
       </div>
     </div>
 
-    <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn inline-cta" target="_blank" rel="noopener">
-      Quero Agendar Minha Consulta de Acolhimento
-      <small>R$ 350 · Online para todo o Brasil</small>
+    <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn inline-cta cta-link" target="_blank" rel="noopener" data-location="hero" onclick="trackCTA(this)">
+      <span class="cta-text">Quero Agendar Minha Consulta de Acolhimento</span>
+      <small class="cta-sub">R$ 350 · Online para todo o Brasil</small>
     </a>
 
     <p class="hero-trust">Pagamento seguro · Nota fiscal emitida · Google Meet incluso</p>
@@ -863,38 +1171,19 @@
 
     <div class="story-item">
       <div class="moment">De manha</div>
-      <p>
-        O despertador toca e o primeiro pensamento ja e de cansaco.
-        Voce dormiu — mas acorda com a sensacao de bateria em 5%.
-        E o dia inteiro ainda esta pela frente.
-      </p>
+      <p>O despertador toca e o primeiro pensamento ja e de cansaco. Voce dormiu — mas acorda com a sensacao de bateria em 5%. E o dia inteiro ainda esta pela frente.</p>
     </div>
-
     <div class="story-item">
       <div class="moment">No trabalho</div>
-      <p>
-        Aquele projeto que antes te empolgava agora parece uma pedra enorme.
-        Voce demora o dobro para decidir coisas simples.
-        E a voz na cabeca sussurra: <em>"sera que sou eu o problema?"</em>
-      </p>
+      <p>Aquele projeto que antes te empolgava agora parece uma pedra enorme. Voce demora o dobro para decidir coisas simples. E a voz na cabeca sussurra: <em>"sera que sou eu o problema?"</em></p>
     </div>
-
     <div class="story-item">
       <div class="moment">Em casa</div>
-      <p>
-        Voce quer estar presente. Mas o que sai e silencio distante
-        ou irritacao por qualquer pequena coisa.
-        O domingo a noite tem um no no estomago. A segunda-feira assusta.
-      </p>
+      <p>Voce quer estar presente. Mas o que sai e silencio distante ou irritacao por qualquer pequena coisa. O domingo a noite tem um no no estomago. A segunda-feira assusta.</p>
     </div>
-
     <div class="story-item">
       <div class="moment">Por dentro</div>
-      <p>
-        Voce carrega um <em>peso invisivel</em> que ninguem mais enxerga.
-        E a pior parte: a culpa por nao dar conta de tudo —
-        como se fosse falta de esforco, e nao esgotamento real.
-      </p>
+      <p>Voce carrega um <em>peso invisivel</em> que ninguem mais enxerga. E a pior parte: a culpa por nao dar conta de tudo — como se fosse falta de esforco, e nao esgotamento real.</p>
     </div>
 
     <p class="check-title">Voce se reconhece em algum destes sinais?</p>
@@ -909,10 +1198,7 @@
     <div class="check-counter" id="checkCounter"></div>
 
     <div class="jornada-fechamento">
-      <p>
-        Se voce marcou dois ou mais sinais, seu corpo esta pedindo socorro.<br>
-        <em>Isso nao e fraqueza. E esgotamento — e tem saida.</em>
-      </p>
+      <p>Se voce marcou dois ou mais sinais, seu corpo esta pedindo socorro.<br><em>Isso nao e fraqueza. E esgotamento — e tem saida.</em></p>
     </div>
   </div>
 </section>
@@ -925,9 +1211,7 @@
   <div class="wrap">
     <span class="pre-label">Como posso te ajudar</span>
     <h2>Um cuidado completo,<br>feito para a sua realidade</h2>
-
     <div class="ben-grid">
-
       <div class="ben-card">
         <div class="ben-num">1</div>
         <div>
@@ -935,7 +1219,6 @@
           <p>Nada de 15 minutos cronometrados. Voce fala tudo o que precisa, sem interrupcoes. So com escuta real e possivel entender o que esta acontecendo de verdade.</p>
         </div>
       </div>
-
       <div class="ben-card">
         <div class="ben-num">2</div>
         <div>
@@ -943,7 +1226,6 @@
           <p>Burnout aparece nos exames — hormonios, cortisol, sono, inflamacao silenciosa. Investigamos a causa, nao apenas o sintoma.</p>
         </div>
       </div>
-
       <div class="ben-card">
         <div class="ben-num">3</div>
         <div>
@@ -951,7 +1233,6 @@
           <p>Trabalhamos juntos sua relacao com o trabalho, o descanso e as pessoas ao redor. Voce volta a ser protagonista da sua vida — sem culpa.</p>
         </div>
       </div>
-
       <div class="ben-card">
         <div class="ben-num">4</div>
         <div>
@@ -959,13 +1240,11 @@
           <p>Nao sou o medico que te ve uma vez e some. Fico contigo em cada etapa, ajustando o plano e celebrando cada avanco.</p>
         </div>
       </div>
-
     </div>
-
     <div class="beneficios-cta">
-      <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn inline-cta" target="_blank" rel="noopener">
-        Quero Comecar Minha Recuperacao
-        <small>Consulta online · R$ 350 · Disponivel para todo o Brasil</small>
+      <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn inline-cta cta-link" target="_blank" rel="noopener" data-location="beneficios" onclick="trackCTA(this)">
+        <span class="cta-text">Quero Comecar Minha Recuperacao</span>
+        <small class="cta-sub">Consulta online · R$ 350 · Disponivel para todo o Brasil</small>
       </a>
     </div>
   </div>
@@ -979,30 +1258,14 @@
   <div class="wrap">
     <span class="pre-label">Quem vai estar com voce</span>
     <h2>Seu medico, seu aliado</h2>
-
     <div class="medico-wrap">
       <img class="medico-foto" src="img/dr-lorenci.jpg" alt="Dr. Luiz Fernando Lorenci" width="110" height="110">
-      <p class="medico-nome">Dr. Luiz Fernando Lorenci</p>
-      <p class="medico-crm">CRMSC 41906 · Psiquiatria · Urologia · Medicina Integrativa</p>
-
-      <p>
-        A medicina moderna tem seguido um caminho perigoso: consultas padronizadas, frias e cada vez mais curtas.
-        Voce sente, e eu tambem sinto, que a qualidade da atencao esta se perdendo.
-        <em>Mas eu decidi que o meu caminho sera outro.</em>
-      </p>
-      <p>
-        Eu quero ser o medico que te acompanha na conquista da sua qualidade de vida.
-        Quero oferecer um espaco seguro, sem julgamentos, onde voce e sua familia
-        sejam compreendidos por completo.
-      </p>
-      <p>
-        Minha abordagem integra saude mental, hormonios, exames funcionais e estilo de vida.
-        Porque o ser humano nao funciona em partes separadas — e o tratamento tambem nao pode funcionar assim.
-      </p>
-      <p>
-        <em>Sem olhar para o relogio. Sem a pressa do sistema.
-        Eu quero, legitimamente, ouvir a sua historia.</em>
-      </p>
+      <p class="medico-nome" id="medicoNome">Dr. Luiz Fernando Lorenci</p>
+      <p class="medico-crm" id="medicoCrm">CRMSC 41906 · Psiquiatria · Urologia · Medicina Integrativa</p>
+      <p>A medicina moderna tem seguido um caminho perigoso: consultas padronizadas, frias e cada vez mais curtas. Voce sente, e eu tambem sinto, que a qualidade da atencao esta se perdendo. <em>Mas eu decidi que o meu caminho sera outro.</em></p>
+      <p>Eu quero ser o medico que te acompanha na conquista da sua qualidade de vida. Quero oferecer um espaco seguro, sem julgamentos, onde voce e sua familia sejam compreendidos por completo.</p>
+      <p>Minha abordagem integra saude mental, hormonios, exames funcionais e estilo de vida. Porque o ser humano nao funciona em partes separadas — e o tratamento tambem nao pode funcionar assim.</p>
+      <p><em>Sem olhar para o relogio. Sem a pressa do sistema. Eu quero, legitimamente, ouvir a sua historia.</em></p>
     </div>
   </div>
 </section>
@@ -1016,49 +1279,27 @@
     <span class="pre-label">O que dizem os pacientes</span>
     <h2>Historias reais de recuperacao</h2>
     <p class="dep-sub">Experiencias compartilhadas com autorizacao</p>
-
     <div class="dep-list">
-
       <div class="dep-card featured">
         <div class="dep-stars">★★★★★</div>
-        <blockquote>
-          "Cheguei achando que era preguica minha. Sai com um diagnostico, um plano concreto
-          e, pela primeira vez em meses, com esperanca. Em oito semanas, voltei a dormir de
-          verdade e a curtir meu filho no fim de semana."
-        </blockquote>
+        <blockquote>"Cheguei achando que era preguica minha. Sai com um diagnostico, um plano concreto e, pela primeira vez em meses, com esperanca. Em oito semanas, voltei a dormir de verdade e a curtir meu filho no fim de semana."</blockquote>
         <span class="dep-author">A.R. <span class="dep-tag">Diretor de TI</span></span>
       </div>
-
       <div class="dep-card">
         <div class="dep-stars">★★★★★</div>
-        <blockquote>
-          "Nunca tinha parado para falar sobre o meu cansaco com um medico assim — com calma,
-          sem ser interrompida. Descobrimos que meus hormonios estavam completamente desequilibrados.
-          Hoje tenho energia para cuidar de mim e da minha familia."
-        </blockquote>
+        <blockquote>"Nunca tinha parado para falar sobre o meu cansaco com um medico assim — com calma, sem ser interrompida. Descobrimos que meus hormonios estavam completamente desequilibrados. Hoje tenho energia para cuidar de mim e da minha familia."</blockquote>
         <span class="dep-author">M.S. <span class="dep-tag">Advogada</span></span>
       </div>
-
       <div class="dep-card">
         <div class="dep-stars">★★★★★</div>
-        <blockquote>
-          "Estava no limite — prestes a pedir demissao por incapacidade de me concentrar.
-          O Dr. Lorenci identificou o problema e me acompanhou de perto.
-          Minha performance e meu casamento melhoraram juntos."
-        </blockquote>
+        <blockquote>"Estava no limite — prestes a pedir demissao por incapacidade de me concentrar. O Dr. Lorenci identificou o problema e me acompanhou de perto. Minha performance e meu casamento melhoraram juntos."</blockquote>
         <span class="dep-author">R.P. <span class="dep-tag">Engenheiro Senior</span></span>
       </div>
-
       <div class="dep-card">
         <div class="dep-stars">★★★★★</div>
-        <blockquote>
-          "Nunca pensei que um medico fosse me ouvir falar sobre solidao e sobre sentir que
-          estava decepcionando todo mundo. Mas foi exatamente isso que aconteceu.
-          A consulta foi um divisor de aguas."
-        </blockquote>
+        <blockquote>"Nunca pensei que um medico fosse me ouvir falar sobre solidao e sobre sentir que estava decepcionando todo mundo. Mas foi exatamente isso que aconteceu. A consulta foi um divisor de aguas."</blockquote>
         <span class="dep-author">C.B. <span class="dep-tag">Professora Universitaria</span></span>
       </div>
-
     </div>
     <p class="dep-nota">Nomes abreviados para preservar a privacidade dos pacientes.</p>
   </div>
@@ -1068,26 +1309,24 @@
 <!-- ══════════════════════════════════
      INVESTIMENTO
 ══════════════════════════════════ -->
-<section class="investimento">
+<section class="investimento" id="secaoInvestimento">
   <div class="wrap">
     <div class="investimento-card">
       <span class="pre-label">Investimento</span>
       <h2>Consulta de Acolhimento</h2>
       <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:0">Cuidar da minha saude</p>
-      <div class="preco">R$ 350</div>
-      <p class="preco-sub">Pagamento via Pix (aprovacao imediata) ou cartao em ate 12x</p>
-
+      <div class="preco" id="precoDisplay">R$ 350</div>
+      <p class="preco-sub" id="parcelasDisplay">Pagamento via Pix (aprovacao imediata) ou cartao em ate 12x</p>
       <ul class="includes">
         <li><span class="check-icon">✓</span> Consulta online sem limite rigido de tempo</li>
         <li><span class="check-icon">✓</span> Investigacao completa: exames, hormonios, estilo de vida</li>
         <li><span class="check-icon">✓</span> Plano de acao personalizado</li>
-        <li><span class="check-icon">✓</span> Nota fiscal para reembolso no convênio</li>
+        <li><span class="check-icon">✓</span> Nota fiscal para reembolso no convenio</li>
         <li><span class="check-icon">✓</span> Google Meet — de qualquer lugar do Brasil</li>
         <li><span class="check-icon">✓</span> Garantia de estorno nos primeiros 20 min</li>
       </ul>
-
-      <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn inline-cta" target="_blank" rel="noopener">
-        Agendar Minha Consulta
+      <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn inline-cta cta-link" target="_blank" rel="noopener" data-location="investimento" onclick="trackCTA(this)">
+        <span class="cta-text">Agendar Minha Consulta</span>
         <small>Vagas limitadas · Pagamento seguro</small>
       </a>
     </div>
@@ -1103,18 +1342,9 @@
     <div class="garantia-card">
       <div class="garantia-icon">🛡️</div>
       <h2>Garantia de Respeito<br>e Escuta Ativa</h2>
-      <p>
-        Sei que dar o primeiro passo e dificil. Por isso, assumo um compromisso claro com voce:
-      </p>
-      <p>
-        <strong>Se nos primeiros 20 minutos de consulta voce sentir que este nao e o
-        atendimento humano e profundo que precisava</strong> — sem necessidade de explicar os motivos —
-        encerramos a sessao e realizamos o estorno integral do valor investido.
-      </p>
-      <p>
-        Sem burocracia. Sem questionamentos.<br>
-        Porque a confianca precisa ser conquistada, nao exigida.
-      </p>
+      <p>Sei que dar o primeiro passo e dificil. Por isso, assumo um compromisso claro com voce:</p>
+      <p><strong>Se nos primeiros 20 minutos de consulta voce sentir que este nao e o atendimento humano e profundo que precisava</strong> — sem necessidade de explicar os motivos — encerramos a sessao e realizamos o estorno integral do valor investido.</p>
+      <p>Sem burocracia. Sem questionamentos.<br>Porque a confianca precisa ser conquistada, nao exigida.</p>
     </div>
   </div>
 </section>
@@ -1127,81 +1357,49 @@
   <div class="wrap">
     <span class="pre-label">Antes de agendar</span>
     <h2>Perguntas frequentes</h2>
-
     <div class="faq-list">
-
       <div class="faq-item">
         <div class="faq-question" onclick="toggleFaq(this)">
           <h3>Como funciona o atendimento online?</h3>
           <span class="faq-arrow">▼</span>
         </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>Apos confirmar o pagamento, voce recebe por e-mail um link do Google Meet. A consulta acontece por video, com a mesma profundidade de um atendimento presencial. Voce pode estar em qualquer lugar do Brasil — so precisa de 60 minutos livres e internet.</p>
-          </div>
-        </div>
+        <div class="faq-answer"><div class="faq-answer-inner"><p>Apos confirmar o pagamento, voce recebe por e-mail um link do Google Meet. A consulta acontece por video, com a mesma profundidade de um atendimento presencial. Voce pode estar em qualquer lugar do Brasil — so precisa de 60 minutos livres e internet.</p></div></div>
       </div>
-
       <div class="faq-item">
         <div class="faq-question" onclick="toggleFaq(this)">
           <h3>Posso usar para reembolso no meu plano de saude?</h3>
           <span class="faq-arrow">▼</span>
         </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>Sim. Emito nota fiscal medica para cada consulta. Voce solicita o reembolso diretamente ao seu convenio conforme as regras do seu plano. Muitos planos cobrem total ou parcialmente o valor.</p>
-          </div>
-        </div>
+        <div class="faq-answer"><div class="faq-answer-inner"><p>Sim. Emito nota fiscal medica para cada consulta. Voce solicita o reembolso diretamente ao seu convenio conforme as regras do seu plano. Muitos planos cobrem total ou parcialmente o valor.</p></div></div>
       </div>
-
       <div class="faq-item">
         <div class="faq-question" onclick="toggleFaq(this)">
           <h3>O tratamento vai envolver apenas medicamentos?</h3>
           <span class="faq-arrow">▼</span>
         </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>Nao necessariamente. A abordagem e sempre individualizada. Em muitos casos, mudancas no sono, alimentacao e estilo de vida ja promovem transformacoes significativas. Quando ha indicacao de medicacao, ela e prescrita com criterio e com o objetivo de ser transitoria.</p>
-          </div>
-        </div>
+        <div class="faq-answer"><div class="faq-answer-inner"><p>Nao necessariamente. A abordagem e sempre individualizada. Em muitos casos, mudancas no sono, alimentacao e estilo de vida ja promovem transformacoes significativas. Quando ha indicacao de medicacao, ela e prescrita com criterio e com o objetivo de ser transitoria.</p></div></div>
       </div>
-
       <div class="faq-item">
         <div class="faq-question" onclick="toggleFaq(this)">
           <h3>Quanto tempo dura o tratamento?</h3>
           <span class="faq-arrow">▼</span>
         </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>Depende de cada caso. A maioria dos pacientes percebe melhora significativa entre 4 e 8 semanas. O acompanhamento continuo garante que os ajustes sejam feitos no momento certo — sem pressa, mas sem deixar espaco para recaidas.</p>
-          </div>
-        </div>
+        <div class="faq-answer"><div class="faq-answer-inner"><p>Depende de cada caso. A maioria dos pacientes percebe melhora significativa entre 4 e 8 semanas. O acompanhamento continuo garante que os ajustes sejam feitos no momento certo — sem pressa, mas sem deixar espaco para recaidas.</p></div></div>
       </div>
-
       <div class="faq-item">
         <div class="faq-question" onclick="toggleFaq(this)">
           <h3>Como faco o pagamento?</h3>
           <span class="faq-arrow">▼</span>
         </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>Pagamento seguro via Mercado Pago — Pix (aprovacao imediata) ou cartao de credito em ate 12 vezes. Assim que confirmado, voce recebe o link da consulta por e-mail.</p>
-          </div>
-        </div>
+        <div class="faq-answer"><div class="faq-answer-inner"><p>Pagamento seguro via Mercado Pago — Pix (aprovacao imediata) ou cartao de credito em ate 12 vezes. Assim que confirmado, voce recebe o link da consulta por e-mail.</p></div></div>
       </div>
-
       <div class="faq-item">
         <div class="faq-question" onclick="toggleFaq(this)">
           <h3>Qual o valor da consulta?</h3>
           <span class="faq-arrow">▼</span>
         </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>A consulta de acolhimento custa R$ 350,00. Esse valor inclui uma consulta aprofundada, sem tempo cronometrado, com plano de acao personalizado e nota fiscal para reembolso pelo convenio. Pagamento via Pix ou cartao em ate 12x.</p>
-          </div>
-        </div>
+        <div class="faq-answer"><div class="faq-answer-inner"><p>A consulta de acolhimento custa R$ 350,00. Esse valor inclui uma consulta aprofundada, sem tempo cronometrado, com plano de acao personalizado e nota fiscal para reembolso pelo convenio. Pagamento via Pix ou cartao em ate 12x.</p></div></div>
       </div>
-
     </div>
   </div>
 </section>
@@ -1213,14 +1411,10 @@
 <section class="cta-final" id="agendar">
   <div class="wrap" style="text-align:center">
     <h2>Nao espere seu corpo<br><em>parar a forca.</em></h2>
-    <p>
-      O esgotamento avisa antes de explodir.
-      Voce esta ouvindo o aviso.
-      De o primeiro passo — eu fico com voce ate o fim.
-    </p>
-    <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn inline-cta" target="_blank" rel="noopener">
-      Agendar Minha Consulta de Acolhimento →
-      <small>R$ 350 · Online · Brasil inteiro</small>
+    <p>O esgotamento avisa antes de explodir. Voce esta ouvindo o aviso. De o primeiro passo — eu fico com voce ate o fim.</p>
+    <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn inline-cta cta-link" target="_blank" rel="noopener" data-location="cta-final" onclick="trackCTA(this)">
+      <span class="cta-text">Agendar Minha Consulta de Acolhimento →</span>
+      <small class="cta-sub">R$ 350 · Online · Brasil inteiro</small>
     </a>
     <p class="trust">Garantia de estorno nos primeiros 20 min · Nota fiscal emitida · Pix ou cartao</p>
   </div>
@@ -1231,11 +1425,11 @@
      FOOTER
 ══════════════════════════════════ -->
 <footer class="footer">
-  <p><strong>Dr. Luiz Fernando Lorenci</strong></p>
-  <p>CRMSC 41906 · Medicina Integrativa · Psiquiatria · Urologia · Florianopolis — SC</p>
+  <p><strong id="footerName">Dr. Luiz Fernando Lorenci</strong></p>
+  <p id="footerCrm">CRMSC 41906 · Medicina Integrativa · Psiquiatria · Urologia · Florianopolis — SC</p>
   <p style="margin-top:14px">
-    <a href="https://www.clinicalorenci.com.br">Site oficial</a> ·
-    <a href="https://wa.me/5549999318583">WhatsApp</a>
+    <a id="footerSite" href="https://www.clinicalorenci.com.br">Site oficial</a> ·
+    <a id="footerWhatsapp" href="https://wa.me/5549999318583">WhatsApp</a>
   </p>
   <p style="margin-top:18px;font-size:11px;opacity:0.7;line-height:1.7">
     As informacoes desta pagina tem carater informativo e nao substituem a consulta medica.<br>
@@ -1245,37 +1439,328 @@
 </footer>
 
 
-<!-- ══════════════════════════════════
-     STICKY CTA (MOBILE)
-══════════════════════════════════ -->
+<!-- STICKY CTA (MOBILE) -->
 <div class="sticky-cta" id="stickyCta">
-  <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn" target="_blank" rel="noopener">
-    Agendar Consulta · R$ 350
+  <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn cta-link" target="_blank" rel="noopener" data-location="sticky" onclick="trackCTA(this)">
+    <span class="cta-text">Agendar Consulta</span> · <span class="cta-price-inline">R$ 350</span>
     <small>Online · Garantia de estorno</small>
   </a>
 </div>
 
 
 <script>
-// FAQ Accordion
+// ══════════════════════════════════════════
+// CONFIG DEFAULTS
+// ══════════════════════════════════════════
+var DEFAULTS = {
+  booking_url: 'https://agendaronline.amplimed.com.br/luiz-fernando-lorenci',
+  price: 'R$ 350',
+  installments: '12x',
+  whatsapp: '5549999318583',
+  website: 'https://www.clinicalorenci.com.br',
+  ga4_id: '',
+  hero_title1: 'Pare de viver exausto.',
+  hero_title2: 'Voce merece se recuperar.',
+  hero_sub: 'O cansaco que nao passa com sono, a irritacao que invade o lar e o vazio no trabalho tem nome — e tem tratamento. Estou aqui para te ouvir de verdade.',
+  cta_text: 'Quero Agendar Minha Consulta de Acolhimento',
+  cta_sub: 'R$ 350 · Online para todo o Brasil',
+  doctor_name: 'Dr. Luiz Fernando Lorenci',
+  doctor_crm: 'CRMSC 41906',
+  doctor_specs: 'Psiquiatria · Urologia · Medicina Integrativa',
+  admin_password: 'admin123'
+};
+
+function getConfig() {
+  var stored = JSON.parse(localStorage.getItem('lp_admin_config') || '{}');
+  var cfg = {};
+  for (var k in DEFAULTS) cfg[k] = stored[k] !== undefined ? stored[k] : DEFAULTS[k];
+  return cfg;
+}
+
+function setConfig(cfg) {
+  localStorage.setItem('lp_admin_config', JSON.stringify(cfg));
+}
+
+// ══════════════════════════════════════════
+// METRICS TRACKING
+// ══════════════════════════════════════════
+var metrics = JSON.parse(sessionStorage.getItem('lp_metrics') || '{"clicks":0,"leads":0,"conversions":0,"scrollMax":0,"checklistEngaged":0}');
+var events = JSON.parse(sessionStorage.getItem('lp_events') || '[]');
+var scrollMilestones = { 25: false, 50: false, 75: false, 100: false };
+
+function saveMetrics() {
+  sessionStorage.setItem('lp_metrics', JSON.stringify(metrics));
+  sessionStorage.setItem('lp_events', JSON.stringify(events));
+}
+
+function logEvent(type, name, detail) {
+  var now = new Date();
+  var time = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
+  events.unshift({ type: type, name: name, detail: detail || '', time: time });
+  if (events.length > 50) events.pop();
+  saveMetrics();
+}
+
+function sendGA4Event(eventName, params) {
+  if (typeof gtag === 'function') {
+    gtag('event', eventName, params || {});
+  }
+}
+
+function trackCTA(el) {
+  var loc = el.getAttribute('data-location') || 'unknown';
+  var text = (el.querySelector('.cta-text') || el).textContent.trim().substring(0, 60);
+  metrics.clicks++;
+
+  sendGA4Event('cta_click', {
+    button_location: loc,
+    button_text: text
+  });
+
+  if (loc === 'cta-final' || loc === 'investimento') {
+    metrics.conversions++;
+    sendGA4Event('begin_checkout', {
+      currency: 'BRL',
+      value: 350
+    });
+    logEvent('conversion', 'Conversao', 'Clique no CTA de ' + loc);
+  } else {
+    logEvent('click', 'Clique CTA', loc);
+  }
+
+  saveMetrics();
+}
+
+// Lead tracking: user reaches pricing section
+var leadTracked = false;
+var investimentoSection = document.getElementById('secaoInvestimento');
+if (investimentoSection) {
+  var leadObserver = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting && !leadTracked) {
+      leadTracked = true;
+      metrics.leads++;
+      sendGA4Event('generate_lead', { currency: 'BRL', value: 350 });
+      logEvent('lead', 'Lead', 'Visitante chegou na secao de preco');
+      saveMetrics();
+    }
+  }, { threshold: 0.3 });
+  leadObserver.observe(investimentoSection);
+}
+
+// Scroll depth tracking
+window.addEventListener('scroll', function() {
+  var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  if (docHeight <= 0) return;
+  var pct = Math.round((scrollTop / docHeight) * 100);
+  if (pct > metrics.scrollMax) metrics.scrollMax = pct;
+
+  [25, 50, 75, 100].forEach(function(milestone) {
+    if (pct >= milestone && !scrollMilestones[milestone]) {
+      scrollMilestones[milestone] = true;
+      sendGA4Event('scroll_depth', { percent_scrolled: milestone });
+      logEvent('scroll', 'Scroll ' + milestone + '%', '');
+    }
+  });
+  saveMetrics();
+}, { passive: true });
+
+// ══════════════════════════════════════════
+// ADMIN PANEL
+// ══════════════════════════════════════════
+var adminLoggedIn = false;
+
+function openAdmin() {
+  document.getElementById('adminOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (adminLoggedIn) {
+    populateForm();
+    updateMetricsDisplay();
+  }
+}
+
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function tryLogin() {
+  var cfg = getConfig();
+  var pwd = document.getElementById('adminPassword').value;
+  if (pwd === cfg.admin_password) {
+    adminLoggedIn = true;
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminContent').style.display = 'block';
+    populateForm();
+    updateMetricsDisplay();
+  } else {
+    document.getElementById('loginError').textContent = 'Senha incorreta';
+    document.getElementById('adminPassword').value = '';
+  }
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.admin-tab-content').forEach(function(c) { c.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'metricas') updateMetricsDisplay();
+}
+
+function populateForm() {
+  var cfg = getConfig();
+  document.getElementById('cfg_booking_url').value = cfg.booking_url;
+  document.getElementById('cfg_price').value = cfg.price;
+  document.getElementById('cfg_installments').value = cfg.installments;
+  document.getElementById('cfg_whatsapp').value = cfg.whatsapp;
+  document.getElementById('cfg_website').value = cfg.website;
+  document.getElementById('cfg_ga4_id').value = cfg.ga4_id;
+  document.getElementById('cfg_hero_title1').value = cfg.hero_title1;
+  document.getElementById('cfg_hero_title2').value = cfg.hero_title2;
+  document.getElementById('cfg_hero_sub').value = cfg.hero_sub;
+  document.getElementById('cfg_cta_text').value = cfg.cta_text;
+  document.getElementById('cfg_cta_sub').value = cfg.cta_sub;
+  document.getElementById('cfg_doctor_name').value = cfg.doctor_name;
+  document.getElementById('cfg_doctor_crm').value = cfg.doctor_crm;
+  document.getElementById('cfg_doctor_specs').value = cfg.doctor_specs;
+  document.getElementById('cfg_new_password').value = '';
+}
+
+function saveConfig() {
+  var cfg = getConfig();
+  cfg.booking_url = document.getElementById('cfg_booking_url').value || DEFAULTS.booking_url;
+  cfg.price = document.getElementById('cfg_price').value || DEFAULTS.price;
+  cfg.installments = document.getElementById('cfg_installments').value || DEFAULTS.installments;
+  cfg.whatsapp = document.getElementById('cfg_whatsapp').value || DEFAULTS.whatsapp;
+  cfg.website = document.getElementById('cfg_website').value || DEFAULTS.website;
+  cfg.ga4_id = document.getElementById('cfg_ga4_id').value || '';
+  cfg.hero_title1 = document.getElementById('cfg_hero_title1').value || DEFAULTS.hero_title1;
+  cfg.hero_title2 = document.getElementById('cfg_hero_title2').value || DEFAULTS.hero_title2;
+  cfg.hero_sub = document.getElementById('cfg_hero_sub').value || DEFAULTS.hero_sub;
+  cfg.cta_text = document.getElementById('cfg_cta_text').value || DEFAULTS.cta_text;
+  cfg.cta_sub = document.getElementById('cfg_cta_sub').value || DEFAULTS.cta_sub;
+  cfg.doctor_name = document.getElementById('cfg_doctor_name').value || DEFAULTS.doctor_name;
+  cfg.doctor_crm = document.getElementById('cfg_doctor_crm').value || DEFAULTS.doctor_crm;
+  cfg.doctor_specs = document.getElementById('cfg_doctor_specs').value || DEFAULTS.doctor_specs;
+
+  var newPwd = document.getElementById('cfg_new_password').value;
+  if (newPwd && newPwd.length >= 4) cfg.admin_password = newPwd;
+
+  setConfig(cfg);
+  applyConfig(cfg);
+  showToast('Configuracoes salvas com sucesso!');
+}
+
+function resetConfig() {
+  if (!confirm('Tem certeza? Todas as configuracoes voltarao ao padrao.')) return;
+  localStorage.removeItem('lp_admin_config');
+  applyConfig(DEFAULTS);
+  populateForm();
+  showToast('Configuracoes resetadas para o padrao');
+}
+
+function applyConfig(cfg) {
+  // Update all CTA links
+  document.querySelectorAll('.cta-link').forEach(function(link) {
+    link.href = cfg.booking_url;
+  });
+
+  // Update hero
+  document.getElementById('heroTitle').innerHTML = cfg.hero_title1 + '<br><em>' + cfg.hero_title2 + '</em>';
+  document.getElementById('heroSub').textContent = cfg.hero_sub;
+
+  // Update CTA texts (main ones)
+  var ctaTexts = document.querySelectorAll('.hero .cta-text, .cta-final .cta-text');
+  ctaTexts.forEach(function(el) { el.textContent = cfg.cta_text; });
+
+  // Update price displays
+  document.getElementById('precoDisplay').textContent = cfg.price;
+  document.getElementById('parcelasDisplay').textContent = 'Pagamento via Pix (aprovacao imediata) ou cartao em ate ' + cfg.installments;
+
+  // Update CTA subtexts
+  var ctaSubs = document.querySelectorAll('.hero .cta-sub, .cta-final .cta-sub');
+  ctaSubs.forEach(function(el) { el.textContent = cfg.cta_sub; });
+
+  // Doctor info
+  document.getElementById('heroDoctorName').textContent = cfg.doctor_name;
+  document.getElementById('heroDoctorCrm').textContent = cfg.doctor_crm;
+  document.getElementById('medicoNome').textContent = cfg.doctor_name;
+  document.getElementById('medicoCrm').textContent = cfg.doctor_crm + ' · ' + cfg.doctor_specs;
+  document.getElementById('footerName').textContent = cfg.doctor_name;
+  document.getElementById('footerCrm').textContent = cfg.doctor_crm + ' · ' + cfg.doctor_specs + ' · Florianopolis — SC';
+
+  // Contact
+  document.getElementById('footerWhatsapp').href = 'https://wa.me/' + cfg.whatsapp;
+  document.getElementById('footerSite').href = cfg.website;
+
+  // Price in sticky
+  var priceInline = document.querySelector('.cta-price-inline');
+  if (priceInline) priceInline.textContent = cfg.price;
+}
+
+function updateMetricsDisplay() {
+  document.getElementById('metricClicks').textContent = metrics.clicks;
+  document.getElementById('metricLeads').textContent = metrics.leads;
+  document.getElementById('metricConversions').textContent = metrics.conversions;
+  document.getElementById('metricScrollDepth').textContent = metrics.scrollMax + '%';
+  document.getElementById('metricChecklist').textContent = metrics.checklistEngaged;
+
+  // GA4 status
+  var cfg = getConfig();
+  var statusBar = document.getElementById('ga4StatusBar');
+  if (cfg.ga4_id) {
+    statusBar.innerHTML = '<div class="ga4-status active"><span class="ga4-dot"></span> GA4 ativo: ' + cfg.ga4_id + '</div>';
+  } else {
+    statusBar.innerHTML = '<div class="ga4-status inactive"><span class="ga4-dot"></span> GA4 nao configurado</div>';
+  }
+
+  // Events list
+  var listEl = document.getElementById('eventsList');
+  if (events.length === 0) {
+    listEl.innerHTML = '<div class="events-empty">Nenhum evento registrado nesta sessao</div>';
+  } else {
+    var html = '';
+    events.forEach(function(ev) {
+      html += '<div class="event-row">';
+      html += '<span class="event-dot ' + ev.type + '"></span>';
+      html += '<span class="event-time">' + ev.time + '</span>';
+      html += '<span class="event-name">' + ev.name + '</span>';
+      if (ev.detail) html += '<span class="event-detail">' + ev.detail + '</span>';
+      html += '</div>';
+    });
+    listEl.innerHTML = html;
+  }
+}
+
+function clearEvents() {
+  events = [];
+  metrics = { clicks: 0, leads: 0, conversions: 0, scrollMax: 0, checklistEngaged: 0 };
+  saveMetrics();
+  updateMetricsDisplay();
+  showToast('Metricas zeradas');
+}
+
+function showToast(msg) {
+  var toast = document.getElementById('adminToast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(function() { toast.classList.remove('show'); }, 2500);
+}
+
+// ══════════════════════════════════════════
+// PAGE INTERACTIONS
+// ══════════════════════════════════════════
 function toggleFaq(el) {
   var item = el.parentElement;
   var wasOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(function(i) {
-    i.classList.remove('open');
-  });
+  document.querySelectorAll('.faq-item.open').forEach(function(i) { i.classList.remove('open'); });
   if (!wasOpen) item.classList.add('open');
 }
 
-// Interactive Checklist
 function toggleCheck(el) {
   el.classList.toggle('checked');
   var icon = el.querySelector('.x-icon');
-  if (el.classList.contains('checked')) {
-    icon.textContent = '✓';
-  } else {
-    icon.textContent = '✕';
-  }
+  icon.textContent = el.classList.contains('checked') ? '✓' : '✕';
   updateCounter();
 }
 
@@ -1292,28 +1777,35 @@ function updateCounter() {
     counter.textContent = count + ' sinais marcados — seu corpo esta pedindo atencao.';
     counter.className = 'check-counter active';
   }
+
+  if (count >= 2) {
+    metrics.checklistEngaged++;
+    sendGA4Event('checklist_engaged', { items_checked: count });
+    logEvent('checklist', 'Checklist', count + ' sinais marcados');
+    saveMetrics();
+  }
 }
 
-// Sticky CTA: show after scrolling past hero
+// Sticky CTA
 var stickyCta = document.getElementById('stickyCta');
 var heroSection = document.querySelector('.hero');
 
 function checkSticky() {
-  if (window.innerWidth > 640) {
-    stickyCta.style.display = 'none';
-    return;
-  }
-  var heroBottom = heroSection.getBoundingClientRect().bottom;
-  if (heroBottom < -100) {
-    stickyCta.style.display = 'block';
-  } else {
-    stickyCta.style.display = 'none';
-  }
+  if (window.innerWidth > 640) { stickyCta.style.display = 'none'; return; }
+  stickyCta.style.display = heroSection.getBoundingClientRect().bottom < -100 ? 'block' : 'none';
 }
 
 window.addEventListener('scroll', checkSticky, { passive: true });
 window.addEventListener('resize', checkSticky);
-checkSticky();
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+(function init() {
+  var cfg = getConfig();
+  applyConfig(cfg);
+  checkSticky();
+})();
 </script>
 
 </body>
