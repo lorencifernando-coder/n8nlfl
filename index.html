@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dr. Luiz Fernando Lorenci — Burnout e Esgotamento Mental</title>
+  <title>Vença o Esgotamento Crônico — Dr. Luiz Fernando Lorenci | Tratamento de Burnout</title>
   <meta name="description" content="Estresse crônico, esgotamento profissional e crise de ansiedade no trabalho tratados com medicina integrativa e escuta real. Agende sua consulta com Dr. Luiz Fernando Lorenci.">
   <meta name="keywords" content="burnout tratamento, esgotamento profissional, estresse crônico, crise de ansiedade no trabalho, medicina integrativa saúde mental, psiquiatra burnout, médico burnout online">
   <link rel="canonical" href="https://www.clinicalorenci.com.br/burnout">
@@ -14,10 +14,15 @@
   <meta name="apple-mobile-web-app-title" content="Dr. Lorenci">
   <link rel="apple-touch-icon" href="__ZAPIA_SITE_URL__/apple-touch-icon.png">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Você não é fraco. Você está esgotado. — Dr. Luiz Fernando Lorenci">
+  <meta property="og:title" content="Vença o esgotamento crônico e recupere sua vitalidade — Dr. Luiz Fernando Lorenci">
   <meta property="og:description" content="Esgotamento profissional, estresse crônico e burnout tratados com medicina integrativa e escuta real. Agende sua consulta online.">
   <meta property="og:image" content="__ZAPIA_SITE_ORIGIN__/_z/og.png">
   <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Tipografia oficial do brand book: Playfair Display (títulos) + Inter (corpo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <meta name="twitter:image" content="__ZAPIA_SITE_ORIGIN__/_z/og.png">
 
   <!-- Google Analytics GA4 + Google Ads Conversion — carregado dinamicamente pelo admin -->
@@ -80,25 +85,27 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg:          #F4F7F6;
-      --bg-alt:      #F9FBFA;
+      /* Paleta oficial do brand book (regra 60-30-10):
+         60% Bege Linho #F4F0EA · 30% Azul Noturno #1E2B38 · 10% Terracota #C67A5C */
+      --bg:          #F4F0EA;
+      --bg-alt:      #F9F8F6;
       --bg-card:     #FFFFFF;
       --ink:         #1E2B38;
-      --ink-mid:     #2D3E4A;
-      --ink-soft:    #4A5D6B;
-      --muted:       #7A8C96;
-      --cta:         #2A9D8F;
-      --cta-hover:   #238B7F;
-      --cta-pale:    #E6F5F3;
-      --border:      #DDE5E3;
+      --ink-mid:     #2D3E35;
+      --ink-soft:    #4A5D52;
+      --muted:       #7A8C82;
+      --cta:         #C67A5C;
+      --cta-hover:   #B5684C;
+      --cta-pale:    #F5E8E2;
+      --border:      #E2DDD6;
       --shadow:      rgba(30,43,56,0.07);
-      --gold:        #2A9D8F;
+      --gold:        #C8A882;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Georgia', 'Times New Roman', serif;
+      font-family: 'Playfair Display', Georgia, serif;
       background: var(--bg);
       color: var(--ink);
       line-height: 1.75;
@@ -106,14 +113,14 @@
     }
 
     h1, h2, h3 {
-      font-family: 'Georgia', serif;
+      font-family: 'Playfair Display', Georgia, serif;
       font-weight: normal;
       line-height: 1.25;
       color: var(--ink);
     }
 
     p, li, label, small {
-      font-family: 'Arial', Helvetica, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       color: var(--ink-soft);
     }
 
@@ -127,7 +134,7 @@
 
     .pre-label {
       display: inline-block;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 11px;
       letter-spacing: 2.5px;
       text-transform: uppercase;
@@ -139,7 +146,7 @@
       display: inline-block;
       background: var(--cta);
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-weight: 700;
       font-size: 16px;
       padding: 18px 38px;
@@ -223,7 +230,7 @@
       opacity: 0.5;
     }
     .admin-key:hover { opacity: 1; background: rgba(30,43,56,0.85); transform: scale(1.1); }
-    .admin-key svg { width: 18px; height: 18px; fill: #2A9D8F; }
+    .admin-key svg { width: 18px; height: 18px; fill: #C8A882; }
 
     /* ── ADMIN PANEL ── */
     .admin-overlay {
@@ -274,7 +281,7 @@
     }
     .admin-tab {
       padding: 10px 20px;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
@@ -297,7 +304,7 @@
       margin-bottom: 28px;
     }
     .admin-section h3 {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
@@ -313,7 +320,7 @@
     }
     .admin-field label {
       display: block;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 12px;
       font-weight: 700;
       color: var(--ink);
@@ -328,7 +335,7 @@
       padding: 12px 14px;
       border: 1.5px solid var(--border);
       border-radius: 10px;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 14px;
       color: var(--ink);
       background: var(--bg);
@@ -344,7 +351,7 @@
       font-size: 11px;
       color: var(--muted);
       margin-top: 4px;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
     }
 
     .admin-row {
@@ -358,7 +365,7 @@
       padding: 14px 32px;
       border: none;
       border-radius: 10px;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
@@ -387,7 +394,7 @@
       transform: translateX(-50%) translateY(20px);
       background: var(--ink);
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 14px;
       font-weight: 700;
       padding: 14px 28px;
@@ -429,7 +436,7 @@
     .admin-login input:focus { border-color: var(--cta); }
     .admin-login .login-error {
       color: #C44;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 13px;
       margin-top: 8px;
       min-height: 20px;
@@ -450,14 +457,14 @@
       text-align: center;
     }
     .metric-value {
-      font-family: Georgia, serif;
+      font-family: 'Playfair Display', Georgia, serif;
       font-size: 32px;
       color: var(--ink);
       line-height: 1;
       margin-bottom: 6px;
     }
     .metric-label {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -481,7 +488,7 @@
       border-bottom: 1px solid var(--border);
     }
     .events-log-header span {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 12px;
       font-weight: 700;
       color: var(--ink);
@@ -489,7 +496,7 @@
       letter-spacing: 1px;
     }
     .events-log-clear {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 11px;
       color: var(--cta);
       cursor: pointer;
@@ -503,7 +510,7 @@
       gap: 12px;
       padding: 10px 16px;
       border-bottom: 1px solid rgba(226,221,214,0.5);
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 13px;
     }
     .event-row:last-child { border-bottom: none; }
@@ -514,9 +521,9 @@
       flex-shrink: 0;
     }
     .event-dot.click { background: #4A90D9; }
-    .event-dot.lead { background: #2A9D8F; }
+    .event-dot.lead { background: #C67A5C; }
     .event-dot.conversion { background: #4A7C59; }
-    .event-dot.scroll { background: #2A9D8F; }
+    .event-dot.scroll { background: #C8A882; }
     .event-dot.checklist { background: #9B59B6; }
     .event-time { color: var(--muted); font-size: 11px; min-width: 50px; }
     .event-name { color: var(--ink); font-weight: 600; flex: 1; }
@@ -524,7 +531,7 @@
     .events-empty {
       padding: 32px 16px;
       text-align: center;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 13px;
       color: var(--muted);
     }
@@ -533,7 +540,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 12px;
       padding: 6px 14px;
       border-radius: 20px;
@@ -587,14 +594,14 @@
     }
     .hero-doctor-caption {
       margin-top: 14px;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 14px;
       color: rgba(255,255,255,0.5);
     }
     .hero-doctor-caption strong {
       color: rgba(255,255,255,0.8);
       font-weight: normal;
-      font-family: Georgia, serif;
+      font-family: 'Playfair Display', Georgia, serif;
       font-size: 16px;
       display: block;
       margin-bottom: 2px;
@@ -624,14 +631,14 @@
     .investimento-card .pre-label { color: var(--cta); }
     .investimento-card h2 { font-size: 22px; margin-bottom: 8px; }
     .investimento-card .preco {
-      font-family: Georgia, serif;
+      font-family: 'Playfair Display', Georgia, serif;
       font-size: 42px;
       color: var(--ink);
       margin: 18px 0 6px;
       line-height: 1;
     }
     .investimento-card .preco-sub {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 13px;
       color: var(--muted);
       margin-bottom: 24px;
@@ -673,7 +680,7 @@
     .story-item { padding: 28px 0; border-bottom: 1px solid var(--border); }
     .story-item:last-of-type { border-bottom: none; }
     .story-item .moment {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -683,7 +690,7 @@
     .story-item p { font-size: 16px; line-height: 1.8; color: var(--ink-soft); }
     .story-item p em { font-style: italic; color: var(--ink-mid); }
     .check-title {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 13px;
       font-weight: 700;
       color: var(--ink);
@@ -716,7 +723,7 @@
       background: var(--cta-pale);
       color: var(--cta);
       font-size: 12px;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -728,7 +735,7 @@
     .check-counter {
       text-align: center;
       margin-top: 20px;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 14px;
       color: var(--muted);
       min-height: 22px;
@@ -767,7 +774,7 @@
       border-radius: 50%;
       background: var(--cta-pale);
       color: var(--cta);
-      font-family: Georgia, serif;
+      font-family: 'Playfair Display', Georgia, serif;
       font-size: 16px;
       display: flex;
       align-items: center;
@@ -799,8 +806,8 @@
       display: block;
       margin: 0 auto 18px;
     }
-    .medico-nome { font-family: Georgia, serif; font-size: 20px; text-align: center; color: var(--ink); margin-bottom: 4px; }
-    .medico-crm { font-family: Arial, sans-serif; font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 28px; letter-spacing: 0.5px; }
+    .medico-nome { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; text-align: center; color: var(--ink); margin-bottom: 4px; }
+    .medico-crm { font-family: 'Inter', Arial, sans-serif; font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 28px; letter-spacing: 0.5px; }
     .medico-wrap p { font-size: 15px; line-height: 1.8; color: var(--ink-soft); margin-bottom: 14px; }
     .medico-wrap p:last-child { margin-bottom: 0; }
     .medico-wrap em { font-style: italic; color: var(--ink-mid); }
@@ -821,7 +828,7 @@
       right: 20px;
       background: var(--cta);
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
@@ -829,11 +836,11 @@
       padding: 3px 12px;
       border-radius: 20px;
     }
-    .dep-stars { color: #2A9D8F; font-size: 14px; letter-spacing: 2px; margin-bottom: 12px; }
-    .dep-card blockquote { font-family: Georgia, serif; font-size: 15px; line-height: 1.8; color: var(--ink-soft); font-style: italic; margin-bottom: 16px; }
-    .dep-author { font-family: Arial, sans-serif; font-size: 13px; color: var(--muted); font-weight: 700; }
-    .dep-tag { display: inline-block; background: #EAF1EC; color: var(--ink-mid); font-family: Arial, sans-serif; font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-left: 8px; font-weight: normal; }
-    .dep-nota { margin-top: 20px; font-family: Arial, sans-serif; font-size: 12px; color: var(--muted); text-align: center; font-style: italic; }
+    .dep-stars { color: #C67A5C; font-size: 14px; letter-spacing: 2px; margin-bottom: 12px; }
+    .dep-card blockquote { font-family: 'Playfair Display', Georgia, serif; font-size: 15px; line-height: 1.8; color: var(--ink-soft); font-style: italic; margin-bottom: 16px; }
+    .dep-author { font-family: 'Inter', Arial, sans-serif; font-size: 13px; color: var(--muted); font-weight: 700; }
+    .dep-tag { display: inline-block; background: #EAF1EC; color: var(--ink-mid); font-family: 'Inter', Arial, sans-serif; font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-left: 8px; font-weight: normal; }
+    .dep-nota { margin-top: 20px; font-family: 'Inter', Arial, sans-serif; font-size: 12px; color: var(--muted); text-align: center; font-style: italic; }
 
     /* ════════════════════════════════
        GARANTIA
@@ -906,7 +913,7 @@
       color: rgba(255,255,255,0.38);
       text-align: center;
       padding: 36px 24px 80px;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       font-size: 13px;
       line-height: 1.9;
     }
@@ -1186,12 +1193,13 @@
   <div class="wrap" style="text-align:center">
     <span class="pre-label">Saúde Mental · Burnout · Medicina Integrativa</span>
 
-    <h1 id="heroTitle">Pare de viver exausto.<br><em>Você merece se recuperar.</em></h1>
+    <h1 id="heroTitle">Vença o esgotamento crônico<br><em>e recupere sua vitalidade.</em></h1>
 
     <p class="hero-sub" id="heroSub">
-      O cansaço que não passa com sono, a irritação que invade o lar
-      e o vazio no trabalho têm nome — e têm tratamento.
-      Estou aqui para te ouvir de verdade.
+      Se você arrasta o corpo para o trabalho, sente que sua energia zerou
+      e a desmotivação começou a afetar até quem você ama dentro de casa, saiba:
+      seu corpo não está falhando, ele só está pedindo socorro.
+      É hora de parar de apenas sobreviver.
     </p>
 
     <div class="hero-doctor">
@@ -1218,7 +1226,7 @@
 <section class="jornada">
   <div class="wrap">
     <span class="pre-label">Isso soa familiar?</span>
-    <h2>A rotina que ninguém vê —<br>mas que você vive todo dia</h2>
+    <h2>Como a exaustão silenciosa<br>assume o controle da sua vida?</h2>
 
     <div class="story-item">
       <div class="moment">De manhã</div>
@@ -1237,14 +1245,14 @@
       <p>Você carrega um <em>peso invisível</em> que ninguém mais enxerga. E a pior parte: a culpa por não dar conta de tudo — como se fosse falta de esforço, e não esgotamento real.</p>
     </div>
 
-    <p class="check-title">Você se reconhece em algum destes sinais?</p>
+    <p class="check-title">Você se reconhece em alguma destas frases?</p>
     <ul class="checks" id="checklist">
-      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> Acorda exausto mesmo depois de uma noite inteira de sono</li>
-      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> Perdeu a motivação por coisas que antes te faziam bem</li>
-      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> Se irrita com facilidade em casa e sente culpa por isso</li>
-      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> Tem dores físicas sem causa clara — tensão, palpitações, dor de cabeça</li>
-      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> Se isola por cansaço — cancela encontros que antes te dariam prazer</li>
-      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> Sente medo de explodir no trabalho ou de ser visto como incompetente</li>
+      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> "Sinto que estou operando com 5% de bateria o dia todo."</li>
+      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> "A minha carreira estagnou porque não tenho forças para pensar estrategicamente."</li>
+      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> "Estou me afastando das pessoas que amo por puro cansaço."</li>
+      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> "Acordo exausto mesmo depois de uma noite inteira de sono."</li>
+      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> "Me irrito com facilidade em casa e sinto culpa por isso."</li>
+      <li onclick="toggleCheck(this)"><span class="x-icon">✕</span> "Tenho dores sem causa clara — tensão, palpitações, dor de cabeça."</li>
     </ul>
     <div class="check-counter" id="checkCounter"></div>
 
@@ -1261,40 +1269,40 @@
 <section class="beneficios">
   <div class="wrap">
     <span class="pre-label">Como posso te ajudar</span>
-    <h2>Um cuidado completo,<br>feito para a sua realidade</h2>
+    <h2>O método integral para devolver<br>o controle da sua vida</h2>
     <div class="ben-grid">
       <div class="ben-card">
         <div class="ben-num">1</div>
         <div>
-          <h3>Uma consulta sem relógio na parede</h3>
-          <p>Nada de 15 minutos cronometrados. Você fala tudo o que precisa, sem interrupções. Só com escuta real é possível entender o que está acontecendo de verdade.</p>
+          <h3>Resgate da vitalidade física</h3>
+          <p>Avaliação laboratorial completa de hormônios do estresse, sono e neurotransmissores. Burnout aparece nos exames — investigamos a causa, não apenas o sintoma.</p>
         </div>
       </div>
       <div class="ben-card">
         <div class="ben-num">2</div>
         <div>
-          <h3>Seu corpo inteiro no centro do diagnóstico</h3>
-          <p>Burnout aparece nos exames — hormônios, cortisol, sono, inflamação silenciosa. Investigamos a causa, não apenas o sintoma.</p>
+          <h3>Clareza e estratégia na carreira</h3>
+          <p>Criação de limites saudáveis no trabalho sem precisar abandonar suas conquistas. Você volta a pensar estrategicamente — sem operar no limite.</p>
         </div>
       </div>
       <div class="ben-card">
         <div class="ben-num">3</div>
         <div>
-          <h3>Clareza mental e limites que funcionam</h3>
-          <p>Trabalhamos juntos sua relação com o trabalho, o descanso e as pessoas ao redor. Você volta a ser protagonista da sua vida — sem culpa.</p>
+          <h3>Presença nos relacionamentos</h3>
+          <p>Regulação do sistema nervoso para devolver a paciência e a conexão em casa. Energia para estar presente com quem mais importa.</p>
         </div>
       </div>
       <div class="ben-card">
         <div class="ben-num">4</div>
         <div>
-          <h3>Um parceiro de jornada, do início à recuperação</h3>
-          <p>Não sou o médico que te vê uma vez e some. Fico contigo em cada etapa, ajustando o plano e celebrando cada avanço.</p>
+          <h3>Escuta sem olhar o relógio</h3>
+          <p>Uma consulta longa, humana, desenhada para entender sua história por completo. Nada de 15 minutos cronometrados.</p>
         </div>
       </div>
     </div>
     <div class="beneficios-cta">
       <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn inline-cta cta-link" target="_blank" rel="noopener" data-location="beneficios" onclick="trackCTA(this)">
-        <span class="cta-text">Quero Começar Minha Recuperação</span>
+        <span class="cta-text">Desejo Recuperar Minha Energia e Carreira</span>
         <small class="cta-sub">Consulta online · R$ 350 · Disponível para todo o Brasil</small>
       </a>
     </div>
@@ -1338,7 +1346,7 @@
       </div>
       <div class="dep-card">
         <div class="dep-stars">★★★★★</div>
-        <blockquote>"Nunca tinha parado para falar sobre o meu cansaço com um médico assim — com calma, sem ser interrompida. Descobrimos que meus hormônios estavam completamente desequilibrados. Hoje tenho energia para cuidar de mim e da minha família."</blockquote>
+        <blockquote>"A consulta foi um divisor de águas. Fui ouvida sem pressa e o plano médico regulou meu corpo e meu sono por completo. Hoje tenho energia para cuidar de mim e da minha família."</blockquote>
         <span class="dep-author">M.S. <span class="dep-tag">Advogada</span></span>
       </div>
       <div class="dep-card">
@@ -1393,8 +1401,8 @@
   <div class="wrap">
     <div class="garantia-card">
       <div class="garantia-icon">🛡️</div>
-      <h2>Garantia de Respeito<br>e Escuta Ativa</h2>
-      <p>Sei que dar o primeiro passo é difícil. Por isso, assumo um compromisso claro com você:</p>
+      <h2>Compromisso<br>de Escuta Ativa</h2>
+      <p>Quem sofre com exaustão não pode sofrer com pressa médica. Por isso, assumo um compromisso claro com você:</p>
       <p><strong>Se nos primeiros 20 minutos de consulta você sentir que este não é o atendimento humano e profundo que precisava</strong> — sem necessidade de explicar os motivos — encerramos a sessão e realizamos o estorno integral do valor investido.</p>
       <p>Sem burocracia. Sem questionamentos.<br>Porque a confiança precisa ser conquistada, não exigida.</p>
     </div>
@@ -1465,7 +1473,7 @@
     <h2>Não espere seu corpo<br><em>parar à força.</em></h2>
     <p>O esgotamento avisa antes de explodir. Você está ouvindo o aviso. Dê o primeiro passo — eu fico com você até o fim.</p>
     <a href="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci" class="btn inline-cta cta-link" target="_blank" rel="noopener" data-location="cta-final" onclick="trackCTA(this)">
-      <span class="cta-text">Agendar Minha Consulta de Acolhimento →</span>
+      <span class="cta-text">Agendar Minha Consulta Agora →</span>
       <small class="cta-sub">R$ 350 · Online · Brasil inteiro</small>
     </a>
     <p class="trust">Garantia de estorno nos primeiros 20 min · Nota fiscal emitida · Pix ou cartao</p>
@@ -1518,9 +1526,9 @@ var DEFAULTS = {
   ga4_id: '',
   gads_id: '',
   gads_label: '',
-  hero_title1: 'Pare de viver exausto.',
-  hero_title2: 'Você merece se recuperar.',
-  hero_sub: 'O cansaço que não passa com sono, a irritação que invade o lar e o vazio no trabalho têm nome — e têm tratamento. Estou aqui para te ouvir de verdade.',
+  hero_title1: 'Vença o esgotamento crônico',
+  hero_title2: 'e recupere sua vitalidade.',
+  hero_sub: 'Se você arrasta o corpo para o trabalho, sente que sua energia zerou e a desmotivação começou a afetar até quem você ama dentro de casa, saiba: seu corpo não está falhando, ele só está pedindo socorro. É hora de parar de apenas sobreviver.',
   cta_text: 'Quero Agendar Minha Consulta de Acolhimento',
   cta_sub: 'R$ 350 · Online para todo o Brasil',
   doctor_name: 'Dr. Luiz Fernando Lorenci',
@@ -1741,8 +1749,8 @@ function applyConfig(cfg) {
   document.getElementById('heroTitle').innerHTML = cfg.hero_title1 + '<br><em>' + cfg.hero_title2 + '</em>';
   document.getElementById('heroSub').textContent = cfg.hero_sub;
 
-  // Update CTA texts (main ones)
-  var ctaTexts = document.querySelectorAll('.hero .cta-text, .cta-final .cta-text');
+  // Update CTA text (apenas o hero — cada seção tem CTA próprio conforme o roteiro)
+  var ctaTexts = document.querySelectorAll('.hero .cta-text');
   ctaTexts.forEach(function(el) { el.textContent = cfg.cta_text; });
 
   // Update price displays
@@ -1750,7 +1758,7 @@ function applyConfig(cfg) {
   document.getElementById('parcelasDisplay').textContent = 'Pagamento via Pix (aprovacao imediata) ou cartao em ate ' + cfg.installments;
 
   // Update CTA subtexts
-  var ctaSubs = document.querySelectorAll('.hero .cta-sub, .cta-final .cta-sub');
+  var ctaSubs = document.querySelectorAll('.hero .cta-sub');
   ctaSubs.forEach(function(el) { el.textContent = cfg.cta_sub; });
 
   // Doctor info
