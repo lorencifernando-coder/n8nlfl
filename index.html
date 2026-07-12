@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dr. Luiz Fernando Lorenci — Burnout e Esgotamento Mental</title>
-  <meta name="description" content="Burnout, esgotamento e exaustão crônica tratados com escuta real e abordagem integral. Agende sua consulta com Dr. Luiz Fernando Lorenci.">
+  <meta name="description" content="Estresse crônico, esgotamento profissional e crise de ansiedade no trabalho tratados com medicina integrativa e escuta real. Agende sua consulta com Dr. Luiz Fernando Lorenci.">
+  <meta name="keywords" content="burnout tratamento, esgotamento profissional, estresse crônico, crise de ansiedade no trabalho, medicina integrativa saúde mental, psiquiatra burnout, médico burnout online">
   <link rel="canonical" href="https://www.clinicalorenci.com.br/burnout">
   <link rel="manifest" href="__ZAPIA_SITE_URL__/manifest.webmanifest">
   <meta name="theme-color" content="#1E2B38">
@@ -14,25 +15,40 @@
   <link rel="apple-touch-icon" href="__ZAPIA_SITE_URL__/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Você não é fraco. Você está esgotado. — Dr. Luiz Fernando Lorenci">
-  <meta property="og:description" content="Burnout e esgotamento crônico tratados com escuta real, sem pressa. Agende agora.">
+  <meta property="og:description" content="Esgotamento profissional, estresse crônico e burnout tratados com medicina integrativa e escuta real. Agende sua consulta online.">
   <meta property="og:image" content="__ZAPIA_SITE_ORIGIN__/_z/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="__ZAPIA_SITE_ORIGIN__/_z/og.png">
 
-  <!-- Google Analytics GA4 — carregado dinamicamente pelo admin -->
+  <!-- Google Analytics GA4 + Google Ads Conversion — carregado dinamicamente pelo admin -->
   <script>
   (function(){
     var cfg = JSON.parse(localStorage.getItem('lp_admin_config') || '{}');
     var gid = cfg.ga4_id || '';
-    if (!gid) return;
+    var gadsId = cfg.gads_id || '';
+
+    // Captura UTM params e gclid
+    var params = new URLSearchParams(window.location.search);
+    var utmData = {};
+    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid'].forEach(function(k){
+      var v = params.get(k);
+      if (v) utmData[k] = v;
+    });
+    if (Object.keys(utmData).length > 0) {
+      sessionStorage.setItem('lp_utm', JSON.stringify(utmData));
+    }
+
+    if (!gid && !gadsId) return;
+    var tagId = gid || gadsId;
     var s1 = document.createElement('script');
     s1.async = true;
-    s1.src = 'https://www.googletagmanager.com/gtag/js?id=' + gid;
+    s1.src = 'https://www.googletagmanager.com/gtag/js?id=' + tagId;
     document.head.appendChild(s1);
     window.dataLayer = window.dataLayer || [];
     window.gtag = function(){ dataLayer.push(arguments); };
     gtag('js', new Date());
-    gtag('config', gid, { send_page_view: true });
+    if (gid) gtag('config', gid, { send_page_view: true });
+    if (gadsId) gtag('config', gadsId);
   })();
   </script>
 
@@ -64,19 +80,19 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg:          #F4F0EA;
-      --bg-alt:      #F9F8F6;
+      --bg:          #F4F7F6;
+      --bg-alt:      #F9FBFA;
       --bg-card:     #FFFFFF;
       --ink:         #1E2B38;
-      --ink-mid:     #2D3E35;
-      --ink-soft:    #4A5D52;
-      --muted:       #7A8C82;
-      --cta:         #C67A5C;
-      --cta-hover:   #B5684C;
-      --cta-pale:    #F5E8E2;
-      --border:      #E2DDD6;
+      --ink-mid:     #2D3E4A;
+      --ink-soft:    #4A5D6B;
+      --muted:       #7A8C96;
+      --cta:         #2A9D8F;
+      --cta-hover:   #238B7F;
+      --cta-pale:    #E6F5F3;
+      --border:      #DDE5E3;
       --shadow:      rgba(30,43,56,0.07);
-      --gold:        #C8A882;
+      --gold:        #2A9D8F;
     }
 
     html { scroll-behavior: smooth; }
@@ -165,6 +181,28 @@
     }
     .sticky-cta .btn small { margin-top: 2px; font-size: 11px; }
 
+    /* ── WHATSAPP FLOAT ── */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(37,211,102,0.5); }
+    @media (max-width: 640px) {
+      .whatsapp-float { bottom: 80px; right: 16px; width: 52px; height: 52px; }
+    }
+
     /* ── ADMIN KEY ICON ── */
     .admin-key {
       position: fixed;
@@ -185,7 +223,7 @@
       opacity: 0.5;
     }
     .admin-key:hover { opacity: 1; background: rgba(30,43,56,0.85); transform: scale(1.1); }
-    .admin-key svg { width: 18px; height: 18px; fill: #C8A882; }
+    .admin-key svg { width: 18px; height: 18px; fill: #2A9D8F; }
 
     /* ── ADMIN PANEL ── */
     .admin-overlay {
@@ -476,9 +514,9 @@
       flex-shrink: 0;
     }
     .event-dot.click { background: #4A90D9; }
-    .event-dot.lead { background: #C67A5C; }
+    .event-dot.lead { background: #2A9D8F; }
     .event-dot.conversion { background: #4A7C59; }
-    .event-dot.scroll { background: #C8A882; }
+    .event-dot.scroll { background: #2A9D8F; }
     .event-dot.checklist { background: #9B59B6; }
     .event-time { color: var(--muted); font-size: 11px; min-width: 50px; }
     .event-name { color: var(--ink); font-weight: 600; flex: 1; }
@@ -675,8 +713,8 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #FBE8E3;
-      color: #C67A5C;
+      background: var(--cta-pale);
+      color: var(--cta);
       font-size: 12px;
       font-family: Arial, sans-serif;
       font-weight: 700;
@@ -791,7 +829,7 @@
       padding: 3px 12px;
       border-radius: 20px;
     }
-    .dep-stars { color: #C67A5C; font-size: 14px; letter-spacing: 2px; margin-bottom: 12px; }
+    .dep-stars { color: #2A9D8F; font-size: 14px; letter-spacing: 2px; margin-bottom: 12px; }
     .dep-card blockquote { font-family: Georgia, serif; font-size: 15px; line-height: 1.8; color: var(--ink-soft); font-style: italic; margin-bottom: 16px; }
     .dep-author { font-family: Arial, sans-serif; font-size: 13px; color: var(--muted); font-weight: 700; }
     .dep-tag { display: inline-block; background: #EAF1EC; color: var(--ink-mid); font-family: Arial, sans-serif; font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-left: 8px; font-weight: normal; }
@@ -986,6 +1024,22 @@
           </div>
 
           <div class="admin-section">
+            <h3>Google Ads (Conversões)</h3>
+            <div class="admin-row">
+              <div class="admin-field">
+                <label>Conversion ID</label>
+                <input type="text" id="cfg_gads_id" placeholder="AW-XXXXXXXXX">
+                <div class="hint">ID da conta Google Ads (ex: AW-123456789)</div>
+              </div>
+              <div class="admin-field">
+                <label>Conversion Label</label>
+                <input type="text" id="cfg_gads_label" placeholder="AbCdEfGhIjK">
+                <div class="hint">Label da ação de conversão configurada no Google Ads</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-section">
             <h3>Seguranca</h3>
             <div class="admin-field">
               <label>Alterar Senha do Admin</label>
@@ -1090,23 +1144,20 @@
 
           <div style="margin-top:20px">
             <div class="admin-field">
-              <label>Codigo GA4 para eventos personalizados</label>
-              <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-family:monospace;font-size:12px;color:var(--ink-soft);line-height:1.8;overflow-x:auto;white-space:pre">Eventos enviados automaticamente ao GA4:
+              <label>UTM / Origem do Tráfego (sessão atual)</label>
+              <div id="utmDisplay" style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-family:monospace;font-size:12px;color:var(--ink-soft);line-height:1.8;">Nenhum parâmetro UTM detectado</div>
+            </div>
+          </div>
 
-• <strong>cta_click</strong> — Clique em qualquer botao "Agendar"
-  Params: button_location, button_text
-
-• <strong>generate_lead</strong> — Chegou ate a secao de preco
-  Params: currency, value
-
-• <strong>begin_checkout</strong> — Clicou no CTA final
-  Params: currency, value
-
+          <div style="margin-top:20px">
+            <div class="admin-field">
+              <label>Eventos rastreados automaticamente</label>
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-family:monospace;font-size:12px;color:var(--ink-soft);line-height:1.8;overflow-x:auto;white-space:pre">• <strong>cta_click</strong> — Clique em qualquer botão "Agendar"
+• <strong>generate_lead</strong> — Chegou até a seção de preço
+• <strong>begin_checkout</strong> — Clicou no CTA final/WhatsApp
+• <strong>conversion</strong> (Google Ads) — Enviado ao Ads se configurado
 • <strong>checklist_engaged</strong> — Marcou 2+ sinais
-  Params: items_checked
-
-• <strong>scroll_depth</strong> — 25%, 50%, 75%, 100%
-  Params: percent_scrolled</div>
+• <strong>scroll_depth</strong> — 25%, 50%, 75%, 100%</div>
             </div>
           </div>
 
@@ -1448,6 +1499,11 @@
   </a>
 </div>
 
+<!-- WHATSAPP FLOATING BUTTON -->
+<a href="https://wa.me/5549999318583?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20consulta%20de%20acolhimento." class="whatsapp-float" id="whatsappFloat" target="_blank" rel="noopener" data-location="whatsapp-float" onclick="trackCTA(this)" aria-label="Fale pelo WhatsApp">
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="#fff"><path d="M16.004 2.002c-7.732 0-14.002 6.268-14.002 13.998 0 2.468.654 4.876 1.896 6.992l-2.012 7.35 7.536-1.976a13.945 13.945 0 0 0 6.582 1.634c7.73 0 14-6.27 14-14s-6.27-14-14-14zm0 25.596a11.58 11.58 0 0 1-5.904-1.618l-.424-.252-4.388 1.15 1.172-4.28-.278-.44a11.56 11.56 0 0 1-1.778-6.16c0-6.396 5.206-11.6 11.604-11.6 6.396 0 11.6 5.204 11.6 11.6 0 6.398-5.208 11.6-11.604 11.6zm6.36-8.686c-.348-.174-2.062-1.018-2.382-1.134-.32-.116-.554-.174-.786.174-.234.348-.904 1.134-1.108 1.37-.204.234-.408.262-.756.088-.348-.174-1.47-.542-2.8-1.726-1.034-.922-1.732-2.062-1.936-2.41-.204-.348-.022-.536.154-.71.158-.156.348-.408.522-.612.174-.204.232-.348.348-.58.116-.234.058-.438-.03-.612-.088-.174-.786-1.894-1.078-2.594-.284-.68-.572-.588-.786-.598l-.67-.012c-.232 0-.612.088-.932.438-.32.348-1.222 1.194-1.222 2.912s1.252 3.378 1.426 3.612c.174.232 2.462 3.762 5.966 5.274.834.36 1.484.574 1.992.736.838.266 1.6.228 2.202.138.672-.1 2.062-.844 2.352-1.658.29-.816.29-1.514.204-1.66-.088-.146-.322-.232-.67-.408z"/></svg>
+</a>
+
 
 <script>
 // ══════════════════════════════════════════
@@ -1460,6 +1516,8 @@ var DEFAULTS = {
   whatsapp: '5549999318583',
   website: 'https://www.clinicalorenci.com.br',
   ga4_id: '',
+  gads_id: '',
+  gads_label: '',
   hero_title1: 'Pare de viver exausto.',
   hero_title2: 'Você merece se recuperar.',
   hero_sub: 'O cansaço que não passa com sono, a irritação que invade o lar e o vazio no trabalho têm nome — e têm tratamento. Estou aqui para te ouvir de verdade.',
@@ -1518,12 +1576,21 @@ function trackCTA(el) {
     button_text: text
   });
 
-  if (loc === 'cta-final' || loc === 'investimento') {
+  if (loc === 'cta-final' || loc === 'investimento' || loc === 'whatsapp-float') {
     metrics.conversions++;
     sendGA4Event('begin_checkout', {
       currency: 'BRL',
       value: 350
     });
+    // Google Ads conversion tracking
+    var adsCfg = getConfig();
+    if (adsCfg.gads_id && adsCfg.gads_label && typeof gtag === 'function') {
+      gtag('event', 'conversion', {
+        send_to: adsCfg.gads_id + '/' + adsCfg.gads_label,
+        value: 350.0,
+        currency: 'BRL'
+      });
+    }
     logEvent('conversion', 'Conversao', 'Clique no CTA de ' + loc);
   } else {
     logEvent('click', 'Clique CTA', loc);
@@ -1616,6 +1683,8 @@ function populateForm() {
   document.getElementById('cfg_whatsapp').value = cfg.whatsapp;
   document.getElementById('cfg_website').value = cfg.website;
   document.getElementById('cfg_ga4_id').value = cfg.ga4_id;
+  document.getElementById('cfg_gads_id').value = cfg.gads_id;
+  document.getElementById('cfg_gads_label').value = cfg.gads_label;
   document.getElementById('cfg_hero_title1').value = cfg.hero_title1;
   document.getElementById('cfg_hero_title2').value = cfg.hero_title2;
   document.getElementById('cfg_hero_sub').value = cfg.hero_sub;
@@ -1635,6 +1704,8 @@ function saveConfig() {
   cfg.whatsapp = document.getElementById('cfg_whatsapp').value || DEFAULTS.whatsapp;
   cfg.website = document.getElementById('cfg_website').value || DEFAULTS.website;
   cfg.ga4_id = document.getElementById('cfg_ga4_id').value || '';
+  cfg.gads_id = document.getElementById('cfg_gads_id').value || '';
+  cfg.gads_label = document.getElementById('cfg_gads_label').value || '';
   cfg.hero_title1 = document.getElementById('cfg_hero_title1').value || DEFAULTS.hero_title1;
   cfg.hero_title2 = document.getElementById('cfg_hero_title2').value || DEFAULTS.hero_title2;
   cfg.hero_sub = document.getElementById('cfg_hero_sub').value || DEFAULTS.hero_sub;
@@ -1693,6 +1764,8 @@ function applyConfig(cfg) {
   // Contact
   document.getElementById('footerWhatsapp').href = 'https://wa.me/' + cfg.whatsapp;
   document.getElementById('footerSite').href = cfg.website;
+  var waFloat = document.getElementById('whatsappFloat');
+  if (waFloat) waFloat.href = 'https://wa.me/' + cfg.whatsapp + '?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20consulta%20de%20acolhimento.';
 
   // Price in sticky
   var priceInline = document.querySelector('.cta-price-inline');
@@ -1706,13 +1779,29 @@ function updateMetricsDisplay() {
   document.getElementById('metricScrollDepth').textContent = metrics.scrollMax + '%';
   document.getElementById('metricChecklist').textContent = metrics.checklistEngaged;
 
-  // GA4 status
+  // GA4 + Ads status
   var cfg = getConfig();
   var statusBar = document.getElementById('ga4StatusBar');
+  var statusHtml = '';
   if (cfg.ga4_id) {
-    statusBar.innerHTML = '<div class="ga4-status active"><span class="ga4-dot"></span> GA4 ativo: ' + cfg.ga4_id + '</div>';
+    statusHtml += '<div class="ga4-status active"><span class="ga4-dot"></span> GA4 ativo: ' + cfg.ga4_id + '</div> ';
   } else {
-    statusBar.innerHTML = '<div class="ga4-status inactive"><span class="ga4-dot"></span> GA4 nao configurado</div>';
+    statusHtml += '<div class="ga4-status inactive"><span class="ga4-dot"></span> GA4 não configurado</div> ';
+  }
+  if (cfg.gads_id) {
+    statusHtml += '<div class="ga4-status active"><span class="ga4-dot"></span> Ads ativo: ' + cfg.gads_id + '</div>';
+  }
+  statusBar.innerHTML = statusHtml;
+
+  // UTM display
+  var utmEl = document.getElementById('utmDisplay');
+  var utmStored = JSON.parse(sessionStorage.getItem('lp_utm') || '{}');
+  if (Object.keys(utmStored).length > 0) {
+    var utmHtml = '';
+    for (var k in utmStored) { utmHtml += '<strong>' + k + ':</strong> ' + utmStored[k] + '<br>'; }
+    utmEl.innerHTML = utmHtml;
+  } else {
+    utmEl.textContent = 'Nenhum parâmetro UTM detectado nesta sessão';
   }
 
   // Events list
