@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel Administrativo — LFL Cuidado e Saúde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../js/config.js"></script>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#F4F0EA; --panel:#FFFFFF; --ink:#1E2B38; --ink-soft:#4A5D52; --muted:#7A8C82;
+      --cta:#C67A5C; --cta-hover:#B5684C; --gold:#C8A882; --border:#E2DDD6; --bg-soft:#F9F8F6;
+      --ok:#2E7D32; --ok-bg:#E8F5E9; --danger:#C0392B; --danger-bg:#FBE8E3;
+      --sidebar:#1E2B38;
+    }
+    body{font-family:'Inter',Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+    h1,h2,h3,h4{font-weight:600}
+    a{color:var(--cta)}
+
+    /* ── LOGIN ── */
+    .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--sidebar)}
+    .login-box{background:#fff;border-radius:20px;padding:44px 38px;width:100%;max-width:380px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+    .login-logo{width:60px;height:60px;border-radius:16px;background:var(--sidebar);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+    .login-logo svg{width:28px;height:28px;fill:var(--gold)}
+    .login-box h1{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px;color:var(--ink)}
+    .login-box p{color:var(--muted);font-size:13px;margin-bottom:26px}
+    .login-box input{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:16px;text-align:center;letter-spacing:3px;outline:none;margin-bottom:16px}
+    .login-box input:focus{border-color:var(--cta)}
+    .login-err{color:var(--danger);font-size:13px;min-height:20px;margin-top:10px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,transform .1s;text-decoration:none}
+    .btn:active{transform:scale(.98)}
+    .btn-primary{background:var(--cta);color:#fff}.btn-primary:hover{background:var(--cta-hover)}
+    .btn-ghost{background:var(--bg-soft);color:var(--ink);border:1px solid var(--border)}.btn-ghost:hover{background:var(--border)}
+    .btn-danger{background:var(--danger-bg);color:var(--danger)}.btn-danger:hover{background:#f5d0c8}
+    .btn-sm{padding:8px 14px;font-size:13px;border-radius:9px}
+    .btn-block{width:100%}
+
+    /* ── LAYOUT ── */
+    .app{display:none;min-height:100vh}
+    .app.on{display:grid;grid-template-columns:240px 1fr}
+    .sidebar{background:var(--sidebar);color:#fff;padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+    .sb-brand{display:flex;align-items:center;gap:12px;padding:0 8px 22px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .sb-brand .logo{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .sb-brand .logo svg{width:20px;height:20px;fill:var(--gold)}
+    .sb-brand b{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;line-height:1.2}
+    .sb-brand span{display:block;font-size:11px;color:rgba(255,255,255,.45);font-family:'Inter'}
+    .nav-item{display:flex;align-items:center;gap:11px;width:100%;padding:11px 12px;border:none;background:none;color:rgba(255,255,255,.62);font-family:inherit;font-size:13.5px;font-weight:500;text-align:left;border-radius:10px;cursor:pointer;transition:background .15s,color .15s;margin-bottom:2px}
+    .nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+    .nav-item.active{background:var(--cta);color:#fff}
+    .nav-item svg{width:17px;height:17px;fill:currentColor;flex-shrink:0;opacity:.9}
+    .sb-foot{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)}
+    .sb-foot a{display:block;color:rgba(255,255,255,.5);font-size:12.5px;text-decoration:none;padding:7px 12px;border-radius:8px}
+    .sb-foot a:hover{background:rgba(255,255,255,.06);color:#fff}
+
+    .main{padding:0;overflow:hidden}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--panel);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+    .topbar h2{font-family:'Playfair Display',serif;font-size:20px}
+    .topbar .actions{display:flex;gap:10px}
+    .content{padding:28px 32px 80px;max-width:900px}
+
+    .page{display:none}.page.on{display:block;animation:fade .25s}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:22px}
+    .card > h3{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cta);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+    .card .card-desc{color:var(--muted);font-size:13px;margin:-10px 0 18px}
+
+    .field{margin-bottom:16px}
+    .field label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;color:var(--ink)}
+    .field input,.field textarea,.field select{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-family:inherit;font-size:14px;color:var(--ink);background:var(--bg-soft);outline:none;transition:border-color .15s}
+    .field input:focus,.field textarea:focus{border-color:var(--cta);background:#fff}
+    .field textarea{min-height:84px;resize:vertical;line-height:1.6}
+    .field .hint{font-size:11.5px;color:var(--muted);margin-top:5px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+
+    .switch{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+    .switch input{display:none}
+    .switch .track{width:42px;height:24px;border-radius:20px;background:var(--border);position:relative;transition:background .2s;flex-shrink:0}
+    .switch .track::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+    .switch input:checked + .track{background:var(--cta)}
+    .switch input:checked + .track::after{transform:translateX(18px)}
+
+    /* repeaters */
+    .repeat-item{border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;background:var(--bg-soft);position:relative}
+    .repeat-item .rm{position:absolute;top:12px;right:12px}
+    .repeat-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .repeat-head .num{width:24px;height:24px;border-radius:7px;background:var(--cta);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+    .repeat-head b{font-size:13px}
+    .thumb{width:100%;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--border);margin-top:6px;background:#eee;display:block}
+    .empty{text-align:center;color:var(--muted);font-size:13px;padding:26px;border:1px dashed var(--border);border-radius:12px}
+
+    .save-bar{position:sticky;bottom:0;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-top:1px solid var(--border);padding:14px 32px;display:flex;justify-content:flex-end;gap:12px;margin:0 -32px -80px;margin-top:20px}
+
+    /* métricas */
+    .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px}
+    .kpi{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px 18px;text-align:center}
+    .kpi.hl{border-color:var(--cta);background:#F5E8E2}
+    .kpi .v{font-family:'Playfair Display',serif;font-size:34px;line-height:1;margin-bottom:6px}
+    .kpi.hl .v{color:var(--cta)}
+    .kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+    .status-pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:6px 13px;border-radius:20px;margin:0 8px 12px 0}
+    .status-pill.on{background:var(--ok-bg);color:var(--ok)}.status-pill.off{background:var(--danger-bg);color:var(--danger)}
+    .status-pill .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+    .evlog{border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    .evlog-h{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+    .evlog-h b{font-size:12px;text-transform:uppercase;letter-spacing:1px}
+    .evrow{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid rgba(226,221,214,.6);font-size:13px}
+    .evrow:last-child{border:none}
+    .evdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .evdot.click{background:#4A90D9}.evdot.lead{background:#C67A5C}.evdot.conversion{background:#4A7C59}.evdot.scroll{background:#C8A882}.evdot.checklist{background:#9B59B6}
+    .evtime{color:var(--muted);font-size:11px;min-width:52px}.evname{font-weight:600;flex:1}.evdet{color:var(--muted);font-size:12px}
+
+    /* growth plan */
+    .plan-hero{background:linear-gradient(135deg,#1E2B38,#2D3E35);color:#fff;border-radius:18px;padding:30px;margin-bottom:22px}
+    .plan-hero h3{font-family:'Playfair Display',serif;font-size:22px;border:none;color:#fff;padding:0;margin-bottom:8px;text-transform:none;letter-spacing:0}
+    .plan-hero p{color:rgba(255,255,255,.7);font-size:14px;max-width:600px}
+    .funnel{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+    .funnel-step{background:rgba(255,255,255,.08);border-radius:10px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+    .funnel-step b{color:var(--gold);font-family:'Playfair Display',serif;font-size:18px}
+    .plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px}
+    .plan-tile{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px}
+    .plan-tile .big{font-family:'Playfair Display',serif;font-size:28px;color:var(--cta);line-height:1}
+    .plan-tile .cap{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:6px}
+    .plan-tile p{font-size:13px;color:var(--ink-soft);margin-top:10px}
+    table.plan{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+    table.plan th,table.plan td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--border)}
+    table.plan th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+    table.plan tr:last-child td{border:none}
+    .phase{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
+    .phase:last-child{border:none}
+    .phase .ph-n{width:34px;height:34px;border-radius:10px;background:var(--cta);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:13px}
+    .phase h4{font-size:15px;margin-bottom:4px}
+    .phase p{font-size:13px;color:var(--muted)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .chip{background:var(--bg-soft);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--ink-soft)}
+
+    .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-weight:600;font-size:14px;padding:13px 26px;border-radius:12px;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:9999}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .toast.err{background:var(--danger)}
+
+    @media(max-width:820px){
+      .app.on{grid-template-columns:1fr}
+      .sidebar{position:static;height:auto;display:flex;flex-wrap:wrap;gap:4px}
+      .sb-brand{width:100%}.sb-foot{width:100%}
+      .nav-item{width:auto}
+      .row,.row-3,.plan-grid{grid-template-columns:1fr}
+      .content{padding:20px 18px 80px}.topbar{padding:16px 18px}.save-bar{margin:20px -18px -80px;padding:14px 18px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo"><svg viewBox="0 0 24 24"><path d="M12.65 10a6 6 0 1 0-1.3 0H1v2h2v4h2v-4h6.35a6 6 0 0 0 .65.35V16h2v-3.65c.22-.1.44-.22.65-.35H22v-2H12.65zM9 10a4 4 0 1 1 0-4 4 4 0 0 1 0 4z"/></svg></div>
+    <h1>Painel Administrativo</h1>
+    <p>LFL Cuidado e Saúde · acesso restrito</p>
+    <input type="password" id="pw" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()" autofocus>
+    <button class="btn btn-primary btn-block" onclick="doLogin()">Entrar</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- ══════════ APP ══════════ -->
+<div class="app" id="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="logo"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.5-8.5C.8 9.4 2.3 6 5.5 6c1.9 0 3.2 1 4.5 2.5C11.3 7 12.6 6 14.5 6 17.7 6 19.2 9.4 21.5 12.5 19 16.65 12 21 12 21z"/></svg></div>
+      <div><b>LFL Cuidado</b><span>e Saúde · Admin</span></div>
+    </div>
+    <nav id="nav">
+      <button class="nav-item active" data-page="geral"><svg viewBox="0 0 24 24"><path d="M3 5h18v2H3zm0 6h18v2H3zm0 6h12v2H3z"/></svg> Geral & Links</button>
+      <button class="nav-item" data-page="textos"><svg viewBox="0 0 24 24"><path d="M5 4v3h5.5v12h3V7H19V4z"/></svg> Textos</button>
+      <button class="nav-item" data-page="midia"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zm6 3v6l5-3z"/></svg> Vídeos & Carrossel</button>
+      <button class="nav-item" data-page="updates"><svg viewBox="0 0 24 24"><path d="M4 4h16v2H4zm0 5h16v2H4zm0 5h10v2H4z"/></svg> Atualizações médicas</button>
+      <button class="nav-item" data-page="legal"><svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6zm0 4 4 2v4c0 3-1.8 5.5-4 6.5V6z"/></svg> Rodapé legal</button>
+      <button class="nav-item" data-page="analytics"><svg viewBox="0 0 24 24"><path d="M4 20V10h3v10zm6.5 0V4h3v16zM17 20v-7h3v7z"/></svg> Analytics & Ads</button>
+      <button class="nav-item" data-page="crescimento"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8v5h2V3h-7v2h4l-7 7-4-4-7 7z"/></svg> Crescimento 2026</button>
+      <button class="nav-item" data-page="metricas"><svg viewBox="0 0 24 24"><path d="M11 3v18a9 9 0 0 1 0-18zm2 0a9 9 0 0 1 8 8h-8zm0 10h8a9 9 0 0 1-8 8z"/></svg> Métricas</button>
+      <button class="nav-item" data-page="seguranca"><svg viewBox="0 0 24 24"><path d="M12 1 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5zm0 10h6c-.5 3.6-2.8 6.8-6 7.9z"/></svg> Segurança & Backup</button>
+    </nav>
+    <div class="sb-foot">
+      <a href="../index.html" target="_blank">↗ Ver landing page</a>
+      <a href="../atualizacoes.html" target="_blank">↗ Página de atualizações</a>
+      <a href="#" onclick="logout();return false">→ Sair</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="topbar">
+      <h2 id="pageTitle">Geral & Links</h2>
+      <div class="actions">
+        <a class="btn btn-ghost btn-sm" href="../index.html" target="_blank">Pré-visualizar</a>
+        <button class="btn btn-primary btn-sm" onclick="saveAll()">Salvar tudo</button>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- ══ GERAL ══ -->
+      <section class="page on" id="page-geral">
+        <div class="card">
+          <h3>Agendamento & Valores</h3>
+          <div class="field">
+            <label>URL do botão "Agendar"</label>
+            <input type="url" id="f_booking_url">
+            <div class="hint">Todos os botões de CTA da landing page usam este link.</div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Preço da consulta</label><input type="text" id="f_price" placeholder="R$ 350"></div>
+            <div class="field"><label>Parcelas</label><input type="text" id="f_installments" placeholder="12x"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Contato</h3>
+          <div class="row">
+            <div class="field"><label>WhatsApp (com DDI)</label><input type="text" id="f_whatsapp" placeholder="5549999318583"></div>
+            <div class="field"><label>Site oficial</label><input type="url" id="f_website"></div>
+          </div>
+          <div class="field"><label>E-mail de contato</label><input type="email" id="f_contact_email"></div>
+        </div>
+        <div class="card">
+          <h3>Redes sociais</h3>
+          <p class="card-desc">Aparecem como ícones no rodapé. Deixe em branco para ocultar.</p>
+          <div class="row">
+            <div class="field"><label>Instagram</label><input type="url" id="f_instagram" placeholder="https://instagram.com/..."></div>
+            <div class="field"><label>Facebook</label><input type="url" id="f_facebook" placeholder="https://facebook.com/..."></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>LinkedIn</label><input type="url" id="f_linkedin" placeholder="https://linkedin.com/in/..."></div>
+            <div class="field"><label>YouTube</label><input type="url" id="f_youtube" placeholder="https://youtube.com/@..."></div>
+          </div>
+        </div>
+        <div class="save-bar"><button class="btn btn-primary" onclick="saveAll()">Salvar tudo</button></div>
+      </section>
+
+      <!-- ══ TEXTOS ══ -->
+      <section class="page" id="page-textos">
+        <div class="card">
+          <h3>Hero (topo da página)</h3>
+          <div class="field"><label>Título — linha 1</label><input type="text" id="f_hero_title1"></div>
+          <div class="field"><label>Título — linha 2 (destaque em itálico)</label><input type="text" id="f_hero_title2"></div>
+          <div class="field"><label>Subtítulo</label><textarea id="f_hero_sub"></textarea></div>
+        </div>
+        <div class="card">
+          <h3>Botão principal (hero)</h3>
+          <div class="field"><label>Texto do botão</label><input type="text" id="f_cta_text"></div>
+          <div class="field"><label>Subtexto do botão</label><input type="text" id="f_cta_sub"></div>
+        </div>
+        <div class="card">
+          <h3>Médico</h3>
+          <div class="row">
+            <div class="field"><label>Nome</label><input type="text" id="f_doctor_name"></div>
+            <div class="field"><label>CRM</label><input type="text" id="f_doctor_crm"></div>
+          </div>
+          <div class="field"><label>Especialidades</label><input type="text" id="f_doctor_specs"></div>
+        </div>
+        <div class="save-bar"><button class="btn btn-primary" onclick="saveAll()">Salvar tudo</button></div>
+      </section>
+
+      <!-- ══ MÍDIA ══ -->
+      <section class="page" id="page-midia">
+        <div class="card">
+          <h3>Vídeos em pontos-chave</h3>
+          <p class="card-desc">Cole a URL do YouTube, Vimeo ou um link .mp4. Deixe vazio para não exibir o vídeo naquele ponto.</p>
+          <div class="field"><label>Vídeo do Hero (topo) — recomendado: 90s de acolhimento</label><input type="url" id="f_video_hero" placeholder="https://youtu.be/..."></div>
+          <div class="field"><label>Vídeo após "Benefícios" (o método)</label><input type="url" id="f_video_beneficios" placeholder="https://youtu.be/..."></div>
+          <div class="field"><label>Vídeo na seção "Sobre o médico"</label><input type="url" id="f_video_autoridade" placeholder="https://youtu.be/..."></div>
+        </div>
+        <div class="card">
+          <h3>Carrossel de imagens</h3>
+          <label class="switch" style="margin-bottom:14px"><input type="checkbox" id="f_carousel_enabled"><span class="track"></span> <span>Exibir carrossel na landing page</span></label>
+          <div class="field"><label>Título da seção</label><input type="text" id="f_carousel_title"></div>
+          <div id="carouselList"></div>
+          <button class="btn btn-ghost btn-sm" onclick="addCarousel()">+ Adicionar imagem</button>
+        </div>
+        <div class="save-bar"><button class="btn btn-primary" onclick="saveAll()">Salvar tudo</button></div>
+      </section>
+
+      <!-- ══ UPDATES ══ -->
+      <section class="page" id="page-updates">
+        <div class="card">
+          <h3>Página de atualizações médicas</h3>
+          <p class="card-desc">Publique artigos e novidades. Os 3 mais recentes aparecem na landing page; todos aparecem em <a href="../atualizacoes.html" target="_blank">atualizacoes.html</a>.</p>
+          <label class="switch" style="margin-bottom:16px"><input type="checkbox" id="f_updates_enabled"><span class="track"></span> <span>Exibir seção de atualizações</span></label>
+          <div id="updatesList"></div>
+          <button class="btn btn-ghost btn-sm" onclick="addUpdate()">+ Nova atualização</button>
+        </div>
+        <div class="save-bar"><button class="btn btn-primary" onclick="saveAll()">Salvar tudo</button></div>
+      </section>
+
+      <!-- ══ LEGAL ══ -->
+      <section class="page" id="page-legal">
+        <div class="card">
+          <h3>Dados da empresa (rodapé legal)</h3>
+          <p class="card-desc">Informações que dão credibilidade e conformidade — exibidas no rodapé de todas as páginas.</p>
+          <div class="field"><label>Razão social / nome fantasia</label><input type="text" id="f_legal_company"></div>
+          <div class="row">
+            <div class="field"><label>CNPJ (opcional)</label><input type="text" id="f_legal_cnpj" placeholder="00.000.000/0001-00"></div>
+            <div class="field"><label>Endereço</label><input type="text" id="f_legal_address"></div>
+          </div>
+          <div class="field"><label>Responsável técnico + CRM</label><input type="text" id="f_legal_responsible"></div>
+          <div class="row">
+            <div class="field"><label>E-mail institucional</label><input type="email" id="f_legal_email"></div>
+            <div class="field"><label>Horário de atendimento</label><input type="text" id="f_legal_hours"></div>
+          </div>
+        </div>
+        <div class="save-bar"><button class="btn btn-primary" onclick="saveAll()">Salvar tudo</button></div>
+      </section>
+
+      <!-- ══ ANALYTICS ══ -->
+      <section class="page" id="page-analytics">
+        <div class="card">
+          <h3>Google Analytics (GA4)</h3>
+          <div class="field"><label>Measurement ID</label><input type="text" id="f_ga4_id" placeholder="G-XXXXXXXXXX">
+            <div class="hint">Google Analytics → Admin → Fluxos de dados. Vazio = desativado.</div></div>
+        </div>
+        <div class="card">
+          <h3>Google Ads (conversões)</h3>
+          <div class="row">
+            <div class="field"><label>Conversion ID</label><input type="text" id="f_gads_id" placeholder="AW-123456789"></div>
+            <div class="field"><label>Conversion Label</label><input type="text" id="f_gads_label" placeholder="AbCdEfGhIjK"></div>
+          </div>
+          <div class="hint">Quando preenchidos, cada clique de conversão dispara o evento no Google Ads.</div>
+        </div>
+        <div class="save-bar"><button class="btn btn-primary" onclick="saveAll()">Salvar tudo</button></div>
+      </section>
+
+      <!-- ══ CRESCIMENTO 2026 ══ -->
+      <section class="page" id="page-crescimento"></section>
+
+      <!-- ══ MÉTRICAS ══ -->
+      <section class="page" id="page-metricas">
+        <div id="statusPills"></div>
+        <div class="kpis" id="kpis"></div>
+        <div class="card">
+          <h3>Origem do tráfego (sessão atual)</h3>
+          <div id="utmBox" style="font-family:monospace;font-size:12.5px;color:var(--ink-soft);line-height:1.9"></div>
+        </div>
+        <div class="evlog">
+          <div class="evlog-h"><b>Eventos recentes</b><button class="btn btn-danger btn-sm" onclick="clearMetrics()">Limpar</button></div>
+          <div id="evList"></div>
+        </div>
+      </section>
+
+      <!-- ══ SEGURANÇA ══ -->
+      <section class="page" id="page-seguranca">
+        <div class="card">
+          <h3>Senha do administrador</h3>
+          <div class="field"><label>Nova senha (mín. 4 caracteres)</label><input type="password" id="f_new_password" placeholder="Deixe vazio para manter a atual"></div>
+        </div>
+        <div class="card">
+          <h3>Backup da configuração</h3>
+          <p class="card-desc">Exporte um arquivo JSON com todas as configurações (útil para backup ou para publicar no site). Importe para restaurar.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-ghost" onclick="exportConfig()">↓ Exportar JSON</button>
+            <label class="btn btn-ghost" style="cursor:pointer">↑ Importar JSON<input type="file" accept="application/json" style="display:none" onchange="doImport(this)"></label>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--danger);border-color:var(--danger-bg)">Zona de risco</h3>
+          <p class="card-desc">Restaura todas as configurações e textos para o padrão de fábrica. Não afeta as métricas.</p>
+          <button class="btn btn-danger" onclick="resetAll()">Restaurar padrões</button>
+        </div>
+        <div class="save-bar"><button class="btn btn-primary" onclick="saveAll()">Salvar tudo</button></div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════ ESTADO ══════════
+var state = { carousel: [], updates: [] };
+
+// ══════════ LOGIN ══════════
+function doLogin(){
+  var cfg = getConfig();
+  if (document.getElementById('pw').value === cfg.admin_password){
+    sessionStorage.setItem('lfl_admin_ok','1');
+    enterApp();
+  } else {
+    document.getElementById('loginErr').textContent = 'Senha incorreta';
+    document.getElementById('pw').value = '';
+  }
+}
+function logout(){ sessionStorage.removeItem('lfl_admin_ok'); location.reload(); }
+function enterApp(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('app').classList.add('on');
+  populate();
+  renderGrowth();
+  renderMetrics();
+}
+
+// ══════════ NAV ══════════
+var titles = {geral:'Geral & Links',textos:'Textos',midia:'Vídeos & Carrossel',updates:'Atualizações médicas',legal:'Rodapé legal',analytics:'Analytics & Ads',crescimento:'Plano de Crescimento 2026',metricas:'Métricas',seguranca:'Segurança & Backup'};
+document.getElementById('nav').addEventListener('click', function(e){
+  var b = e.target.closest('.nav-item'); if(!b) return;
+  var p = b.dataset.page;
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.toggle('active',n===b);});
+  document.querySelectorAll('.page').forEach(function(pg){pg.classList.toggle('on',pg.id==='page-'+p);});
+  document.getElementById('pageTitle').textContent = titles[p];
+  if(p==='metricas') renderMetrics();
+  document.querySelector('.main').scrollTo(0,0);
+});
+
+// ══════════ POPULATE ══════════
+var TEXT_FIELDS = ['booking_url','price','installments','whatsapp','website','contact_email','instagram','facebook','linkedin','youtube','hero_title1','hero_title2','hero_sub','cta_text','cta_sub','doctor_name','doctor_crm','doctor_specs','video_hero','video_beneficios','video_autoridade','carousel_title','ga4_id','gads_id','gads_label','legal_company','legal_cnpj','legal_address','legal_responsible','legal_email','legal_hours'];
+function populate(){
+  var cfg = getConfig();
+  TEXT_FIELDS.forEach(function(k){ var el=document.getElementById('f_'+k); if(el) el.value = cfg[k]||''; });
+  document.getElementById('f_carousel_enabled').checked = !!cfg.carousel_enabled;
+  document.getElementById('f_updates_enabled').checked = !!cfg.updates_enabled;
+  document.getElementById('f_new_password').value = '';
+  state.carousel = (cfg.carousel||[]).map(function(c){return {img:c.img||'',caption:c.caption||''};});
+  state.updates = (cfg.updates||[]).map(function(u){return {id:u.id||uid(),title:u.title||'',date:u.date||'',summary:u.summary||'',body:u.body||'',img:u.img||''};});
+  renderCarouselEditor();
+  renderUpdatesEditor();
+}
+function uid(){ return 'p'+Date.now().toString(36)+Math.floor(Math.random()*1000); }
+
+// ══════════ CARROSSEL EDITOR ══════════
+function renderCarouselEditor(){
+  var box = document.getElementById('carouselList');
+  if(state.carousel.length===0){ box.innerHTML='<div class="empty">Nenhuma imagem ainda. Adicione a primeira.</div>'; return; }
+  box.innerHTML = state.carousel.map(function(c,i){
+    return '<div class="repeat-item">'+
+      '<div class="repeat-head"><span class="num">'+(i+1)+'</span><b>Imagem '+(i+1)+'</b></div>'+
+      '<button class="btn btn-danger btn-sm rm" onclick="rmCarousel('+i+')">Remover</button>'+
+      '<div class="field"><label>URL da imagem</label><input type="url" value="'+escAttr(c.img)+'" oninput="state.carousel['+i+'].img=this.value;document.getElementById(\'cth'+i+'\').src=this.value" placeholder="https://..."></div>'+
+      '<div class="field"><label>Legenda</label><input type="text" value="'+escAttr(c.caption)+'" oninput="state.carousel['+i+'].caption=this.value"></div>'+
+      '<img id="cth'+i+'" class="thumb" src="'+escAttr(c.img)+'" alt="" onerror="this.style.opacity=.3">'+
+    '</div>';
+  }).join('');
+}
+function addCarousel(){ state.carousel.push({img:'',caption:''}); renderCarouselEditor(); }
+function rmCarousel(i){ state.carousel.splice(i,1); renderCarouselEditor(); }
+
+// ══════════ UPDATES EDITOR ══════════
+function renderUpdatesEditor(){
+  var box = document.getElementById('updatesList');
+  if(state.updates.length===0){ box.innerHTML='<div class="empty">Nenhuma atualização publicada. Crie a primeira.</div>'; return; }
+  box.innerHTML = state.updates.map(function(u,i){
+    return '<div class="repeat-item">'+
+      '<div class="repeat-head"><span class="num">'+(i+1)+'</span><b>'+ (escHTML(u.title)||'Sem título') +'</b></div>'+
+      '<button class="btn btn-danger btn-sm rm" onclick="rmUpdate('+i+')">Remover</button>'+
+      '<div class="row"><div class="field"><label>Título</label><input type="text" value="'+escAttr(u.title)+'" oninput="state.updates['+i+'].title=this.value"></div>'+
+      '<div class="field"><label>Data</label><input type="date" value="'+escAttr(u.date)+'" oninput="state.updates['+i+'].date=this.value"></div></div>'+
+      '<div class="field"><label>Resumo (aparece nos cards)</label><textarea oninput="state.updates['+i+'].summary=this.value" style="min-height:56px">'+escHTML(u.summary)+'</textarea></div>'+
+      '<div class="field"><label>Conteúdo completo</label><textarea oninput="state.updates['+i+'].body=this.value" style="min-height:120px">'+escHTML(u.body)+'</textarea></div>'+
+      '<div class="field"><label>Imagem de capa (URL, opcional)</label><input type="url" value="'+escAttr(u.img)+'" oninput="state.updates['+i+'].img=this.value" placeholder="https://..."></div>'+
+    '</div>';
+  }).join('');
+}
+function addUpdate(){ state.updates.unshift({id:uid(),title:'',date:new Date().toISOString().slice(0,10),summary:'',body:'',img:''}); renderUpdatesEditor(); }
+function rmUpdate(i){ if(!confirm('Remover esta atualização?'))return; state.updates.splice(i,1); renderUpdatesEditor(); }
+
+// ══════════ SAVE ══════════
+function saveAll(){
+  var cfg = getConfig();
+  TEXT_FIELDS.forEach(function(k){ var el=document.getElementById('f_'+k); if(el) cfg[k]=el.value.trim(); });
+  // restaura defaults em campos essenciais se vazios
+  ['booking_url','price','installments','whatsapp','hero_title1','hero_title2','hero_sub','cta_text','cta_sub','doctor_name','doctor_crm','doctor_specs','legal_company'].forEach(function(k){ if(!cfg[k]) cfg[k]=DEFAULTS[k]; });
+  cfg.carousel_enabled = document.getElementById('f_carousel_enabled').checked;
+  cfg.updates_enabled = document.getElementById('f_updates_enabled').checked;
+  cfg.carousel = state.carousel.filter(function(c){return c.img;});
+  cfg.updates = state.updates.filter(function(u){return u.title;});
+  var np = document.getElementById('f_new_password').value;
+  if(np && np.length>=4) cfg.admin_password = np;
+  setConfig(cfg);
+  document.getElementById('f_new_password').value='';
+  toast('Configurações salvas com sucesso');
+}
+function resetAll(){
+  if(!confirm('Restaurar TODAS as configurações e textos para o padrão? As métricas serão mantidas.'))return;
+  var pw = getConfig().admin_password;
+  resetConfigStore();
+  var cfg = getConfig(); cfg.admin_password = pw; setConfig(cfg);
+  populate(); toast('Configurações restauradas ao padrão');
+}
+function doImport(input){
+  if(!input.files || !input.files[0])return;
+  importConfig(input.files[0], function(ok){
+    if(ok){ populate(); toast('Configuração importada'); } else { toast('Arquivo inválido', true); }
+    input.value='';
+  });
+}
+
+// ══════════ MÉTRICAS ══════════
+function renderMetrics(){
+  var cfg = getConfig();
+  var m = JSON.parse(localStorage.getItem('lp_metrics')||'{"clicks":0,"leads":0,"conversions":0,"scrollMax":0,"checklistEngaged":0}');
+  var ev = JSON.parse(localStorage.getItem('lp_events')||'[]');
+  document.getElementById('kpis').innerHTML =
+    kpi(m.clicks,'Cliques CTA')+kpi(m.leads,'Leads',true)+kpi(m.conversions,'Conversões')+kpi((m.scrollMax||0)+'%','Scroll máx.')+kpi(m.checklistEngaged,'Checklist');
+  var pills='';
+  pills += cfg.ga4_id ? pill('on','GA4 ativo: '+cfg.ga4_id) : pill('off','GA4 não configurado');
+  pills += cfg.gads_id ? pill('on','Ads ativo: '+cfg.gads_id) : pill('off','Google Ads não configurado');
+  document.getElementById('statusPills').innerHTML = pills;
+  var utm = JSON.parse(sessionStorage.getItem('lp_utm')||'{}');
+  var ub = document.getElementById('utmBox');
+  if(Object.keys(utm).length){ var h=''; for(var k in utm) h+='<div><b>'+k+':</b> '+escHTML(utm[k])+'</div>'; ub.innerHTML=h; }
+  else ub.textContent='Nenhum parâmetro UTM detectado nesta sessão.';
+  var el = document.getElementById('evList');
+  if(!ev.length){ el.innerHTML='<div class="evrow"><span class="evdet">Nenhum evento registrado ainda.</span></div>'; return; }
+  el.innerHTML = ev.map(function(e){
+    return '<div class="evrow"><span class="evdot '+e.type+'"></span><span class="evtime">'+e.time+'</span><span class="evname">'+escHTML(e.name)+'</span>'+(e.detail?'<span class="evdet">'+escHTML(e.detail)+'</span>':'')+'</div>';
+  }).join('');
+}
+function kpi(v,l,hl){ return '<div class="kpi'+(hl?' hl':'')+'"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>'; }
+function pill(s,t){ return '<span class="status-pill '+s+'"><span class="dot"></span>'+escHTML(t)+'</span>'; }
+function clearMetrics(){
+  if(!confirm('Zerar métricas e eventos desta sessão?'))return;
+  localStorage.setItem('lp_metrics','{"clicks":0,"leads":0,"conversions":0,"scrollMax":0,"checklistEngaged":0}');
+  localStorage.setItem('lp_events','[]');
+  renderMetrics(); toast('Métricas zeradas');
+}
+
+// ══════════ CRESCIMENTO 2026 ══════════
+function renderGrowth(){
+  document.getElementById('page-crescimento').innerHTML =
+  '<div class="plan-hero"><h3>Plano de Crescimento Digital 2026</h3>'+
+  '<p>Do primeiro clique no Google Ads à agenda cheia. Estratégia operacionalizada de aquisição, medição e retenção para a marca LFL Cuidado e Saúde.</p>'+
+  '<div class="funnel">'+
+    '<div class="funnel-step"><span>Investimento ideal / mês</span><b>R$ 3.000</b></div>'+
+    '<div class="funnel-step"><span>Cliques qualificados (CPC ~R$ 4,50)</span><b>~660</b></div>'+
+    '<div class="funnel-step"><span>Leads (conversão 4–6%)</span><b>26–40</b></div>'+
+    '<div class="funnel-step"><span>Consultas fechadas → receita</span><b>ROAS ~3x</b></div>'+
+  '</div></div>'+
+
+  '<div class="plan-grid">'+
+    '<div class="plan-tile"><div class="big">R$ 50–100</div><div class="cap">Orçamento diário</div><p>R$ 50/dia para o aprendizado do algoritmo; R$ 100/dia para encher a agenda (~1 lead/dia).</p></div>'+
+    '<div class="plan-tile"><div class="big">R$ 115</div><div class="cap">CPA máximo saudável</div><p>Custo por consulta agendada não deve passar de 1/3 do ticket de R$ 350.</p></div>'+
+    '<div class="plan-tile"><div class="big">25–54</div><div class="cap">Faixa etária-alvo</div><p>Profissionais de alta performance, renda familiar nos 30% mais altos.</p></div>'+
+    '<div class="plan-tile"><div class="big">30 dias</div><div class="cap">Fase de aprendizado</div><p>"Maximizar Cliques" (teto R$ 6) até 20–30 conversões, depois "Maximizar Conversões".</p></div>'+
+  '</div>'+
+
+  '<div class="card"><h3>Orçamento & estratégia de lances</h3>'+
+  '<table class="plan"><tr><th>Fase</th><th>Orçamento</th><th>Lance</th><th>Gatilho de troca</th></tr>'+
+  '<tr><td>Aprendizado (1–30 dias)</td><td>R$ 50/dia</td><td>Maximizar Cliques · teto R$ 6</td><td>20–30 conversões</td></tr>'+
+  '<tr><td>Escala</td><td>R$ 100/dia</td><td>Maximizar Conversões</td><td>CPA estável por 2 semanas</td></tr></table></div>'+
+
+  '<div class="card"><h3>Roadmap em 4 fases</h3>'+
+  phase(1,'Validação (mês 1–2)','Rodar a campanha de pesquisa com a landing page atual. Meta: 20–30 conversões e CPA &lt; R$ 115. Revisar termos de busca semanalmente e negativar tráfego irrelevante.')+
+  phase(2,'Otimização (mês 2–4)','Teste A/B do hero (editável aqui no painel, sem republicar). Gravar o vídeo de 90s — historicamente +20–40% de conversão. Remarketing para quem interagiu com a checklist mas não agendou.')+
+  phase(3,'Autoridade orgânica (mês 3–6)','Google Business Profile otimizado, 2 artigos/mês na aba de Atualizações sobre as palavras-chave do playbook, e avaliações de pacientes concluídos.')+
+  phase(4,'Retenção & LTV (mês 4+)','Sequência de e-mail pós-consulta, pacotes de acompanhamento trimestral e programa de indicação — o paciente recuperado é o melhor canal de aquisição.')+
+  '</div>'+
+
+  '<div class="card"><h3>Palavras-chave (correspondência de frase)</h3>'+
+  '<div class="chips">'+['medico para burnout','tratamento para burnout','especialista em burnout','medico esgotamento mental','tratamento exaustao cronica','medico estresse cronico','consulta burnout online','como tratar esgotamento profissional','clinica especialista em burnout'].map(function(k){return '<span class="chip">"'+k+'"</span>';}).join('')+'</div>'+
+  '<h4 style="margin:20px 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)">Negativar desde o dia 1</h4>'+
+  '<div class="chips">'+['gratuito','gratis','sus','sintomas','o que é','cid','inss','atestado','vagas','curso'].map(function(k){return '<span class="chip">–'+k+'</span>';}).join('')+'</div></div>'+
+
+  '<div class="card"><h3>Medição já embutida na página</h3>'+
+  '<table class="plan"><tr><th>Evento</th><th>Disparo</th></tr>'+
+  '<tr><td>cta_click</td><td>Clique em qualquer botão "Agendar"</td></tr>'+
+  '<tr><td>generate_lead</td><td>Visitante chega à seção de preço</td></tr>'+
+  '<tr><td>begin_checkout</td><td>CTA final / investimento / WhatsApp — <b>importar como conversão no Ads</b></td></tr>'+
+  '<tr><td>checklist_engaged</td><td>Marcou 2+ sinais — público de remarketing</td></tr>'+
+  '<tr><td>scroll_depth</td><td>25 / 50 / 75 / 100%</td></tr></table>'+
+  '<p style="margin-top:14px;font-size:13px;color:var(--muted)">Configure os IDs em <b>Analytics &amp; Ads</b>. UTMs e gclid são capturados automaticamente e aparecem na aba <b>Métricas</b>.</p></div>';
+}
+function phase(n,t,d){ return '<div class="phase"><div class="ph-n">'+n+'</div><div><h4>'+t+'</h4><p>'+d+'</p></div></div>'; }
+
+// ══════════ TOAST ══════════
+function toast(msg,err){
+  var t=document.getElementById('toast'); t.textContent=msg;
+  t.className='toast show'+(err?' err':''); setTimeout(function(){t.className='toast';},2600);
+}
+
+// ══════════ INIT ══════════
+if(sessionStorage.getItem('lfl_admin_ok')==='1') enterApp();
+</script>
+</body>
+</html>

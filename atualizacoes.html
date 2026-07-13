@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atualizações Médicas — LFL Cuidado e Saúde</title>
+  <meta name="description" content="Conteúdo de confiança sobre burnout, esgotamento, sono, hormônios e saúde mental, por Dr. Luiz Fernando Lorenci.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="js/config.js"></script>
+  <script>
+  (function(){
+    var cfg = JSON.parse(localStorage.getItem('lp_admin_config')||'{}');
+    var gid = cfg.ga4_id||''; if(!gid) return;
+    var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+gid;document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config',gid);
+  })();
+  </script>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--bg:#F4F0EA;--bg-alt:#F9F8F6;--card:#fff;--ink:#1E2B38;--ink-soft:#4A5D52;--muted:#7A8C82;--cta:#C67A5C;--gold:#C8A882;--border:#E2DDD6;--shadow:rgba(30,43,56,.07)}
+    body{font-family:'Inter',Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+    h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;line-height:1.25}
+    a{color:var(--cta);text-decoration:none}
+    .topnav{background:var(--ink);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
+    .topnav .brand{display:flex;align-items:center;gap:11px;color:#fff}
+    .topnav .brand .logo{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center}
+    .topnav .brand .logo svg{width:18px;height:18px;fill:var(--gold)}
+    .topnav .brand b{font-family:'Playfair Display',serif;font-size:15px}
+    .topnav a.back{color:rgba(255,255,255,.75);font-size:13px;font-weight:600}
+    .topnav a.back:hover{color:#fff}
+    .hero-u{background:var(--ink);color:#fff;padding:48px 24px 60px;text-align:center}
+    .hero-u .pre{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px}
+    .hero-u h1{font-size:clamp(28px,5vw,40px);color:#fff;max-width:600px;margin:0 auto 14px}
+    .hero-u p{color:rgba(255,255,255,.7);max-width:520px;margin:0 auto;font-size:15px}
+    .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+    .posts{padding:56px 0}
+    .post{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:0;margin-bottom:28px;overflow:hidden;box-shadow:0 8px 24px var(--shadow);scroll-margin-top:80px}
+    .post img.cover{width:100%;height:240px;object-fit:cover;display:block}
+    .post .body{padding:30px 32px}
+    .post .date{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cta);margin-bottom:10px}
+    .post h2{font-size:24px;margin-bottom:14px}
+    .post .summary{color:var(--ink-soft);font-size:15px;margin-bottom:16px;font-weight:600}
+    .post .content{color:var(--ink-soft);font-size:15px;white-space:pre-wrap}
+    .empty{text-align:center;color:var(--muted);padding:80px 24px}
+    .empty h2{font-size:22px;margin-bottom:10px;color:var(--ink)}
+    .cta-strip{background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:44px 24px;text-align:center}
+    .cta-strip h3{font-size:22px;margin-bottom:16px}
+    .btn{display:inline-block;background:var(--cta);color:#fff;font-weight:700;padding:16px 34px;border-radius:50px;font-size:15px}
+    .btn:hover{background:#B5684C}
+    /* footer legal (reaproveitado) */
+    .footer{background:var(--ink);color:rgba(255,255,255,.5);padding:48px 24px 60px;font-size:13px;line-height:1.9}
+    .footer-inner{max-width:720px;margin:0 auto}
+    .footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:24px}
+    .footer-col h4{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+    .footer-col p,.footer-col a{color:rgba(255,255,255,.55);display:block;margin-bottom:6px}
+    .footer-col a:hover{color:#fff}
+    .footer-brand strong{color:#fff;font-size:16px;font-family:'Playfair Display',serif}
+    .footer-legal{font-size:11.5px;color:rgba(255,255,255,.4)}
+    .footer-legal a{color:rgba(255,255,255,.55)}
+    @media(max-width:640px){.footer-top{grid-template-columns:1fr;gap:22px}.post .body{padding:24px 20px}}
+  </style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="brand" href="index.html">
+    <span class="logo"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.5-8.5C.8 9.4 2.3 6 5.5 6c1.9 0 3.2 1 4.5 2.5C11.3 7 12.6 6 14.5 6 17.7 6 19.2 9.4 21.5 12.5 19 16.65 12 21 12 21z"/></svg></span>
+    <b>LFL Cuidado e Saúde</b>
+  </a>
+  <a class="back" href="index.html">← Voltar ao início</a>
+</nav>
+
+<header class="hero-u">
+  <span class="pre">Conteúdo & Saúde</span>
+  <h1>Atualizações médicas</h1>
+  <p>Informação de confiança sobre burnout, esgotamento, sono, hormônios e bem-estar — sem alarmismo, com base clínica.</p>
+</header>
+
+<main class="posts">
+  <div class="wrap" id="postsWrap"></div>
+</main>
+
+<section class="cta-strip">
+  <h3>Pronto para cuidar de você?</h3>
+  <a class="btn" id="ctaAgendar" href="#" target="_blank" rel="noopener">Agendar Minha Consulta</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-col footer-brand">
+        <h4>Empresa</h4>
+        <p><strong id="fCompany">LFL Cuidado e Saúde</strong></p>
+        <p id="fResp">Dr. Luiz Fernando Lorenci — CRM SC 41906</p>
+        <p id="fAddr">Florianópolis — SC</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="index.html">Início</a>
+        <a href="atualizacoes.html">Atualizações médicas</a>
+        <a href="privacidade.html">Política de privacidade</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <a id="fWhats" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a id="fEmail" href="#">E-mail</a>
+        <a id="fSite" href="#" target="_blank" rel="noopener">Site oficial</a>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p id="fCnpj" style="display:none"></p>
+      <p>As informações desta página têm caráter informativo e não substituem a consulta médica presencial. Conteúdo em conformidade com o Código de Ética Médica (CFM).</p>
+      <p style="margin-top:8px">&copy; <span id="fYear">2026</span> <span id="fCompany2">LFL Cuidado e Saúde</span>. Todos os direitos reservados. · <a href="privacidade.html">Privacidade</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var cfg = getConfig();
+  var list = (Array.isArray(cfg.updates)?cfg.updates.slice():[]).filter(function(u){return u.title;});
+  list.sort(function(a,b){return (b.date||'').localeCompare(a.date||'');});
+  var wrap = document.getElementById('postsWrap');
+  if(list.length===0){
+    wrap.innerHTML='<div class="empty"><h2>Em breve</h2><p>Novos conteúdos sobre saúde mental e bem-estar serão publicados aqui.</p></div>';
+  } else {
+    wrap.innerHTML = list.map(function(p){
+      return '<article class="post" id="post-'+escAttr(p.id)+'">'+
+        (p.img?'<img class="cover" src="'+escAttr(p.img)+'" alt="'+escAttr(p.title)+'" onerror="this.style.display=\'none\'">':'')+
+        '<div class="body">'+
+        '<div class="date">'+escHTML(formatDatePt(p.date))+'</div>'+
+        '<h2>'+escHTML(p.title)+'</h2>'+
+        (p.summary?'<p class="summary">'+escHTML(p.summary)+'</p>':'')+
+        (p.body?'<div class="content">'+escHTML(p.body)+'</div>':'')+
+        '</div></article>';
+    }).join('');
+  }
+  // CTA + rodapé
+  document.getElementById('ctaAgendar').href = cfg.booking_url;
+  var wa='https://wa.me/'+cfg.whatsapp+'?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20consulta%20de%20acolhimento.';
+  set('fCompany',cfg.legal_company);set('fCompany2',cfg.legal_company);set('fResp',cfg.legal_responsible);set('fAddr',cfg.legal_address);set('fYear',new Date().getFullYear());
+  href('fWhats',wa);href('fSite',cfg.website);href('fEmail','mailto:'+(cfg.legal_email||cfg.contact_email));
+  var c=document.getElementById('fCnpj'); if(cfg.legal_cnpj){c.textContent='CNPJ: '+cfg.legal_cnpj;c.style.display='block';}
+  function set(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+  function href(id,v){var e=document.getElementById(id);if(e)e.href=v;}
+  // scroll para âncora se veio de link direto
+  if(location.hash){var t=document.querySelector(location.hash);if(t)setTimeout(function(){t.scrollIntoView({behavior:'smooth'});},200);}
+})();
+</script>
+</body>
+</html>

@@ -25,6 +25,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <meta name="twitter:image" content="__ZAPIA_SITE_ORIGIN__/_z/og.png">
 
+  <script src="js/config.js"></script>
+
   <!-- Google Analytics GA4 + Google Ads Conversion — carregado dinamicamente pelo admin -->
   <script>
   (function(){
@@ -906,19 +908,131 @@
     .cta-final .trust { margin-top: 18px; font-size: 12px; color: rgba(255,255,255,0.3); }
 
     /* ════════════════════════════════
-       FOOTER
+       VÍDEO (pontos-chave)
+    ════════════════════════════════ */
+    .video-block { max-width: 620px; margin: 0 auto; }
+    .video-frame {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+    .video-frame iframe, .video-frame video {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover;
+    }
+    .video-section { background: var(--bg-alt); }
+    .video-section .video-caption {
+      text-align: center; margin-top: 16px; font-family: 'Inter', Arial, sans-serif;
+      font-size: 13px; color: var(--muted);
+    }
+    .hero-video { margin: 0 auto 40px; }
+    .hero-video .video-frame { border-color: rgba(255,255,255,0.12); }
+
+    /* ════════════════════════════════
+       CARROSSEL / GALERIA
+    ════════════════════════════════ */
+    .galeria { background: var(--bg); }
+    .galeria h2 { font-size: clamp(22px, 4vw, 30px); margin-bottom: 32px; text-align: center; }
+    .carousel {
+      position: relative;
+      max-width: 620px;
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+    .carousel-track { display: flex; transition: transform 0.5s ease; }
+    .carousel-slide { min-width: 100%; position: relative; }
+    .carousel-slide img { width: 100%; height: 380px; object-fit: cover; display: block; }
+    .carousel-caption {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(transparent, rgba(30,43,56,0.82));
+      color: #fff; padding: 40px 24px 20px;
+      font-family: 'Inter', Arial, sans-serif; font-size: 14px;
+    }
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 42px; height: 42px; border-radius: 50%; border: none;
+      background: rgba(255,255,255,0.85); color: var(--ink);
+      font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2); transition: background 0.2s; z-index: 2;
+    }
+    .carousel-btn:hover { background: #fff; }
+    .carousel-btn.prev { left: 14px; }
+    .carousel-btn.next { right: 14px; }
+    .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
+    .carousel-dot {
+      width: 9px; height: 9px; border-radius: 50%; background: var(--border);
+      border: none; cursor: pointer; transition: background 0.2s, transform 0.2s; padding: 0;
+    }
+    .carousel-dot.active { background: var(--cta); transform: scale(1.25); }
+
+    /* ════════════════════════════════
+       ATUALIZAÇÕES (teaser)
+    ════════════════════════════════ */
+    .updates { background: var(--bg-alt); }
+    .updates h2 { font-size: clamp(22px, 4vw, 30px); margin-bottom: 8px; text-align: center; }
+    .updates .sub { text-align: center; font-size: 14px; color: var(--muted); margin-bottom: 36px; }
+    .updates-grid { display: flex; flex-direction: column; gap: 16px; }
+    .update-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 24px; text-decoration: none; display: block; transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .update-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--shadow); }
+    .update-card .date {
+      font-family: 'Inter', Arial, sans-serif; font-size: 11px; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--cta); margin-bottom: 8px;
+    }
+    .update-card h3 { font-size: 18px; color: var(--ink); margin-bottom: 8px; line-height: 1.35; }
+    .update-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .updates-cta { text-align: center; margin-top: 32px; }
+    .updates-link {
+      font-family: 'Inter', Arial, sans-serif; font-weight: 700; font-size: 14px;
+      color: var(--cta); text-decoration: none;
+    }
+    .updates-link:hover { text-decoration: underline; }
+
+    /* ════════════════════════════════
+       FOOTER (legal)
     ════════════════════════════════ */
     .footer {
       background: var(--ink);
-      color: rgba(255,255,255,0.38);
-      text-align: center;
-      padding: 36px 24px 80px;
+      color: rgba(255,255,255,0.5);
+      padding: 56px 24px 90px;
       font-family: 'Inter', Arial, sans-serif;
       font-size: 13px;
       line-height: 1.9;
     }
+    .footer-inner { max-width: 720px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 32px;
+      padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 28px;
+    }
+    .footer-col h4 {
+      font-family: 'Inter', Arial, sans-serif; font-size: 11px; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 14px; font-weight: 700;
+    }
+    .footer-col p, .footer-col a { color: rgba(255,255,255,0.55); display: block; text-decoration: none; margin-bottom: 6px; }
+    .footer-col a:hover { color: #fff; }
+    .footer-brand strong { color: #fff; font-size: 16px; font-family: 'Playfair Display', Georgia, serif; }
+    .footer-social { display: flex; gap: 12px; margin-top: 12px; }
+    .footer-social a {
+      width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center; margin: 0;
+    }
+    .footer-social a:hover { background: var(--cta); }
+    .footer-social svg { width: 18px; height: 18px; fill: rgba(255,255,255,0.7); }
+    .footer-social a:hover svg { fill: #fff; }
+    .footer-legal { font-size: 11.5px; color: rgba(255,255,255,0.4); line-height: 1.8; }
+    .footer-legal a { color: rgba(255,255,255,0.55); }
     .footer a { color: var(--gold); text-decoration: none; }
-    .footer strong { color: rgba(255,255,255,0.65); }
+    .footer strong { color: rgba(255,255,255,0.72); }
 
     /* ── MOBILE ── */
     @media (max-width: 640px) {
@@ -938,252 +1052,19 @@
       .metrics-grid { grid-template-columns: 1fr 1fr; }
       .admin-key { top: 10px; right: 10px; width: 36px; height: 36px; }
       .admin-key svg { width: 15px; height: 15px; }
+      .footer-top { grid-template-columns: 1fr; gap: 24px; }
+      .carousel-slide img { height: 260px; }
     }
   </style>
 </head>
 <body>
 
 <!-- ══════════════════════════════════
-     ADMIN KEY ICON
+     ADMIN KEY ICON → página de admin
 ══════════════════════════════════ -->
-<div class="admin-key" onclick="openAdmin()" title="Painel Admin">
+<a class="admin-key" href="admin/" title="Painel Administrativo">
   <svg viewBox="0 0 24 24"><path d="M12.65 10a6 6 0 1 0-1.3 0H1v2h2v4h2v-4h6.35a6 6 0 0 0 .65.35V16h2v-3.65c.22-.1.44-.22.65-.35H22v-2H12.65zM9 10a4 4 0 1 1 0-4 4 4 0 0 1 0 4z" fill-rule="evenodd"/></svg>
-</div>
-
-<!-- ══════════════════════════════════
-     ADMIN PANEL OVERLAY
-══════════════════════════════════ -->
-<div class="admin-overlay" id="adminOverlay" onclick="if(event.target===this)closeAdmin()">
-  <div class="admin-panel">
-    <div class="admin-header">
-      <h2>Painel Administrativo</h2>
-      <button class="admin-close" onclick="closeAdmin()">&times;</button>
-    </div>
-
-    <!-- Login Gate -->
-    <div id="adminLogin" class="admin-login">
-      <h3>Acesso restrito</h3>
-      <p>Digite a senha de administrador</p>
-      <input type="password" id="adminPassword" placeholder="••••••" onkeydown="if(event.key==='Enter')tryLogin()">
-      <br>
-      <button class="admin-btn admin-btn-primary" onclick="tryLogin()">Entrar</button>
-      <div class="login-error" id="loginError"></div>
-    </div>
-
-    <!-- Admin Content (hidden until login) -->
-    <div id="adminContent" style="display:none">
-      <div class="admin-body">
-
-        <!-- Tabs -->
-        <div class="admin-tabs">
-          <button class="admin-tab active" onclick="switchTab('config',this)">Configuracoes</button>
-          <button class="admin-tab" onclick="switchTab('textos',this)">Textos</button>
-          <button class="admin-tab" onclick="switchTab('metricas',this)">Metricas</button>
-        </div>
-
-        <!-- ═══ TAB: CONFIGURACOES ═══ -->
-        <div class="admin-tab-content active" id="tab-config">
-
-          <div class="admin-section">
-            <h3>Link de Agendamento</h3>
-            <div class="admin-field">
-              <label>URL do Botao "Agendar"</label>
-              <input type="url" id="cfg_booking_url" placeholder="https://agendaronline.amplimed.com.br/luiz-fernando-lorenci">
-              <div class="hint">Todos os botoes de CTA serao atualizados com este link</div>
-            </div>
-          </div>
-
-          <div class="admin-section">
-            <h3>Valores</h3>
-            <div class="admin-row">
-              <div class="admin-field">
-                <label>Preco da Consulta</label>
-                <input type="text" id="cfg_price" placeholder="R$ 350">
-              </div>
-              <div class="admin-field">
-                <label>Parcelas</label>
-                <input type="text" id="cfg_installments" placeholder="12x">
-              </div>
-            </div>
-          </div>
-
-          <div class="admin-section">
-            <h3>Contato</h3>
-            <div class="admin-row">
-              <div class="admin-field">
-                <label>WhatsApp (com DDI)</label>
-                <input type="text" id="cfg_whatsapp" placeholder="5549999318583">
-              </div>
-              <div class="admin-field">
-                <label>Site Oficial</label>
-                <input type="url" id="cfg_website" placeholder="https://www.clinicalorenci.com.br">
-              </div>
-            </div>
-          </div>
-
-          <div class="admin-section">
-            <h3>Google Analytics (GA4)</h3>
-            <div class="admin-field">
-              <label>Measurement ID</label>
-              <input type="text" id="cfg_ga4_id" placeholder="G-XXXXXXXXXX">
-              <div class="hint">Encontre em Google Analytics > Admin > Data Streams. Deixe vazio para desativar.</div>
-            </div>
-          </div>
-
-          <div class="admin-section">
-            <h3>Google Ads (Conversões)</h3>
-            <div class="admin-row">
-              <div class="admin-field">
-                <label>Conversion ID</label>
-                <input type="text" id="cfg_gads_id" placeholder="AW-XXXXXXXXX">
-                <div class="hint">ID da conta Google Ads (ex: AW-123456789)</div>
-              </div>
-              <div class="admin-field">
-                <label>Conversion Label</label>
-                <input type="text" id="cfg_gads_label" placeholder="AbCdEfGhIjK">
-                <div class="hint">Label da ação de conversão configurada no Google Ads</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="admin-section">
-            <h3>Seguranca</h3>
-            <div class="admin-field">
-              <label>Alterar Senha do Admin</label>
-              <input type="password" id="cfg_new_password" placeholder="Nova senha (min. 4 caracteres)">
-              <div class="hint">Senha padrao: admin123. Altere na primeira configuracao.</div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- ═══ TAB: TEXTOS ═══ -->
-        <div class="admin-tab-content" id="tab-textos">
-
-          <div class="admin-section">
-            <h3>Hero (Topo)</h3>
-            <div class="admin-field">
-              <label>Titulo Principal (linha 1)</label>
-              <input type="text" id="cfg_hero_title1" placeholder="Pare de viver exausto.">
-            </div>
-            <div class="admin-field">
-              <label>Titulo Principal (linha 2 — em destaque)</label>
-              <input type="text" id="cfg_hero_title2" placeholder="Voce merece se recuperar.">
-            </div>
-            <div class="admin-field">
-              <label>Subtitulo</label>
-              <textarea id="cfg_hero_sub" placeholder="O cansaco que nao passa com sono..."></textarea>
-            </div>
-          </div>
-
-          <div class="admin-section">
-            <h3>Botoes CTA</h3>
-            <div class="admin-field">
-              <label>Texto do Botao Principal</label>
-              <input type="text" id="cfg_cta_text" placeholder="Quero Agendar Minha Consulta de Acolhimento">
-            </div>
-            <div class="admin-field">
-              <label>Subtexto do Botao</label>
-              <input type="text" id="cfg_cta_sub" placeholder="R$ 350 · Online para todo o Brasil">
-            </div>
-          </div>
-
-          <div class="admin-section">
-            <h3>Medico</h3>
-            <div class="admin-row">
-              <div class="admin-field">
-                <label>Nome</label>
-                <input type="text" id="cfg_doctor_name" placeholder="Dr. Luiz Fernando Lorenci">
-              </div>
-              <div class="admin-field">
-                <label>CRM</label>
-                <input type="text" id="cfg_doctor_crm" placeholder="CRMSC 41906">
-              </div>
-            </div>
-            <div class="admin-field">
-              <label>Especialidades</label>
-              <input type="text" id="cfg_doctor_specs" placeholder="Psiquiatria · Urologia · Medicina Integrativa">
-            </div>
-          </div>
-
-        </div>
-
-        <!-- ═══ TAB: METRICAS ═══ -->
-        <div class="admin-tab-content" id="tab-metricas">
-
-          <div id="ga4StatusBar"></div>
-
-          <div class="metrics-grid">
-            <div class="metric-card">
-              <div class="metric-value" id="metricClicks">0</div>
-              <div class="metric-label">Cliques CTA</div>
-            </div>
-            <div class="metric-card highlight">
-              <div class="metric-value" id="metricLeads">0</div>
-              <div class="metric-label">Leads</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-value" id="metricConversions">0</div>
-              <div class="metric-label">Conversoes</div>
-            </div>
-          </div>
-
-          <div class="metrics-grid" style="grid-template-columns: 1fr 1fr;">
-            <div class="metric-card">
-              <div class="metric-value" id="metricScrollDepth">0%</div>
-              <div class="metric-label">Scroll Medio</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-value" id="metricChecklist">0</div>
-              <div class="metric-label">Checklist Preenchida</div>
-            </div>
-          </div>
-
-          <div class="events-log" id="eventsLog">
-            <div class="events-log-header">
-              <span>Eventos Recentes</span>
-              <button class="events-log-clear" onclick="clearEvents()">Limpar</button>
-            </div>
-            <div id="eventsList">
-              <div class="events-empty">Nenhum evento registrado nesta sessao</div>
-            </div>
-          </div>
-
-          <div style="margin-top:20px">
-            <div class="admin-field">
-              <label>UTM / Origem do Tráfego (sessão atual)</label>
-              <div id="utmDisplay" style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-family:monospace;font-size:12px;color:var(--ink-soft);line-height:1.8;">Nenhum parâmetro UTM detectado</div>
-            </div>
-          </div>
-
-          <div style="margin-top:20px">
-            <div class="admin-field">
-              <label>Eventos rastreados automaticamente</label>
-              <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-family:monospace;font-size:12px;color:var(--ink-soft);line-height:1.8;overflow-x:auto;white-space:pre">• <strong>cta_click</strong> — Clique em qualquer botão "Agendar"
-• <strong>generate_lead</strong> — Chegou até a seção de preço
-• <strong>begin_checkout</strong> — Clicou no CTA final/WhatsApp
-• <strong>conversion</strong> (Google Ads) — Enviado ao Ads se configurado
-• <strong>checklist_engaged</strong> — Marcou 2+ sinais
-• <strong>scroll_depth</strong> — 25%, 50%, 75%, 100%</div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Actions -->
-        <div class="admin-actions">
-          <button class="admin-btn admin-btn-danger" onclick="resetConfig()">Resetar Tudo</button>
-          <button class="admin-btn admin-btn-secondary" onclick="closeAdmin()">Cancelar</button>
-          <button class="admin-btn admin-btn-primary" onclick="saveConfig()">Salvar Alteracoes</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Toast -->
-<div class="admin-toast" id="adminToast"></div>
+</a>
 
 
 <!-- ══════════════════════════════════
@@ -1202,7 +1083,12 @@
       É hora de parar de apenas sobreviver.
     </p>
 
-    <div class="hero-doctor">
+    <!-- Vídeo do hero (exibido quando configurado no admin) -->
+    <div class="hero-video video-block" id="heroVideo" style="display:none">
+      <div class="video-frame"></div>
+    </div>
+
+    <div class="hero-doctor" id="heroDoctorWrap">
       <img src="img/dr-lorenci-consulta.jpg" alt="Dr. Luiz Fernando Lorenci em consulta, ouvindo paciente com atenção" width="400" height="260">
       <div class="hero-doctor-caption">
         <strong id="heroDoctorName">Dr. Luiz Fernando Lorenci</strong>
@@ -1311,6 +1197,19 @@
 
 
 <!-- ══════════════════════════════════
+     VÍDEO (após benefícios)
+══════════════════════════════════ -->
+<section class="video-section" id="videoBeneficios" style="display:none">
+  <div class="wrap">
+    <div class="video-block">
+      <div class="video-frame"></div>
+      <p class="video-caption">Entenda como funciona o método integral, na voz do próprio Dr. Lorenci.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
      AUTORIDADE
 ══════════════════════════════════ -->
 <section class="autoridade">
@@ -1325,6 +1224,11 @@
       <p>Eu quero ser o médico que te acompanha na conquista da sua qualidade de vida. Quero oferecer um espaço seguro, sem julgamentos, onde você e sua família sejam compreendidos por completo.</p>
       <p>Minha abordagem integra saúde mental, hormônios, exames funcionais e estilo de vida. Porque o ser humano não funciona em partes separadas — e o tratamento também não pode funcionar assim.</p>
       <p><em>Sem olhar para o relógio. Sem a pressa do sistema. Eu quero, legitimamente, ouvir a sua história.</em></p>
+    </div>
+
+    <!-- Vídeo de apresentação (exibido quando configurado no admin) -->
+    <div class="video-block" id="videoAutoridade" style="display:none;margin-top:32px">
+      <div class="video-frame"></div>
     </div>
   </div>
 </section>
@@ -1362,6 +1266,38 @@
     </div>
     <p class="dep-nota">Nomes abreviados para preservar a privacidade dos pacientes.</p>
 
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     GALERIA / CARROSSEL
+══════════════════════════════════ -->
+<section class="galeria" id="galeriaSection" style="display:none">
+  <div class="wrap">
+    <h2 id="galeriaTitulo">Um espaço pensado para o seu descanso</h2>
+    <div class="carousel" id="carousel">
+      <div class="carousel-track" id="carouselTrack"></div>
+      <button class="carousel-btn prev" id="carouselPrev" aria-label="Anterior">‹</button>
+      <button class="carousel-btn next" id="carouselNext" aria-label="Próximo">›</button>
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     ATUALIZAÇÕES MÉDICAS (teaser)
+══════════════════════════════════ -->
+<section class="updates" id="updatesSection" style="display:none">
+  <div class="wrap">
+    <span class="pre-label" style="display:block;text-align:center">Conteúdo & Saúde</span>
+    <h2>Atualizações médicas</h2>
+    <p class="sub">Informação de confiança sobre burnout, sono, hormônios e bem-estar.</p>
+    <div class="updates-grid" id="updatesGrid"></div>
+    <div class="updates-cta">
+      <a class="updates-link" href="atualizacoes.html">Ver todas as atualizações →</a>
+    </div>
   </div>
 </section>
 
@@ -1485,17 +1421,36 @@
      FOOTER
 ══════════════════════════════════ -->
 <footer class="footer">
-  <p><strong id="footerName">Dr. Luiz Fernando Lorenci</strong></p>
-  <p id="footerCrm">CRMSC 41906 · Medicina Integrativa · Psiquiatria · Urologia · Florianópolis — SC</p>
-  <p style="margin-top:14px">
-    <a id="footerSite" href="https://www.clinicalorenci.com.br">Site oficial</a> ·
-    <a id="footerWhatsapp" href="https://wa.me/5549999318583">WhatsApp</a>
-  </p>
-  <p style="margin-top:18px;font-size:11px;opacity:0.7;line-height:1.7">
-    As informações desta página têm caráter informativo e não substituem a consulta médica.<br>
-    Os relatos representam experiências individuais — resultados podem variar.<br>
-    &copy; 2025 Dr. Luiz Fernando Lorenci. Todos os direitos reservados.
-  </p>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-col footer-brand">
+        <h4>Empresa</h4>
+        <p><strong id="footerCompany">LFL Cuidado e Saúde</strong></p>
+        <p id="footerResponsible">Dr. Luiz Fernando Lorenci — CRM SC 41906</p>
+        <p id="footerAddress">Florianópolis — SC</p>
+        <div class="footer-social" id="footerSocial"></div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="index.html">Início</a>
+        <a href="atualizacoes.html">Atualizações médicas</a>
+        <a href="privacidade.html">Política de privacidade</a>
+        <a href="#agendar" id="footerAgendar">Agendar consulta</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <a id="footerWhatsapp" href="https://wa.me/5549999318583" target="_blank" rel="noopener">WhatsApp</a>
+        <a id="footerEmail" href="mailto:contato@lflcuidadoesaude.com.br">E-mail</a>
+        <a id="footerSite" href="https://www.clinicalorenci.com.br" target="_blank" rel="noopener">Site oficial</a>
+        <p id="footerHours">Atendimento online, de segunda a sexta</p>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p id="footerCnpj" style="display:none"></p>
+      <p>As informações desta página têm caráter informativo e não substituem a consulta médica presencial. Os relatos de pacientes representam experiências individuais — resultados podem variar de pessoa para pessoa. Conteúdo em conformidade com o Código de Ética Médica (CFM).</p>
+      <p style="margin-top:10px">&copy; <span id="footerYear">2026</span> <span id="footerCompany2">LFL Cuidado e Saúde</span>. Todos os direitos reservados. · <a href="privacidade.html">Privacidade</a> · <a href="admin/">Área administrativa</a></p>
+    </div>
+  </div>
 </footer>
 
 
@@ -1515,99 +1470,50 @@
 
 <script>
 // ══════════════════════════════════════════
-// CONFIG DEFAULTS
+// MÉTRICAS (localStorage — lidas pelo painel admin)
 // ══════════════════════════════════════════
-var DEFAULTS = {
-  booking_url: 'https://agendaronline.amplimed.com.br/luiz-fernando-lorenci',
-  price: 'R$ 350',
-  installments: '12x',
-  whatsapp: '5549999318583',
-  website: 'https://www.clinicalorenci.com.br',
-  ga4_id: '',
-  gads_id: '',
-  gads_label: '',
-  hero_title1: 'Vença o esgotamento crônico',
-  hero_title2: 'e recupere sua vitalidade.',
-  hero_sub: 'Se você arrasta o corpo para o trabalho, sente que sua energia zerou e a desmotivação começou a afetar até quem você ama dentro de casa, saiba: seu corpo não está falhando, ele só está pedindo socorro. É hora de parar de apenas sobreviver.',
-  cta_text: 'Quero Agendar Minha Consulta de Acolhimento',
-  cta_sub: 'R$ 350 · Online para todo o Brasil',
-  doctor_name: 'Dr. Luiz Fernando Lorenci',
-  doctor_crm: 'CRMSC 41906',
-  doctor_specs: 'Psiquiatria · Urologia · Medicina Integrativa',
-  admin_password: 'admin123'
-};
-
-function getConfig() {
-  var stored = JSON.parse(localStorage.getItem('lp_admin_config') || '{}');
-  var cfg = {};
-  for (var k in DEFAULTS) cfg[k] = stored[k] !== undefined ? stored[k] : DEFAULTS[k];
-  return cfg;
-}
-
-function setConfig(cfg) {
-  localStorage.setItem('lp_admin_config', JSON.stringify(cfg));
-}
-
-// ══════════════════════════════════════════
-// METRICS TRACKING
-// ══════════════════════════════════════════
-var metrics = JSON.parse(sessionStorage.getItem('lp_metrics') || '{"clicks":0,"leads":0,"conversions":0,"scrollMax":0,"checklistEngaged":0}');
-var events = JSON.parse(sessionStorage.getItem('lp_events') || '[]');
+var metrics = JSON.parse(localStorage.getItem('lp_metrics') || '{"clicks":0,"leads":0,"conversions":0,"scrollMax":0,"checklistEngaged":0}');
+var events = JSON.parse(localStorage.getItem('lp_events') || '[]');
 var scrollMilestones = { 25: false, 50: false, 75: false, 100: false };
 
 function saveMetrics() {
-  sessionStorage.setItem('lp_metrics', JSON.stringify(metrics));
-  sessionStorage.setItem('lp_events', JSON.stringify(events));
+  localStorage.setItem('lp_metrics', JSON.stringify(metrics));
+  localStorage.setItem('lp_events', JSON.stringify(events));
 }
 
 function logEvent(type, name, detail) {
   var now = new Date();
   var time = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
   events.unshift({ type: type, name: name, detail: detail || '', time: time });
-  if (events.length > 50) events.pop();
+  if (events.length > 60) events.pop();
   saveMetrics();
 }
 
 function sendGA4Event(eventName, params) {
-  if (typeof gtag === 'function') {
-    gtag('event', eventName, params || {});
-  }
+  if (typeof gtag === 'function') gtag('event', eventName, params || {});
 }
 
 function trackCTA(el) {
   var loc = el.getAttribute('data-location') || 'unknown';
   var text = (el.querySelector('.cta-text') || el).textContent.trim().substring(0, 60);
   metrics.clicks++;
-
-  sendGA4Event('cta_click', {
-    button_location: loc,
-    button_text: text
-  });
+  sendGA4Event('cta_click', { button_location: loc, button_text: text });
 
   if (loc === 'cta-final' || loc === 'investimento' || loc === 'whatsapp-float') {
     metrics.conversions++;
-    sendGA4Event('begin_checkout', {
-      currency: 'BRL',
-      value: 350
-    });
-    // Google Ads conversion tracking
+    sendGA4Event('begin_checkout', { currency: 'BRL', value: 350 });
     var adsCfg = getConfig();
     if (adsCfg.gads_id && adsCfg.gads_label && typeof gtag === 'function') {
-      gtag('event', 'conversion', {
-        send_to: adsCfg.gads_id + '/' + adsCfg.gads_label,
-        value: 350.0,
-        currency: 'BRL'
-      });
+      gtag('event', 'conversion', { send_to: adsCfg.gads_id + '/' + adsCfg.gads_label, value: 350.0, currency: 'BRL' });
     }
     logEvent('conversion', 'Conversao', 'Clique no CTA de ' + loc);
   } else {
     logEvent('click', 'Clique CTA', loc);
   }
-
   saveMetrics();
 }
 
-// Lead tracking: user reaches pricing section
+// Lead tracking: visitante chega à seção de preço
 var leadTracked = false;
 var investimentoSection = document.getElementById('secaoInvestimento');
 if (investimentoSection) {
@@ -1623,230 +1529,170 @@ if (investimentoSection) {
   leadObserver.observe(investimentoSection);
 }
 
-// Scroll depth tracking
+// Scroll depth
 window.addEventListener('scroll', function() {
   var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
   var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
   if (docHeight <= 0) return;
   var pct = Math.round((scrollTop / docHeight) * 100);
   if (pct > metrics.scrollMax) metrics.scrollMax = pct;
-
-  [25, 50, 75, 100].forEach(function(milestone) {
-    if (pct >= milestone && !scrollMilestones[milestone]) {
-      scrollMilestones[milestone] = true;
-      sendGA4Event('scroll_depth', { percent_scrolled: milestone });
-      logEvent('scroll', 'Scroll ' + milestone + '%', '');
+  [25, 50, 75, 100].forEach(function(m) {
+    if (pct >= m && !scrollMilestones[m]) {
+      scrollMilestones[m] = true;
+      sendGA4Event('scroll_depth', { percent_scrolled: m });
+      logEvent('scroll', 'Scroll ' + m + '%', '');
     }
   });
   saveMetrics();
 }, { passive: true });
 
 // ══════════════════════════════════════════
-// ADMIN PANEL
+// APLICAR CONFIGURAÇÃO NA PÁGINA
 // ══════════════════════════════════════════
-var adminLoggedIn = false;
-
-function openAdmin() {
-  document.getElementById('adminOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  if (adminLoggedIn) {
-    populateForm();
-    updateMetricsDisplay();
-  }
-}
-
-function closeAdmin() {
-  document.getElementById('adminOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function tryLogin() {
-  var cfg = getConfig();
-  var pwd = document.getElementById('adminPassword').value;
-  if (pwd === cfg.admin_password) {
-    adminLoggedIn = true;
-    document.getElementById('adminLogin').style.display = 'none';
-    document.getElementById('adminContent').style.display = 'block';
-    populateForm();
-    updateMetricsDisplay();
-  } else {
-    document.getElementById('loginError').textContent = 'Senha incorreta';
-    document.getElementById('adminPassword').value = '';
-  }
-}
-
-function switchTab(name, btn) {
-  document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
-  document.querySelectorAll('.admin-tab-content').forEach(function(c) { c.classList.remove('active'); });
-  btn.classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'metricas') updateMetricsDisplay();
-}
-
-function populateForm() {
-  var cfg = getConfig();
-  document.getElementById('cfg_booking_url').value = cfg.booking_url;
-  document.getElementById('cfg_price').value = cfg.price;
-  document.getElementById('cfg_installments').value = cfg.installments;
-  document.getElementById('cfg_whatsapp').value = cfg.whatsapp;
-  document.getElementById('cfg_website').value = cfg.website;
-  document.getElementById('cfg_ga4_id').value = cfg.ga4_id;
-  document.getElementById('cfg_gads_id').value = cfg.gads_id;
-  document.getElementById('cfg_gads_label').value = cfg.gads_label;
-  document.getElementById('cfg_hero_title1').value = cfg.hero_title1;
-  document.getElementById('cfg_hero_title2').value = cfg.hero_title2;
-  document.getElementById('cfg_hero_sub').value = cfg.hero_sub;
-  document.getElementById('cfg_cta_text').value = cfg.cta_text;
-  document.getElementById('cfg_cta_sub').value = cfg.cta_sub;
-  document.getElementById('cfg_doctor_name').value = cfg.doctor_name;
-  document.getElementById('cfg_doctor_crm').value = cfg.doctor_crm;
-  document.getElementById('cfg_doctor_specs').value = cfg.doctor_specs;
-  document.getElementById('cfg_new_password').value = '';
-}
-
-function saveConfig() {
-  var cfg = getConfig();
-  cfg.booking_url = document.getElementById('cfg_booking_url').value || DEFAULTS.booking_url;
-  cfg.price = document.getElementById('cfg_price').value || DEFAULTS.price;
-  cfg.installments = document.getElementById('cfg_installments').value || DEFAULTS.installments;
-  cfg.whatsapp = document.getElementById('cfg_whatsapp').value || DEFAULTS.whatsapp;
-  cfg.website = document.getElementById('cfg_website').value || DEFAULTS.website;
-  cfg.ga4_id = document.getElementById('cfg_ga4_id').value || '';
-  cfg.gads_id = document.getElementById('cfg_gads_id').value || '';
-  cfg.gads_label = document.getElementById('cfg_gads_label').value || '';
-  cfg.hero_title1 = document.getElementById('cfg_hero_title1').value || DEFAULTS.hero_title1;
-  cfg.hero_title2 = document.getElementById('cfg_hero_title2').value || DEFAULTS.hero_title2;
-  cfg.hero_sub = document.getElementById('cfg_hero_sub').value || DEFAULTS.hero_sub;
-  cfg.cta_text = document.getElementById('cfg_cta_text').value || DEFAULTS.cta_text;
-  cfg.cta_sub = document.getElementById('cfg_cta_sub').value || DEFAULTS.cta_sub;
-  cfg.doctor_name = document.getElementById('cfg_doctor_name').value || DEFAULTS.doctor_name;
-  cfg.doctor_crm = document.getElementById('cfg_doctor_crm').value || DEFAULTS.doctor_crm;
-  cfg.doctor_specs = document.getElementById('cfg_doctor_specs').value || DEFAULTS.doctor_specs;
-
-  var newPwd = document.getElementById('cfg_new_password').value;
-  if (newPwd && newPwd.length >= 4) cfg.admin_password = newPwd;
-
-  setConfig(cfg);
-  applyConfig(cfg);
-  showToast('Configuracoes salvas com sucesso!');
-}
-
-function resetConfig() {
-  if (!confirm('Tem certeza? Todas as configuracoes voltarao ao padrao.')) return;
-  localStorage.removeItem('lp_admin_config');
-  applyConfig(DEFAULTS);
-  populateForm();
-  showToast('Configuracoes resetadas para o padrao');
-}
-
 function applyConfig(cfg) {
-  // Update all CTA links
-  document.querySelectorAll('.cta-link').forEach(function(link) {
-    link.href = cfg.booking_url;
-  });
+  // CTAs de agendamento
+  document.querySelectorAll('.cta-link').forEach(function(link) { link.href = cfg.booking_url; });
 
-  // Update hero
-  document.getElementById('heroTitle').innerHTML = cfg.hero_title1 + '<br><em>' + cfg.hero_title2 + '</em>';
+  // Hero
+  document.getElementById('heroTitle').innerHTML = escHTML(cfg.hero_title1) + '<br><em>' + escHTML(cfg.hero_title2) + '</em>';
   document.getElementById('heroSub').textContent = cfg.hero_sub;
+  document.querySelectorAll('.hero .cta-text').forEach(function(el) { el.textContent = cfg.cta_text; });
+  document.querySelectorAll('.hero .cta-sub').forEach(function(el) { el.textContent = cfg.cta_sub; });
 
-  // Update CTA text (apenas o hero — cada seção tem CTA próprio conforme o roteiro)
-  var ctaTexts = document.querySelectorAll('.hero .cta-text');
-  ctaTexts.forEach(function(el) { el.textContent = cfg.cta_text; });
-
-  // Update price displays
+  // Preços
   document.getElementById('precoDisplay').textContent = cfg.price;
-  document.getElementById('parcelasDisplay').textContent = 'Pagamento via Pix (aprovacao imediata) ou cartao em ate ' + cfg.installments;
+  document.getElementById('parcelasDisplay').textContent = 'Pagamento via Pix (aprovação imediata) ou cartão em até ' + cfg.installments;
+  var priceInline = document.querySelector('.cta-price-inline');
+  if (priceInline) priceInline.textContent = cfg.price;
 
-  // Update CTA subtexts
-  var ctaSubs = document.querySelectorAll('.hero .cta-sub');
-  ctaSubs.forEach(function(el) { el.textContent = cfg.cta_sub; });
-
-  // Doctor info
+  // Médico
   document.getElementById('heroDoctorName').textContent = cfg.doctor_name;
   document.getElementById('heroDoctorCrm').textContent = cfg.doctor_crm;
   document.getElementById('medicoNome').textContent = cfg.doctor_name;
   document.getElementById('medicoCrm').textContent = cfg.doctor_crm + ' · ' + cfg.doctor_specs;
-  document.getElementById('footerName').textContent = cfg.doctor_name;
-  document.getElementById('footerCrm').textContent = cfg.doctor_crm + ' · ' + cfg.doctor_specs + ' · Florianopolis — SC';
 
-  // Contact
-  document.getElementById('footerWhatsapp').href = 'https://wa.me/' + cfg.whatsapp;
-  document.getElementById('footerSite').href = cfg.website;
-  var waFloat = document.getElementById('whatsappFloat');
-  if (waFloat) waFloat.href = 'https://wa.me/' + cfg.whatsapp + '?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20consulta%20de%20acolhimento.';
+  // Rodapé legal
+  setText('footerCompany', cfg.legal_company);
+  setText('footerCompany2', cfg.legal_company);
+  setText('footerResponsible', cfg.legal_responsible);
+  setText('footerAddress', cfg.legal_address);
+  setText('footerHours', cfg.legal_hours);
+  setText('footerYear', new Date().getFullYear());
+  var cnpjEl = document.getElementById('footerCnpj');
+  if (cfg.legal_cnpj) { cnpjEl.textContent = 'CNPJ: ' + cfg.legal_cnpj; cnpjEl.style.display = 'block'; }
+  else { cnpjEl.style.display = 'none'; }
 
-  // Price in sticky
-  var priceInline = document.querySelector('.cta-price-inline');
-  if (priceInline) priceInline.textContent = cfg.price;
+  // Contato
+  var wa = 'https://wa.me/' + cfg.whatsapp + '?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20consulta%20de%20acolhimento.';
+  setHref('footerWhatsapp', wa);
+  setHref('whatsappFloat', wa);
+  setHref('footerSite', cfg.website);
+  setHref('footerEmail', 'mailto:' + (cfg.legal_email || cfg.contact_email));
+
+  // Redes sociais no rodapé
+  renderSocial(cfg);
+
+  // Vídeos em pontos-chave
+  renderVideo('heroVideo', cfg.video_hero, true);
+  renderVideo('videoBeneficios', cfg.video_beneficios, false);
+  renderVideo('videoAutoridade', cfg.video_autoridade, false);
+  // Se há vídeo no hero, reduz o destaque da foto (mas mantém legenda)
+  var docWrap = document.getElementById('heroDoctorWrap');
+  if (docWrap) docWrap.style.display = cfg.video_hero ? 'none' : '';
+
+  // Carrossel
+  renderCarousel(cfg);
+
+  // Atualizações (teaser)
+  renderUpdatesTeaser(cfg);
 }
 
-function updateMetricsDisplay() {
-  document.getElementById('metricClicks').textContent = metrics.clicks;
-  document.getElementById('metricLeads').textContent = metrics.leads;
-  document.getElementById('metricConversions').textContent = metrics.conversions;
-  document.getElementById('metricScrollDepth').textContent = metrics.scrollMax + '%';
-  document.getElementById('metricChecklist').textContent = metrics.checklistEngaged;
+function setText(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
+function setHref(id, val) { var el = document.getElementById(id); if (el) el.href = val; }
 
-  // GA4 + Ads status
-  var cfg = getConfig();
-  var statusBar = document.getElementById('ga4StatusBar');
-  var statusHtml = '';
-  if (cfg.ga4_id) {
-    statusHtml += '<div class="ga4-status active"><span class="ga4-dot"></span> GA4 ativo: ' + cfg.ga4_id + '</div> ';
+function renderVideo(containerId, url, isHero) {
+  var wrap = document.getElementById(containerId);
+  if (!wrap) return;
+  var frame = wrap.querySelector('.video-frame');
+  if (url) {
+    frame.innerHTML = videoEmbedHTML(url);
+    wrap.style.display = isHero ? 'block' : 'block';
+    // seções de vídeo (não-hero) são <section> com display none por padrão
+    if (wrap.tagName === 'SECTION') wrap.style.display = 'block';
   } else {
-    statusHtml += '<div class="ga4-status inactive"><span class="ga4-dot"></span> GA4 não configurado</div> ';
-  }
-  if (cfg.gads_id) {
-    statusHtml += '<div class="ga4-status active"><span class="ga4-dot"></span> Ads ativo: ' + cfg.gads_id + '</div>';
-  }
-  statusBar.innerHTML = statusHtml;
-
-  // UTM display
-  var utmEl = document.getElementById('utmDisplay');
-  var utmStored = JSON.parse(sessionStorage.getItem('lp_utm') || '{}');
-  if (Object.keys(utmStored).length > 0) {
-    var utmHtml = '';
-    for (var k in utmStored) { utmHtml += '<strong>' + k + ':</strong> ' + utmStored[k] + '<br>'; }
-    utmEl.innerHTML = utmHtml;
-  } else {
-    utmEl.textContent = 'Nenhum parâmetro UTM detectado nesta sessão';
-  }
-
-  // Events list
-  var listEl = document.getElementById('eventsList');
-  if (events.length === 0) {
-    listEl.innerHTML = '<div class="events-empty">Nenhum evento registrado nesta sessao</div>';
-  } else {
-    var html = '';
-    events.forEach(function(ev) {
-      html += '<div class="event-row">';
-      html += '<span class="event-dot ' + ev.type + '"></span>';
-      html += '<span class="event-time">' + ev.time + '</span>';
-      html += '<span class="event-name">' + ev.name + '</span>';
-      if (ev.detail) html += '<span class="event-detail">' + ev.detail + '</span>';
-      html += '</div>';
-    });
-    listEl.innerHTML = html;
+    frame.innerHTML = '';
+    wrap.style.display = 'none';
   }
 }
 
-function clearEvents() {
-  events = [];
-  metrics = { clicks: 0, leads: 0, conversions: 0, scrollMax: 0, checklistEngaged: 0 };
-  saveMetrics();
-  updateMetricsDisplay();
-  showToast('Metricas zeradas');
+function renderSocial(cfg) {
+  var el = document.getElementById('footerSocial');
+  if (!el) return;
+  var icons = {
+    instagram: '<path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.17.5.37 1 .42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 1.8-.42 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.5.17-1 .37-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-1.8-.25-2.2-.42-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.17-.5-.37-1-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.05-1.2.25-1.8.42-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.5-.17 1-.37 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.4a6.4 6.4 0 100 12.8 6.4 6.4 0 000-12.8zm0 10.6a4.2 4.2 0 110-8.4 4.2 4.2 0 010 8.4zm6.5-10.9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>',
+    facebook: '<path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0022 12z"/>',
+    linkedin: '<path d="M20.4 3H3.6C3.3 3 3 3.3 3 3.6v16.8c0 .3.3.6.6.6h16.8c.3 0 .6-.3.6-.6V3.6c0-.3-.3-.6-.6-.6zM8.3 18.3H5.6V9.7h2.7v8.6zM7 8.5a1.5 1.5 0 110-3.1 1.5 1.5 0 010 3.1zm11.3 9.8h-2.7V14c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2v4.4h-2.7V9.7h2.6v1.2h.03c.4-.7 1.3-1.4 2.6-1.4 2.8 0 3.3 1.8 3.3 4.2v4.6z"/>',
+    youtube: '<path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 00-1.7-1.7C19.4 5.2 12 5.2 12 5.2s-7.4 0-8.9.4A2.5 2.5 0 001.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 001.7 1.7c1.5.4 8.9.4 8.9.4s7.4 0 8.9-.4a2.5 2.5 0 001.7-1.7c.4-1.5.4-4.7.4-4.7zM9.8 15.3V8.7l5.7 3.3-5.7 3.3z"/>'
+  };
+  var html = '';
+  ['instagram','facebook','linkedin','youtube'].forEach(function(k) {
+    if (cfg[k]) html += '<a href="' + escAttr(cfg[k]) + '" target="_blank" rel="noopener" aria-label="' + k + '"><svg viewBox="0 0 24 24">' + icons[k] + '</svg></a>';
+  });
+  el.innerHTML = html;
 }
 
-function showToast(msg) {
-  var toast = document.getElementById('adminToast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(function() { toast.classList.remove('show'); }, 2500);
+// ── Carrossel ──
+var carouselIndex = 0, carouselCount = 0, carouselTimer = null;
+function renderCarousel(cfg) {
+  var section = document.getElementById('galeriaSection');
+  var track = document.getElementById('carouselTrack');
+  var dots = document.getElementById('carouselDots');
+  var list = (cfg.carousel_enabled && Array.isArray(cfg.carousel)) ? cfg.carousel.filter(function(c){return c && c.img;}) : [];
+  if (list.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  document.getElementById('galeriaTitulo').textContent = cfg.carousel_title || 'Galeria';
+  var t = '', d = '';
+  list.forEach(function(item, i) {
+    t += '<div class="carousel-slide"><img src="' + escAttr(item.img) + '" alt="' + escAttr(item.caption || '') + '" loading="lazy">' +
+         (item.caption ? '<div class="carousel-caption">' + escHTML(item.caption) + '</div>' : '') + '</div>';
+    d += '<button class="carousel-dot' + (i === 0 ? ' active' : '') + '" onclick="goToSlide(' + i + ')" aria-label="Imagem ' + (i+1) + '"></button>';
+  });
+  track.innerHTML = t; dots.innerHTML = d;
+  carouselCount = list.length; carouselIndex = 0; updateCarousel();
+  document.getElementById('carouselPrev').style.display = list.length > 1 ? '' : 'none';
+  document.getElementById('carouselNext').style.display = list.length > 1 ? '' : 'none';
+  dots.style.display = list.length > 1 ? '' : 'none';
+  if (carouselTimer) clearInterval(carouselTimer);
+  if (list.length > 1) carouselTimer = setInterval(function(){ goToSlide((carouselIndex + 1) % carouselCount); }, 6000);
+}
+function updateCarousel() {
+  document.getElementById('carouselTrack').style.transform = 'translateX(-' + (carouselIndex * 100) + '%)';
+  document.querySelectorAll('.carousel-dot').forEach(function(dot, i) { dot.classList.toggle('active', i === carouselIndex); });
+}
+function goToSlide(i) { carouselIndex = (i + carouselCount) % carouselCount; updateCarousel(); }
+document.getElementById('carouselPrev').addEventListener('click', function(){ goToSlide(carouselIndex - 1); });
+document.getElementById('carouselNext').addEventListener('click', function(){ goToSlide(carouselIndex + 1); });
+
+// ── Atualizações (teaser: 3 mais recentes) ──
+function renderUpdatesTeaser(cfg) {
+  var section = document.getElementById('updatesSection');
+  var grid = document.getElementById('updatesGrid');
+  var list = (cfg.updates_enabled && Array.isArray(cfg.updates)) ? cfg.updates.slice() : [];
+  if (list.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  list.sort(function(a, b){ return (b.date || '').localeCompare(a.date || ''); });
+  var html = '';
+  list.slice(0, 3).forEach(function(p) {
+    html += '<a class="update-card" href="atualizacoes.html#post-' + escAttr(p.id) + '">' +
+            '<div class="date">' + escHTML(formatDatePt(p.date)) + '</div>' +
+            '<h3>' + escHTML(p.title) + '</h3>' +
+            '<p>' + escHTML(p.summary || '') + '</p></a>';
+  });
+  grid.innerHTML = html;
 }
 
 // ══════════════════════════════════════════
-// PAGE INTERACTIONS
+// INTERAÇÕES
 // ══════════════════════════════════════════
 function toggleFaq(el) {
   var item = el.parentElement;
@@ -1854,28 +1700,17 @@ function toggleFaq(el) {
   document.querySelectorAll('.faq-item.open').forEach(function(i) { i.classList.remove('open'); });
   if (!wasOpen) item.classList.add('open');
 }
-
 function toggleCheck(el) {
   el.classList.toggle('checked');
-  var icon = el.querySelector('.x-icon');
-  icon.textContent = el.classList.contains('checked') ? '✓' : '✕';
+  el.querySelector('.x-icon').textContent = el.classList.contains('checked') ? '✓' : '✕';
   updateCounter();
 }
-
 function updateCounter() {
   var count = document.querySelectorAll('.checks li.checked').length;
   var counter = document.getElementById('checkCounter');
-  if (count === 0) {
-    counter.textContent = '';
-    counter.className = 'check-counter';
-  } else if (count === 1) {
-    counter.textContent = '1 sinal marcado';
-    counter.className = 'check-counter';
-  } else {
-    counter.textContent = count + ' sinais marcados — seu corpo esta pedindo atencao.';
-    counter.className = 'check-counter active';
-  }
-
+  if (count === 0) { counter.textContent = ''; counter.className = 'check-counter'; }
+  else if (count === 1) { counter.textContent = '1 sinal marcado'; counter.className = 'check-counter'; }
+  else { counter.textContent = count + ' sinais marcados — seu corpo está pedindo atenção.'; counter.className = 'check-counter active'; }
   if (count >= 2 && !window._checklistTracked) {
     window._checklistTracked = true;
     metrics.checklistEngaged++;
@@ -1884,16 +1719,12 @@ function updateCounter() {
     saveMetrics();
   }
 }
-
-// Sticky CTA
 var stickyCta = document.getElementById('stickyCta');
 var heroSection = document.querySelector('.hero');
-
 function checkSticky() {
   if (window.innerWidth > 640) { stickyCta.style.display = 'none'; return; }
   stickyCta.style.display = heroSection.getBoundingClientRect().bottom < -100 ? 'block' : 'none';
 }
-
 window.addEventListener('scroll', checkSticky, { passive: true });
 window.addEventListener('resize', checkSticky);
 
@@ -1901,8 +1732,7 @@ window.addEventListener('resize', checkSticky);
 // INIT
 // ══════════════════════════════════════════
 (function init() {
-  var cfg = getConfig();
-  applyConfig(cfg);
+  applyConfig(getConfig());
   checkSticky();
 })();
 </script>
