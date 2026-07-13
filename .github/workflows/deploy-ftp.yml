@@ -1,0 +1,51 @@
+name: Deploy via FTP (Hostinger)
+
+on:
+  push:
+    branches:
+      - n8nlfl_claude
+      - claude/landing-page-evaluation-fasl71
+  workflow_dispatch:
+
+concurrency:
+  group: ftp-deploy
+  cancel-in-progress: true
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verificar se o secret da senha existe
+        id: check
+        run: |
+          if [ -z "${{ secrets.FTP_PASSWORD }}" ]; then
+            echo "::warning::Secret FTP_PASSWORD não configurado — deploy FTP ignorado. Cadastre em Settings → Secrets and variables → Actions."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Enviar arquivos para o servidor
+        if: steps.check.outputs.skip != 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: 212.85.6.164
+          username: u899095009
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 21
+          protocol: ftp
+          local-dir: ./
+          server-dir: public_html/
+          # Não enviar arquivos internos do repositório para o servidor:
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/.devcontainer/**
+            **/docs/**
+            **/CNAME
+            **/*.md
+            **/img/LEIA-ME.txt
