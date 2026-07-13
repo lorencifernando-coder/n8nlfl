@@ -1,0 +1,18 @@
+# Sobe o site com um comando:  docker compose up -d
+# Acesse:  http://localhost:8080   (painel em /admin)
+services:
+  site:
+    build: .
+    image: lfl-cuidado-e-saude
+    container_name: lfl-site
+    ports:
+      - "8080:80"
+    volumes:
+      # Persistência: configuração e fotos sobrevivem a reinícios/rebuilds
+      - lfl_data:/var/www/html/data
+      - lfl_uploads:/var/www/html/uploads
+    restart: unless-stopped
+
+volumes:
+  lfl_data:
+  lfl_uploads:

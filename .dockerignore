@@ -1,0 +1,11 @@
+.git
+.github
+docs
+.devcontainer
+node_modules
+*.log
+data/config.php
+uploads/img_*
+Dockerfile
+docker-compose.yml
+.dockerignore
