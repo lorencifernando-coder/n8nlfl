@@ -118,8 +118,7 @@
 </footer>
 
 <script>
-(function(){
-  var cfg = getConfig();
+loadConfig(function(cfg){
   var list = (Array.isArray(cfg.updates)?cfg.updates.slice():[]).filter(function(u){return u.title;});
   list.sort(function(a,b){return (b.date||'').localeCompare(a.date||'');});
   var wrap = document.getElementById('postsWrap');
@@ -147,7 +146,7 @@
   function href(id,v){var e=document.getElementById(id);if(e)e.href=v;}
   // scroll para âncora se veio de link direto
   if(location.hash){var t=document.querySelector(location.hash);if(t)setTimeout(function(){t.scrollIntoView({behavior:'smooth'});},200);}
-})();
+});
 </script>
 </body>
 </html>

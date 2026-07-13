@@ -37,3 +37,5 @@ jobs:
             **/CNAME
             **/*.md
             **/img/LEIA-ME.txt
+            **/data/config.php
+            **/uploads/img_*

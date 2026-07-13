@@ -1737,8 +1737,7 @@ window.addEventListener('resize', checkSticky);
 // INIT
 // ══════════════════════════════════════════
 (function init() {
-  applyConfig(getConfig());
-  checkSticky();
+  loadConfig(function (cfg) { applyConfig(cfg); checkSticky(); });
 })();
 </script>
 

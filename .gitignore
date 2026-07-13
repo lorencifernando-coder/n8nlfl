@@ -1,0 +1,7 @@
+# Dados gerados pelo servidor em produção (não versionar)
+/data/config.php
+/uploads/img_*
+
+# temporários
+/docs/screens/
+*.log

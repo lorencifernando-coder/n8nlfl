@@ -69,36 +69,150 @@ var DEFAULTS = {
 var CONFIG_KEY = 'lp_admin_config';
 
 function getConfig() {
-  var stored = {};
-  try { stored = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}'); } catch (e) {}
+  return mergeDefaults(_cfgCache || safeLocal());
+}
+
+/* ══════════════════════════════════════════════════════════
+   CAMADA DE PERSISTÊNCIA
+   - Se o backend PHP (api/) estiver disponível → servidor (compartilhado).
+   - Senão (ex.: preview no GitHub Pages) → localStorage (só o navegador).
+   ══════════════════════════════════════════════════════════ */
+
+// Caminho da API relativo à página (admin fica em /admin/, resto na raiz)
+var API_BASE = (location.pathname.indexOf('/admin/') > -1) ? '../api/' : 'api/';
+var _cfgCache = null;      // config já mesclada em memória
+var _hasBackend = false;   // servidor PHP disponível?
+
+function mergeDefaults(stored) {
+  stored = stored || {};
   var cfg = {};
   for (var k in DEFAULTS) cfg[k] = (stored[k] !== undefined && stored[k] !== null) ? stored[k] : DEFAULTS[k];
   return cfg;
 }
+function safeLocal() {
+  try { return JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}'); } catch (e) { return {}; }
+}
+function hasBackend() { return _hasBackend; }
 
-function setConfig(cfg) {
-  localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg));
+/* Carrega a configuração (do servidor, com fallback local). Chama cb(config). */
+function loadConfig(cb) {
+  fetch(API_BASE + 'config.php', { credentials: 'same-origin', cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (res) {
+      _hasBackend = true;
+      _cfgCache = mergeDefaults(res && res.config ? res.config : {});
+      if (cb) cb(_cfgCache);
+    })
+    .catch(function () {
+      _hasBackend = false;
+      _cfgCache = mergeDefaults(safeLocal());
+      if (cb) cb(_cfgCache);
+    });
+}
+
+/* Salva a configuração. Chama done(ok, erro). */
+function saveConfig(cfg, done) {
+  if (_hasBackend) {
+    fetch(API_BASE + 'config.php', {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cfg)
+    })
+    .then(function (r) { return r.json().then(function (j) { return { s: r.status, j: j }; }); })
+    .then(function (o) {
+      if (o.j && o.j.ok) { _cfgCache = mergeDefaults(o.j.config || cfg); done && done(true); }
+      else { done && done(false, (o.j && o.j.error) || ('erro ' + o.s)); }
+    })
+    .catch(function () { done && done(false, 'sem conexão com o servidor'); });
+  } else {
+    try {
+      localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg));
+      _cfgCache = mergeDefaults(cfg);
+      done && done(true);
+    } catch (e) { done && done(false, 'espaço do navegador cheio'); }
+  }
+}
+
+/* Envia uma imagem. No backend → arquivo real em /uploads (cb recebe a URL).
+   Sem backend → data URI (base64) para o preview local. */
+function uploadImage(file, done) {
+  processImage(file, 1400, function (blob, dataUri) {
+    if (_hasBackend) {
+      var fd = new FormData();
+      fd.append('file', blob, (file.name || 'foto') + '.jpg');
+      fetch(API_BASE + 'upload.php', { method: 'POST', credentials: 'same-origin', body: fd })
+        .then(function (r) { return r.json(); })
+        .then(function (res) { res && res.ok ? done(res.url) : done(null, (res && res.error) || 'falha no upload'); })
+        .catch(function () { done(null, 'sem conexão com o servidor'); });
+    } else {
+      done(dataUri);
+    }
+  }, done);
+}
+
+/* Redimensiona a imagem no navegador → devolve (blobJPEG, dataURI) */
+function processImage(file, maxW, cb, errCb) {
+  if (!file || !/^image\//.test(file.type)) { errCb && errCb(null, 'selecione uma imagem'); return; }
+  var reader = new FileReader();
+  reader.onload = function () {
+    var img = new Image();
+    img.onload = function () {
+      var scale = Math.min(1, maxW / img.width);
+      var w = Math.max(1, Math.round(img.width * scale)), h = Math.max(1, Math.round(img.height * scale));
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      var dataUri = canvas.toDataURL('image/jpeg', 0.82);
+      canvas.toBlob(function (blob) { cb(blob || dataURItoBlob(dataUri), dataUri); }, 'image/jpeg', 0.82);
+    };
+    img.onerror = function () { errCb && errCb(null, 'não consegui ler a imagem'); };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+function dataURItoBlob(d) {
+  var parts = d.split(','), bstr = atob(parts[1]), n = bstr.length, u8 = new Uint8Array(n);
+  while (n--) u8[n] = bstr.charCodeAt(n);
+  return new Blob([u8], { type: 'image/jpeg' });
+}
+
+/* ── Autenticação (admin) ── */
+function apiSession(cb) {
+  fetch(API_BASE + 'session.php', { credentials: 'same-origin', cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (res) { _hasBackend = !!(res && res.backend); cb(res || { backend: false, authenticated: false }); })
+    .catch(function () { _hasBackend = false; cb({ backend: false, authenticated: false }); });
+}
+function apiLogin(password, cb) {
+  fetch(API_BASE + 'login.php', {
+    method: 'POST', credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: password })
+  }).then(function (r) { return r.json(); })
+    .then(function (res) { cb(!!(res && res.ok)); })
+    .catch(function () { cb(false); });
+}
+function apiLogout(cb) {
+  fetch(API_BASE + 'logout.php', { method: 'POST', credentials: 'same-origin' })
+    .then(function () { cb && cb(); }).catch(function () { cb && cb(); });
 }
 
 function resetConfigStore() {
+  if (_hasBackend) { return saveConfig({}, function () {}); }
   localStorage.removeItem(CONFIG_KEY);
 }
 
-/* Exporta a configuração como arquivo JSON para backup / publicação */
+/* Exporta a configuração como arquivo JSON para backup */
 function exportConfig() {
-  var cfg = getConfig();
-  var blob = new Blob([JSON.stringify(cfg, null, 2)], { type: 'application/json' });
+  var blob = new Blob([JSON.stringify(getConfig(), null, 2)], { type: 'application/json' });
   var url = URL.createObjectURL(blob);
   var a = document.createElement('a');
-  a.href = url;
-  a.download = 'lfl-config-' + new Date().toISOString().slice(0, 10) + '.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  a.href = url; a.download = 'lfl-config-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 
-/* Importa configuração de um arquivo JSON */
+/* Importa configuração de um arquivo JSON (grava no servidor/local) */
 function importConfig(file, done) {
   var reader = new FileReader();
   reader.onload = function () {
@@ -106,11 +220,8 @@ function importConfig(file, done) {
       var data = JSON.parse(reader.result);
       var cfg = getConfig();
       for (var k in DEFAULTS) if (data[k] !== undefined) cfg[k] = data[k];
-      setConfig(cfg);
-      done && done(true);
-    } catch (e) {
-      done && done(false);
-    }
+      saveConfig(cfg, function (ok) { done && done(ok); });
+    } catch (e) { done && done(false); }
   };
   reader.readAsText(file);
 }

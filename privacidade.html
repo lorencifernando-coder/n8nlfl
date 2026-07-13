@@ -85,8 +85,7 @@
 <div class="foot">&copy; <span id="pYear">2026</span> <span id="pCompany2">LFL Cuidado e Saúde</span> · <a href="index.html">Início</a> · <a href="atualizacoes.html">Atualizações</a></div>
 
 <script>
-(function(){
-  var cfg=getConfig();
+loadConfig(function(cfg){
   set('pCompany',cfg.legal_company);set('pCompany2',cfg.legal_company);set('pResp',cfg.legal_responsible);set('pAddr',cfg.legal_address);
   set('pYear',new Date().getFullYear());
   document.getElementById('updated').textContent = new Date().toLocaleDateString('pt-BR');
@@ -96,7 +95,7 @@
   href('pWhats','https://wa.me/'+cfg.whatsapp);
   function set(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
   function href(id,v){var e=document.getElementById(id);if(e)e.href=v;}
-})();
+});
 </script>
 </body>
 </html>
