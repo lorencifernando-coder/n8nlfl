@@ -18,23 +18,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Verificar se o secret da senha existe
-        id: check
-        run: |
-          if [ -z "${{ secrets.FTP_PASSWORD }}" ]; then
-            echo "::warning::Secret FTP_PASSWORD não configurado — deploy FTP ignorado. Cadastre em Settings → Secrets and variables → Actions."
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Enviar arquivos para o servidor
-        if: steps.check.outputs.skip != 'true'
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+     
         with:
           server: 212.85.6.164
           username: u899095009
-          password: ${{ secrets.FTP_PASSWORD }}
+          password: Na@0896!
           port: 21
           protocol: ftp
           local-dir: ./
