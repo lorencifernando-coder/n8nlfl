@@ -1,0 +1,6 @@
+Coloque aqui as imagens do site:
+- dr-lorenci.jpg (foto do medico, secao Autoridade)
+- dr-lorenci-consulta.jpg (foto do hero)
+- og.png (imagem de compartilhamento social, 1200x630, opcional)
+- apple-touch-icon.png (icone iOS 180x180, opcional)
+- imagens do carrossel (referenciadas pela URL no painel admin)
