@@ -3,6 +3,7 @@ name: Deploy site to GitHub Pages
 on:
   push:
     branches:
+      - n8nlfl_claude
       - claude/landing-page-evaluation-fasl71
   workflow_dispatch:
 
