@@ -268,6 +268,28 @@
       <!-- ══ MÍDIA ══ -->
       <section class="page" id="page-midia">
         <div class="card">
+          <h3>Fotos principais</h3>
+          <p class="card-desc">Envie as fotos direto do seu computador (JPG/PNG). Elas são otimizadas e salvas automaticamente — não precisa hospedar em lugar nenhum.</p>
+          <div class="row">
+            <div class="field">
+              <label>Foto do topo (hero)</label>
+              <img id="prev_photo_hero" class="thumb" alt="" style="margin-bottom:10px" onerror="this.style.opacity=.2">
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <label class="btn btn-ghost btn-sm" style="cursor:pointer">📷 Enviar foto<input type="file" accept="image/*" style="display:none" onchange="uploadPhoto(this,'photo_hero')"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto('photo_hero')">Remover</button>
+              </div>
+            </div>
+            <div class="field">
+              <label>Foto do médico (seção "Sobre")</label>
+              <img id="prev_photo_doctor" class="thumb" alt="" style="margin-bottom:10px;height:120px" onerror="this.style.opacity=.2">
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <label class="btn btn-ghost btn-sm" style="cursor:pointer">📷 Enviar foto<input type="file" accept="image/*" style="display:none" onchange="uploadPhoto(this,'photo_doctor')"></label>
+                <button class="btn btn-danger btn-sm" onclick="clearPhoto('photo_doctor')">Remover</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
           <h3>Vídeos em pontos-chave</h3>
           <p class="card-desc">Cole a URL do YouTube, Vimeo ou um link .mp4. Deixe vazio para não exibir o vídeo naquele ponto.</p>
           <div class="field"><label>Vídeo do Hero (topo) — recomendado: 90s de acolhimento</label><input type="url" id="f_video_hero" placeholder="https://youtu.be/..."></div>
@@ -276,6 +298,7 @@
         </div>
         <div class="card">
           <h3>Carrossel de imagens</h3>
+          <p class="card-desc">Adicione as fotos do consultório/ambiente. Você pode <b>enviar do computador</b> ou colar uma URL.</p>
           <label class="switch" style="margin-bottom:14px"><input type="checkbox" id="f_carousel_enabled"><span class="track"></span> <span>Exibir carrossel na landing page</span></label>
           <div class="field"><label>Título da seção</label><input type="text" id="f_carousel_title"></div>
           <div id="carouselList"></div>
@@ -380,7 +403,7 @@
 
 <script>
 // ══════════ ESTADO ══════════
-var state = { carousel: [], updates: [] };
+var state = { carousel: [], updates: [], photo_hero: '', photo_doctor: '' };
 
 // ══════════ LOGIN ══════════
 function doLogin(){
@@ -424,8 +447,18 @@ function populate(){
   document.getElementById('f_new_password').value = '';
   state.carousel = (cfg.carousel||[]).map(function(c){return {img:c.img||'',caption:c.caption||''};});
   state.updates = (cfg.updates||[]).map(function(u){return {id:u.id||uid(),title:u.title||'',date:u.date||'',summary:u.summary||'',body:u.body||'',img:u.img||''};});
+  state.photo_hero = cfg.photo_hero||'';
+  state.photo_doctor = cfg.photo_doctor||'';
+  refreshPhotoPreview('photo_hero');
+  refreshPhotoPreview('photo_doctor');
   renderCarouselEditor();
   renderUpdatesEditor();
+}
+function refreshPhotoPreview(key){
+  var img = document.getElementById('prev_'+key);
+  if(!img) return;
+  if(state[key]){ img.src = state[key]; img.style.opacity=1; }
+  else { img.removeAttribute('src'); img.style.opacity=.2; }
 }
 function uid(){ return 'p'+Date.now().toString(36)+Math.floor(Math.random()*1000); }
 
@@ -434,17 +467,66 @@ function renderCarouselEditor(){
   var box = document.getElementById('carouselList');
   if(state.carousel.length===0){ box.innerHTML='<div class="empty">Nenhuma imagem ainda. Adicione a primeira.</div>'; return; }
   box.innerHTML = state.carousel.map(function(c,i){
+    var isData = /^data:/.test(c.img);
     return '<div class="repeat-item">'+
       '<div class="repeat-head"><span class="num">'+(i+1)+'</span><b>Imagem '+(i+1)+'</b></div>'+
       '<button class="btn btn-danger btn-sm rm" onclick="rmCarousel('+i+')">Remover</button>'+
-      '<div class="field"><label>URL da imagem</label><input type="url" value="'+escAttr(c.img)+'" oninput="state.carousel['+i+'].img=this.value;document.getElementById(\'cth'+i+'\').src=this.value" placeholder="https://..."></div>'+
+      '<img id="cth'+i+'" class="thumb" src="'+escAttr(c.img)+'" alt="" onerror="this.style.opacity=.2" style="margin-bottom:10px">'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">'+
+        '<label class="btn btn-ghost btn-sm" style="cursor:pointer">📷 Enviar do computador<input type="file" accept="image/*" style="display:none" onchange="uploadCarousel(this,'+i+')"></label>'+
+      '</div>'+
+      '<div class="field"><label>ou cole uma URL da imagem</label><input type="url" value="'+(isData?'':escAttr(c.img))+'" oninput="state.carousel['+i+'].img=this.value;document.getElementById(\'cth'+i+'\').src=this.value" placeholder="https://..."></div>'+
       '<div class="field"><label>Legenda</label><input type="text" value="'+escAttr(c.caption)+'" oninput="state.carousel['+i+'].caption=this.value"></div>'+
-      '<img id="cth'+i+'" class="thumb" src="'+escAttr(c.img)+'" alt="" onerror="this.style.opacity=.3">'+
     '</div>';
   }).join('');
 }
 function addCarousel(){ state.carousel.push({img:'',caption:''}); renderCarouselEditor(); }
 function rmCarousel(i){ state.carousel.splice(i,1); renderCarouselEditor(); }
+
+// ══════════ UPLOAD DE IMAGENS ══════════
+// Redimensiona a imagem no navegador (canvas) e devolve um data URI JPEG leve.
+function resizeImage(file, maxW, cb){
+  if(!file || !/^image\//.test(file.type)){ toast('Selecione um arquivo de imagem', true); return; }
+  var reader = new FileReader();
+  reader.onload = function(){
+    var img = new Image();
+    img.onload = function(){
+      var scale = Math.min(1, maxW / img.width);
+      var w = Math.round(img.width * scale), h = Math.round(img.height * scale);
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      cb(canvas.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = function(){ toast('Não consegui ler a imagem', true); };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+function uploadPhoto(input, key){
+  if(!input.files || !input.files[0]) return;
+  var maxW = key==='photo_doctor' ? 480 : 1200;
+  resizeImage(input.files[0], maxW, function(dataUri){
+    state[key] = dataUri;
+    refreshPhotoPreview(key);
+    toast('Foto carregada — clique em "Salvar tudo" para aplicar');
+  });
+  input.value='';
+}
+function clearPhoto(key){
+  state[key] = '';
+  refreshPhotoPreview(key);
+  toast('Foto removida — salve para aplicar');
+}
+function uploadCarousel(input, i){
+  if(!input.files || !input.files[0]) return;
+  resizeImage(input.files[0], 1400, function(dataUri){
+    state.carousel[i].img = dataUri;
+    renderCarouselEditor();
+    toast('Imagem carregada — clique em "Salvar tudo" para aplicar');
+  });
+  input.value='';
+}
 
 // ══════════ UPDATES EDITOR ══════════
 function renderUpdatesEditor(){
@@ -475,9 +557,16 @@ function saveAll(){
   cfg.updates_enabled = document.getElementById('f_updates_enabled').checked;
   cfg.carousel = state.carousel.filter(function(c){return c.img;});
   cfg.updates = state.updates.filter(function(u){return u.title;});
+  cfg.photo_hero = state.photo_hero || '';
+  cfg.photo_doctor = state.photo_doctor || '';
   var np = document.getElementById('f_new_password').value;
   if(np && np.length>=4) cfg.admin_password = np;
-  setConfig(cfg);
+  try {
+    setConfig(cfg);
+  } catch(e){
+    toast('Espaço cheio — use fotos menores ou menos imagens', true);
+    return;
+  }
   document.getElementById('f_new_password').value='';
   toast('Configurações salvas com sucesso');
 }

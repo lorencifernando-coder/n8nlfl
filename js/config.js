@@ -34,6 +34,10 @@ var DEFAULTS = {
   doctor_crm: 'CRMSC 41906',
   doctor_specs: 'Psiquiatria · Urologia · Medicina Integrativa',
 
+  /* ── Fotos principais (upload via admin → data URI, ou caminho/URL) ── */
+  photo_hero: '',    /* foto do topo (hero) */
+  photo_doctor: '',  /* foto redonda na seção "Sobre o médico" */
+
   /* ── Vídeos em pontos-chave (URL YouTube, Vimeo ou .mp4; vazio = oculto) ── */
   video_hero: '',
   video_beneficios: '',

@@ -1088,7 +1088,7 @@
     </div>
 
     <div class="hero-doctor" id="heroDoctorWrap">
-      <img src="img/dr-lorenci-consulta.jpg" alt="Dr. Luiz Fernando Lorenci em consulta, ouvindo paciente com atenção" width="400" height="260">
+      <img id="heroFoto" src="img/dr-lorenci-consulta.jpg" alt="Dr. Luiz Fernando Lorenci em consulta, ouvindo paciente com atenção" width="400" height="260">
       <div class="hero-doctor-caption">
         <strong id="heroDoctorName">Dr. Luiz Fernando Lorenci</strong>
         <span id="heroDoctorCrm">CRMSC 41906</span> · Quando foi a última vez que um médico realmente te ouviu?
@@ -1216,7 +1216,7 @@
     <span class="pre-label">Quem vai estar com você</span>
     <h2>Seu médico, seu aliado</h2>
     <div class="medico-wrap">
-      <img class="medico-foto" src="img/dr-lorenci.jpg" alt="Dr. Luiz Fernando Lorenci" width="110" height="110">
+      <img class="medico-foto" id="medicoFoto" src="img/dr-lorenci.jpg" alt="Dr. Luiz Fernando Lorenci" width="110" height="110">
       <p class="medico-nome" id="medicoNome">Dr. Luiz Fernando Lorenci</p>
       <p class="medico-crm" id="medicoCrm">CRMSC 41906 · Psiquiatria · Urologia · Medicina Integrativa</p>
       <p>A medicina moderna tem seguido um caminho perigoso: consultas padronizadas, frias e cada vez mais curtas. Você sente, e eu também sinto, que a qualidade da atenção está se perdendo. <em>Mas eu decidi que o meu caminho será outro.</em></p>
@@ -1563,6 +1563,12 @@ function applyConfig(cfg) {
   document.getElementById('parcelasDisplay').textContent = 'Pagamento via Pix (aprovação imediata) ou cartão em até ' + cfg.installments;
   var priceInline = document.querySelector('.cta-price-inline');
   if (priceInline) priceInline.textContent = cfg.price;
+
+  // Fotos principais (upload pelo admin sobrepõe as imagens padrão)
+  var heroFoto = document.getElementById('heroFoto');
+  if (heroFoto && cfg.photo_hero) heroFoto.src = cfg.photo_hero;
+  var medicoFoto = document.getElementById('medicoFoto');
+  if (medicoFoto && cfg.photo_doctor) medicoFoto.src = cfg.photo_doctor;
 
   // Médico
   document.getElementById('heroDoctorName').textContent = cfg.doctor_name;
